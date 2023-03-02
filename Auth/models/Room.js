@@ -31,6 +31,14 @@ const RoomSchema = new mongoose.Schema({
   photos:{
     type:[String],
     default:[]
+  },
+  videos:{
+    type:[String],
+    default:[]
+  },
+  price:{
+    type:Number,
+    required:[true,'Please Enter Valid Price']
   }
 
 });

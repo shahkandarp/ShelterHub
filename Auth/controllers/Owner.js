@@ -10,8 +10,8 @@ const nodemailer = require("nodemailer");
 // );
 
 const registerOwner = async (req, res) => {
-  const { name, email, password, phoneno, address, aadhaarno, typeofpg } = req.body;
-  if (!email || !name || !password || !phoneno || !address || !aadhaarno || !typeofpg) {
+  const { name, email, password, phoneno} = req.body;
+  if (!email || !name || !password || !phoneno ) {
     throw new BadRequestError("Please provide necessary credentials");
   }
   const ownerx = await Owner.findOne({email:req.body.email})

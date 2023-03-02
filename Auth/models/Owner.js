@@ -43,15 +43,11 @@ const OwnerSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
+    default:"",
   },
   aadhaarno:{
     type:String,
-    required:[true,"Please Provide Aadhar Number"],
-    match: [
-      /^[0-9]{12}$/,
-      "Please provide valid Aadhar",
-    ]
+    default:""
   },
   addressproof:{
     type:String,
@@ -89,9 +85,9 @@ const OwnerSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  cityId:{
-    type:mongoose.Types.ObjectId,
-    ref:"City"
+  cityname:{
+    type:String,
+    default:'Kota'
   },
   famousplacedistance:{
     type:[Object],
@@ -113,14 +109,10 @@ const OwnerSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
-  isMess:{
-    type:Boolean,
-    default:false
-  },
   typeofpg:{
     type:String,
-    enum:['PG','FAMILYROOMS','HOSTEL'],
-    required:[true,'Please Provide Type of PG']
+    enum:['PG','FAMILYROOMS','HOSTEL','MESS'],
+    default:""
   },
   isWIFI:{
     type:Boolean,
@@ -129,6 +121,11 @@ const OwnerSchema = new mongoose.Schema({
   isHotWater:{
     type:Boolean,
     default:false
+  },
+  mode:{
+    type:String,
+    enum:['DARK','LIGHT'],
+    default:'LIGHT'
   }
 });
 

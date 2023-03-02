@@ -41,6 +41,11 @@ const UserSchema = new mongoose.Schema({
   mailotp: {
     type: Number,
     default: 0,
+  },
+  mode:{
+    type:String,
+    enum:['DARK','LIGHT'],
+    default:'LIGHT'
   }
   
 });

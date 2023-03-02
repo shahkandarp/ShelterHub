@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("express-async-errors");
 const { StatusCodes } = require("http-status-codes");
+const City = require('./models/City')
 
 // extra security packages
 const helmet = require("helmet");
@@ -59,7 +60,6 @@ app.use("/api/v1/user/forgotpassword", UserForgotPasswordRouter);
 app.use("/api/v1/owner/login", OwnerLoginRouter);
 app.use("/api/v1/owner/forgotpassword", OwnerForgotPasswordRouter);
 app.use("/api/v1/owner/register", OwnerRegisterRouter);
-
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
