@@ -4,10 +4,6 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const InterestSchema = new mongoose.Schema({
-  status: {
-    type: String,
-    enum:['NEW','COMPLETED'],
-  },
   ownerId:{
     type:mongoose.Types.ObjectId,
     ref:"Owner"
@@ -20,7 +16,7 @@ const InterestSchema = new mongoose.Schema({
     type:mongoose.Types.ObjectId,
     ref:"User"
   }
-});
+},{timestamp:true});
 
 
 module.exports = mongoose.model("Interest", InterestSchema);

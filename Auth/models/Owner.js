@@ -62,7 +62,7 @@ const OwnerSchema = new mongoose.Schema({
     default:[]
   },
   Rules:{
-    type:String,
+    type:[Object],
     default:""
   },
   About:{
