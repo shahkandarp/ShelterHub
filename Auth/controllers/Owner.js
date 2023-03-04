@@ -18,8 +18,8 @@ const registerOwner = async (req, res) => {
   if(ownerx){
     throw new BadRequestError("This Email already Exists");
   }
-  if(req.body.password.length<8){
-    throw new BadRequestError("Minimum size of password should be 8");
+  if(req.body.password.length<6){
+    throw new BadRequestError("Minimum size of password should be 6");
   }
   // const customer = await stripe.customers.create({
   //   email:email,name:name
