@@ -24,7 +24,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   phoneno:{
     type: String,
-    default:"",
+    required: [true, "Please provide password"],
   },
   lat:{
     type:mongoose.Decimal128,
@@ -127,14 +127,6 @@ const OwnerSchema = new mongoose.Schema({
     type:String,
     enum:['DARK','LIGHT'],
     default:'LIGHT'
-  },
-  phoneVerified:{
-    type:Boolean,
-    default:false
-  },
-  detailsEntered:{
-    type:Boolean,
-    default:false
   }
 });
 

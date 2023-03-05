@@ -5,8 +5,11 @@ const CitySchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please provide name"],
+  },
+  place:{
+    type:[Object],
+    default:[]
   }
-  
 });
 
 
