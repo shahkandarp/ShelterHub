@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
   },
   phoneno:{
     type: String,
-    required: [true, "Please provide password"],
+    default:""
   },
   lat:{
     type:mongoose.Decimal128,
@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema({
     type:String,
     enum:['DARK','LIGHT'],
     default:'LIGHT'
+  },
+  phoneVerified:{
+    type:Boolean,
+    default:false
   }
   
 });

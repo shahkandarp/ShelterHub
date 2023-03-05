@@ -8,6 +8,7 @@ const { BadRequestError, UnauthenticatedError } = require("../errors/index");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcryptjs')
+const fast2sms = require('fast-two-sms')
 
 const ownerVerifyOTP = async (req,res) => {
   const {ownerId} = req.user
@@ -126,6 +127,35 @@ const showInterests = async (req,res) => {
   res.status(StatusCodes.OK).json({res:'Success',data:arr1})
 }
 
+const mobileOTPSend = async (req,res) => {
+  const {ownerId} = req.user
+  var {phoneno} = req.body
+  if(!phoneno){
+    throw new BadRequestError("Please provide Phone Number");
+  }
+  const otp = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
+  console.log(otp)
+  const owner = await Owner.findOneAndUpdate({_id:ownerId},{phoneotp:otp,phoneno},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  var options = {authorization : process.env.API_KEY , message : `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.` ,  numbers : [
+    `${phoneno}`]} 
+  const response = await fast2sms.sendMessage(options)
+  res.status(StatusCodes.OK).json({res:'Success',data:response})
+} 
+
+const mobileOTPVerify = async (req,res) => {
+  const {ownerId} = req.user
+  const {otp} = req.body
+  if(!otp){
+    throw new BadRequestError("Please provide OTP");
+  }
+  const owner = await Owner.findOne({_id:ownerId})
+  if(owner.phoneotp != Number(otp)){
+    throw new BadRequestError("Please provide valid OTP");
+  }
+  const ownerx = await Owner.findOneAndUpdate({_id:ownerId},{phoneVerified:true},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  res.status(StatusCodes.OK).json({res:'Success'})
+}
+
 module.exports = {
-  ownerVerifyOTP,changePassword,updateOwner,displayOwner,createRoom,displayAllRooms,displayRoom,updateRoom,showInterests
+  ownerVerifyOTP,changePassword,updateOwner,displayOwner,createRoom,displayAllRooms,displayRoom,updateRoom,showInterests,mobileOTPSend,mobileOTPVerify
 };
