@@ -10,8 +10,8 @@ const nodemailer = require("nodemailer");
 // );
 
 const registerUser = async (req, res) => {
-  const { name, email, password, phoneno } = req.body;
-  if (!email || !name || !password || !phoneno) {
+  const { name, email, password } = req.body;
+  if (!email || !name || !password) {
     throw new BadRequestError("Please provide necessary credentials");
   }
   const userx = await User.findOne({email:req.body.email})

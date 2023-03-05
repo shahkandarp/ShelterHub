@@ -137,6 +137,36 @@ app.post("/api/v1/addroomvideo/:rid",OwnerMiddleware, upload.single("pic"), asyn
   res.status(StatusCodes.OK).json({res:'Success',data:room})
 });
 
+app.post("/api/v1/addaddressproof",OwnerMiddleware, upload.single("pic"), async (req, res) => {
+  const {ownerId} = req.user
+  if(!ownerId){
+    throw new BadRequestError("Please provide Owner ID");
+  }
+  const file = req.file;
+  const imageRef = ref(storage, file.originalname);
+  const metatype = { contentType: file.mimetype, name: file.originalname };
+  const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
+  // const ownerx = await Owner.findOne({_id:ownerId})
+  const addressproof = `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`
+  const owner = await Owner.findOneAndUpdate({_id:ownerId},{addressproof},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  res.status(StatusCodes.OK).json({res:'Success',data:owner})
+});
+
+app.post("/api/v1/addaadharproof",OwnerMiddleware, upload.single("pic"), async (req, res) => {
+  const {ownerId} = req.user
+  if(!ownerId){
+    throw new BadRequestError("Please provide Owner ID");
+  }
+  const file = req.file;
+  const imageRef = ref(storage, file.originalname);
+  const metatype = { contentType: file.mimetype, name: file.originalname };
+  const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
+  //const ownerx = await Owner.findOne({_id:ownerId})
+  const aadhaarno = `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`
+  const owner = await Owner.findOneAndUpdate({_id:ownerId},{aadhaarno},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  res.status(StatusCodes.OK).json({res:'Success',data:owner})
+});
+
 //routes owner
 app.use('/api/v1/owner',OwnerMiddleware,OwnerRouter)
 
