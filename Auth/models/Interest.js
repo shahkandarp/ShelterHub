@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const InterestSchema = new mongoose.Schema({
@@ -16,7 +14,7 @@ const InterestSchema = new mongoose.Schema({
     type:mongoose.Types.ObjectId,
     ref:"User"
   }
-},{timestamp:true});
+},{timestamps:true});
 
 
 module.exports = mongoose.model("Interest", InterestSchema);
