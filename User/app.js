@@ -15,16 +15,15 @@ const connectDB = require("./db/connect");
 app.use(express.static(`${__dirname}/public`));
 
 // routers
-const userRouter = require('./routes/User')
-
+const userRouter = require("./routes/User");
 
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
 app.use(xss());
 
-//routes owner
-app.use('/api/v1/user',userRouter)
+//routes user
+app.use("/api/v1/user", userRouter);
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");

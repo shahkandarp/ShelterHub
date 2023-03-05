@@ -6,7 +6,7 @@ const CitySchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide name"],
   },
-  place:{
+  places:{
     type:[Object],
     default:[]
   }
