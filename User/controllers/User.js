@@ -30,7 +30,7 @@ const calculateDistance = (lat1, lat2, lon1, lon2) => {
 const nearByPgs = async (lat, lng, pgs = null) => {
   var pg_array = [];
   if (pgs) {
-    for (let i = 0; i < pg.length; i++) {
+    for (let i = 0; i < pgs.length; i++) {
       if (calculateDistance(pgs[i].lat, lat, pgs[i].lng, lng) <= 10) {
         pg_array.push(pgs[i]);
       }
@@ -64,12 +64,13 @@ const getSpecificPgs = async (req, res) => {
     throw new NotFoundError("User does not exists!");
   } else {
     if (search) {
-      const pgs = await Owner.find({ name: { $regex: search, $options: i } });
+      const pgs = await Owner.find({ name: { $regex: search, $options: 'i' } });
       let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
       res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
     }
     if (sort) {
-      let nearby_pgs = await nearByPgs(user.lat, user.lng).sort(sort);
+      const pgs = await Owner.find({}).sort(sort);
+      let nearby_pgs = await nearByPgs(user.lat, user.lng,pgs);
       res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
     }
   }
