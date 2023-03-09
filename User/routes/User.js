@@ -16,7 +16,7 @@ const {
 
 //pg
 router.route("/pg/:pid").get(getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
-router.route("/:uid/pg").get(getSpecificPgs); //get specific and top rated pgs [?search=' '] [?filter=ratings]
+router.route("/:uid/pg").get(getSpecificPgs); //get specific and top rated pgs [?search=' '] [?sort=ratings]
 router.route("/:uid/pg/nearby").get(getNearbyPgs); //nearby pgs [:uid = user id]
 router.route("/pg/filter").post(getFilteredPgs); //get pgs after applying the main filter [req.body={location:'Kota',isAC:True}]
 
