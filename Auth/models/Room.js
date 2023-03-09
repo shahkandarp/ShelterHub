@@ -37,7 +37,7 @@ const RoomSchema = new mongoose.Schema({
     default:[]
   },
   price:{
-    type:Number,
+    type:mongoose.Decimal128,
     required:[true,'Please Enter Valid Price']
   }
 
