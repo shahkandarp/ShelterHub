@@ -24,7 +24,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   phoneno:{
     type: String,
-    default:"",
+    required: [true, "Please provide password"],
   },
   lat:{
     type:mongoose.Decimal128,
@@ -135,14 +135,6 @@ const OwnerSchema = new mongoose.Schema({
   detailsEntered:{
     type:Boolean,
     default:false
-  },
-  nameasperaadhar:{
-    type:String,
-    default:""
-  },
-  propertytitle:{
-    type:String,
-    default:""
   }
 });
 

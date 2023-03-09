@@ -8,6 +8,10 @@ const RoomSchema = new mongoose.Schema({
     type:mongoose.Types.ObjectId,
     ref:"Owner"
   },
+  title:{
+    type:String,
+    required:[true,'Please provide title']
+  },
   isAC:{
     type:Boolean,
     default:false
