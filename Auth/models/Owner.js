@@ -135,6 +135,14 @@ const OwnerSchema = new mongoose.Schema({
   detailsEntered:{
     type:Boolean,
     default:false
+  },
+  nameasperaadhar:{
+    type:String,
+    default:""
+  },
+  propertytitle:{
+    type:String,
+    default:""
   }
 });
 
