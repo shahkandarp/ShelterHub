@@ -16,6 +16,7 @@ app.use(express.static(`${__dirname}/public`));
 
 // routers
 const userRouter = require("./routes/User");
+const ownerRouter = require('./routes/Owner');
 
 app.use(express.json());
 app.use(helmet());
@@ -24,6 +25,8 @@ app.use(xss());
 
 //routes user
 app.use("/api/v1/user", userRouter);
+//routes owner - authentication
+app.use("/api/v1/owner",ownerRouter);
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
