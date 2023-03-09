@@ -64,9 +64,8 @@ const getSpecificPgs = async (req, res) => {
     throw new NotFoundError("User does not exists!");
   } else {
     if (search) {
-      const pgs = await Owner.find({ name: { $regex: search, $options: 'i' } });
-      let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
-      res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
+      const pgs = await Owner.find({ name: { $regex: search, $options: "i" } });
+      res.status(StatusCodes.OK).json({ res: "success", data: pgs });
     }
     if (sort) {
       const pgs = await Owner.find({}).sort(sort);
