@@ -143,7 +143,7 @@ const OwnerSchema = new mongoose.Schema({
   propertytitle:{
     type:String,
     default:""
-  }
+  }  
 });
 
 OwnerSchema.pre("save", async function () {

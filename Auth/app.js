@@ -11,6 +11,7 @@ const multer = require("multer");
 
 const express = require("express");
 const app = express();
+const UserMiddleware = require('./middleware/authentication_user')
 
 //connectDB
 const connectDB = require("./db/connect");
@@ -25,6 +26,7 @@ const OwnerRegisterRouter = require("./routes/OwnerRegisterRouter");
 const UserForgotPasswordRouter = require("./routes/UserForgotPasswordRouter");
 const UserLoginRouter = require("./routes/UserLoginRouter");
 const UserRegisterRouter = require("./routes/UserRegisterRouter");
+const UserMobileValidationRouter = require('./routes/UserMobileValidationRoutes')
 
 
 app.use(express.json());
@@ -59,6 +61,8 @@ app.use("/api/v1/user/forgotpassword", UserForgotPasswordRouter);
 app.use("/api/v1/owner/login", OwnerLoginRouter);
 app.use("/api/v1/owner/forgotpassword", OwnerForgotPasswordRouter);
 app.use("/api/v1/owner/register", OwnerRegisterRouter);
+
+app.use('/api/v1/userverification',UserMiddleware,UserMobileValidationRouter)
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");

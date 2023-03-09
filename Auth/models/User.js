@@ -46,7 +46,8 @@ const UserSchema = new mongoose.Schema({
     type:String,
     enum:['DARK','LIGHT'],
     default:'LIGHT'
-  }
+  },
+  
   
 });
 
