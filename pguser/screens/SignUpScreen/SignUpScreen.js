@@ -51,8 +51,9 @@ const SignUpScreen = () => {
   const onRegisterPressed = async data => {
     setPasswordMin(false);
     setEmailWrong(false);
+
     // setPasswordWrong(false);
-    if (!name || !phoneNumber || !email || !password) {
+    if (!name || !email || !password) {
       Alert.alert('Enter all required details.');
     } else {
       let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -65,16 +66,15 @@ const SignUpScreen = () => {
             setLoadingPending(true);
             // setTimeout(() => {},1000)
             // console.log('ip:', AUTH_IP);
-            // const response = await axios.post(
-            //   `http://${AUTH_IP}/api/v1/user/register`,
-            //   {
-            //     name: name,
-            //     email: email,
-            //     phoneno: phoneNumber,
-            //     password: password,
-            //   },
-            // );
-            // // console.log('response:', response);
+            const response = await axios.post(
+              `http://${AUTH_IP}/api/v1/user/register`,
+              {
+                name: name,
+                email: email,
+                password: password,
+              },
+            );
+            // console.log('response:', response);
             // const obj = {
             //   token: response.data.token,
             //   userID: response.data.user.id,
@@ -82,15 +82,10 @@ const SignUpScreen = () => {
             // };
             // const jsonValue = JSON.stringify(obj);
             // await AsyncStorage.setItem('userDetail', jsonValue);
-            const response = await axios.patch(
-              `http://${AUTH_IP}/api/v1/user/forgotpassword`,
-              {email: email},
-            );
             navigation.navigate('ValidateEmailScreen', {
-              name: name,
-              email: email,
-              phoneno: phoneNumber,
-              password: password,
+              token: response.data.token,
+              userID: response.data.user.id,
+              name: response.data.user.name,
             });
             setLoadingPending(false);
           } catch (err) {
@@ -200,7 +195,7 @@ const SignUpScreen = () => {
               Email is invalid
             </Text>
           )}
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Feather
               name="phone"
               size={20}
@@ -227,7 +222,7 @@ const SignUpScreen = () => {
                 color: '#212121',
               }}
             />
-          </View>
+          </View> */}
           {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <FontAwesome5
               name="building"

@@ -4,7 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import AppLoader from '../../components/AppLoader';
 import SearchLoader from '../../components/SearchLoader';
-// import {PAYMENT_IP} from '@env';
+import {USER_IP} from '@env';
+// import axios from 'axios';
 
 const AuthContext = createContext({});
 
@@ -47,6 +48,15 @@ const AuthContextProvider = ({children}) => {
     } else {
       setVisible(false);
     }
+  };
+  const getFamousPg = async () => {
+    console.log('hello');
+    const response = await axios.get(
+      `http://${USER_IP}/api/v1/user/${users}/pg?sort=ratings`,
+      {headers: {Authorization: `Bearer ${tokens}`}},
+    );
+    console.log('y');
+    console.log(response.data);
   };
   const getData = async () => {
     setLoginPending(true);
@@ -98,6 +108,7 @@ const AuthContextProvider = ({children}) => {
         visible,
         setVisible,
         Arr,
+        getFamousPg,
       }}>
       {children}
       {loginPending ? <AppLoader /> : null}
