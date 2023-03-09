@@ -12,7 +12,19 @@ const {
   changeUserPassword,
   getCurrentInterests,
   createUserInterest,
+  registerUser,
+  forgotPasswordUser,
+  loginUser,
+  sendUserOTP,
+  verifyUserOTP
 } = require("../controllers/User");
+
+//authentication
+router.route('/register').post(registerUser)
+router.route('/login').post(loginUser)
+router.route('/forgotpassword').patch(forgotPasswordUser)
+router.route('/sendmobileotp').post(sendUserOTP)
+router.route('/verifymobileotp').post(verifyUserOTP)
 
 //pg
 router.route("/pg/:pid").get(getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
