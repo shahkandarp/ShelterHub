@@ -49,7 +49,7 @@ const nearByPgs = async (lat, lng, pgs = null) => {
 };
 
 
-//authentication
+//authentication user
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   if (!email || !name || !password) {
@@ -281,5 +281,5 @@ module.exports = {
   forgotPasswordUser,
   loginUser,
   sendUserOTP,
-  verifyUserOTP
+  verifyUserOTP,
 };
