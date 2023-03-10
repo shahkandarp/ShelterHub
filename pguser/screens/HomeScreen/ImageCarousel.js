@@ -47,7 +47,7 @@ const ImageCarousel = props => {
           pagingEnabled={true}>
           <View style={{}}>
             <Image
-              source={require('../../data/carousel1.jpg')}
+              source={require('../../data/hotel4.jpg')}
               style={{
                 width: 250,
                 height: 150,
@@ -59,7 +59,7 @@ const ImageCarousel = props => {
             />
           </View>
           <Image
-            source={require('../../data/carousel3.jpg')}
+            source={require('../../data/hotel5.jpg')}
             style={{
               width: 250,
               height: 150,
@@ -70,7 +70,7 @@ const ImageCarousel = props => {
             }}
           />
           <Image
-            source={require('../../data/carousel2.png')}
+            source={require('../../data/hotel3.jpg')}
             style={{
               width: 250,
               height: 150,
@@ -81,7 +81,18 @@ const ImageCarousel = props => {
             }}
           />
           <Image
-            source={require('../../data/carousel4.png')}
+            source={require('../../data/hotel1.jpg')}
+            style={{
+              width: 250,
+              height: 150,
+              borderRadius: 10,
+              marginHorizontal: 10,
+              borderWidth: 1,
+              // borderColor: '#c2c2c2',
+            }}
+          />
+          <Image
+            source={require('../../data/hotel2.jpg')}
             style={{
               width: 250,
               height: 150,

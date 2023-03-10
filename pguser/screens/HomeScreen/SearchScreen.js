@@ -1,20 +1,8 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  FlatList,
-  Image,
-} from 'react-native';
-import React, {useState, useEffect} from 'react';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {View, Text, TextInput, StyleSheet, FlatList, Image} from 'react-native';
+import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-// import {useAuthContext} from '../src/Context/AuthContext';
 import {useAuthContext} from '../../src/Context/AuthContext';
 import axios from 'axios';
-// import SearchComponent from '../components/HomeScreenComponent/SearchComponent';
 import SearchComponent from '../../components/HomeScreenComponent/SearchComponent';
 import {USER_IP, PRIMARY_COLOR} from '@env';
 
@@ -23,15 +11,11 @@ const SearchScreen = () => {
   const [search, setSearch] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const onPress = async () => {
-    // console.log(tokens);
     if (search?.length >= 2) {
-      // console.log(tokens);
       const response = await axios.get(
         `http://${USER_IP}/api/v1/user/${users}/pg?search=${search}`,
         {headers: {Authorization: `Bearer ${tokens}`}},
       );
-      console.log(response.data.data);
-      // console.log(search);
       setSearchResult(response.data.data);
     } else {
       setSearchResult(null);
@@ -109,7 +93,6 @@ const SearchScreen = () => {
 };
 const styles = StyleSheet.create({
   searchSection: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -139,7 +122,6 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR,
     height: 45,
     justifyContent: 'center',
-    // fontFamily: 'Poppins-SemiBold',
   },
 });
 export default SearchScreen;

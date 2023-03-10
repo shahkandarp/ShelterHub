@@ -11,23 +11,16 @@ import {
   Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-// import {useForm} from 'react-hook-form';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {useAuthContext} from '../../src/Context/AuthContext';
 import {USER_IP} from '@env';
-// import Config from 'react-native-config';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-// import AppLoader from '../../components/AppLoader';
-// import {PAYMENT_IP} from '@env';
-// import {Auth} from 'aws-amplify';
 
 const NewPasswordScreen = () => {
   const width = Dimensions.get('window').width;
-  // const {control, handleSubmit} = useForm();
-  const {users} = useAuthContext();
-  const [loading, setLoading] = useState(false);
+  const [setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordWrong, setPasswordWrong] = useState(false);
   const navigation = useNavigation();
@@ -67,17 +60,17 @@ const NewPasswordScreen = () => {
           <Image
             source={require('../../data/forgotpass.jpg')}
             style={{
-              height: 230,
-              width: 230,
+              height: 220,
+              width: 220,
               borderRadius: 20,
-              marginTop: 30,
+              marginTop: 15,
               alignSelf: 'center',
             }}
           />
           <Text
             style={{
               marginTop: 45,
-              fontSize: 22,
+              fontSize: 20,
               fontFamily: 'Poppins-SemiBold',
               color: '#353535',
             }}>
@@ -116,30 +109,6 @@ const NewPasswordScreen = () => {
               onPress={() => setHidePass(!hidePass)}
             />
           </View>
-          {/* <Text
-            style={{
-              color: 'black',
-              fontSize: 14,
-              fontFamily: 'Fredoka-Regular',
-            }}>
-            Password:
-          </Text>
-          <TextInput
-            onChangeText={setPassword}
-            secureTextEntry={true}
-            value={password}
-            style={{
-              height: 36,
-              borderWidth: 0.5,
-              borderColor: '#d1cfcf',
-              marginTop: 5,
-              borderRadius: 8,
-              paddingHorizontal: 10,
-              fontSize: 13,
-              fontFamily: 'Fredoka-Regular',
-              color: 'black',
-            }}
-          /> */}
           <Text
             style={{
               color: 'red',
@@ -150,26 +119,10 @@ const NewPasswordScreen = () => {
             }}>
             Password should be minimum of 8 characters
           </Text>
-          {/* <CustomInput
-            placeholder="Enter your new password"
-            name="password"
-            control={control}
-            secureTextEntry
-            rules={{
-              required: 'Password is required',
-              minLength: {
-                value: 8,
-                message: 'Password should be at least 8 characters long',
-              },
-            }}
-          /> */}
-
-          {/* <CustomButton text="Submit" onPress={handleSubmit(onSubmitPressed)} /> */}
           <View style={{borderRadius: 9}}>
             <Pressable
               onPress={onSubmitPressed}
               style={{
-                // shadowColor: '#4b2be3',
                 shadowColor: '#19347d',
                 shadowOffset: {
                   width: 0,
@@ -177,50 +130,29 @@ const NewPasswordScreen = () => {
                 },
                 shadowOpacity: 0.41,
                 shadowRadius: 9.11,
-                elevation: 14,
+                elevation: 5,
                 alignContent: 'center',
                 alignSelf: 'center',
                 marginTop: 25,
-                // backgroundColor: '#6949ff',
                 backgroundColor: '#19347d',
-                paddingVertical: 10,
+                paddingVertical: 9,
                 borderRadius: 13,
                 flex: 1,
-                maxWidth: width,
-                paddingHorizontal: width / 2 - 64,
+                // maxWidth: width,
+                width: width - 48,
+                // paddingHorizontal: width / 2 - 64,
               }}>
               <Text
                 style={{
                   color: 'white',
                   alignSelf: 'center',
                   fontFamily: 'Poppins-SemiBold',
-                  fontSize: 15,
+                  fontSize: 14,
                 }}>
                 Submit
               </Text>
             </Pressable>
           </View>
-
-          {/* <Pressable
-            onPress={onSubmitPressed}
-            style={{
-              alignContent: 'center',
-              alignSelf: 'center',
-              marginTop: 5,
-              backgroundColor: '#f35858',
-              paddingVertical: 12,
-              borderRadius: 9,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: 'Fredoka-Medium',
-                paddingHorizontal: 127,
-                fontSize: 15,
-              }}>
-              Submit
-            </Text>
-          </Pressable> */}
           <Pressable
             onPress={onSignInPress}
             style={{
@@ -228,13 +160,17 @@ const NewPasswordScreen = () => {
               alignSelf: 'center',
               marginTop: 20,
             }}>
-            <Text style={{color: 'black', fontFamily: 'Poppins-Medium'}}>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Poppins-Medium',
+                fontSize: 12,
+              }}>
               Back to Sign in
             </Text>
           </Pressable>
         </View>
       </ScrollView>
-      {/* {loading ? <AppLoader /> : null} */}
     </>
   );
 };
