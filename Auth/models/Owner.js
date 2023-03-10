@@ -112,7 +112,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   typeofpg:{
     type:String,
-    enum:['PG','FAMILYROOMS','HOSTEL','MESS'],
+    enum:['PG','FAMILYROOMS','HOSTEL'],
     default:""
   },
   isWIFI:{
@@ -127,7 +127,23 @@ const OwnerSchema = new mongoose.Schema({
     type:String,
     enum:['DARK','LIGHT'],
     default:'LIGHT'
-  }
+  },
+  phoneVerified:{
+    type:Boolean,
+    default:false
+  },
+  detailsEntered:{
+    type:Boolean,
+    default:false
+  },
+  nameasperaadhar:{
+    type:String,
+    default:""
+  },
+  propertytitle:{
+    type:String,
+    default:""
+  }  
 });
 
 OwnerSchema.pre("save", async function () {

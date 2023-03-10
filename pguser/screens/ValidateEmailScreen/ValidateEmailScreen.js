@@ -27,7 +27,7 @@
 //   // const username = watch('username');
 //   const [check, setCheck] = useState(false);
 //   const [loading, setLoading] = useState(false);
-//   const [otp, setOtp] = useState('');
+//   const [phoneno, setPhoneno] = useState('');
 
 //   const navigation = useNavigation();
 
@@ -38,7 +38,7 @@
 //       setLoading(true);
 //       const response = await axios.post(
 //         `http://10.0.2.2:8000/api/v1/user/${users}/validateOtp`,
-//         {otp: otp},
+//         {phoneno: phoneno},
 //       );
 //       console.log(response);
 //       navigation.navigate('NewPasswordScreen', {email});
@@ -73,7 +73,7 @@
 //           <Text style={styles.title}>Confirm your email</Text>
 
 //           {/* <CustomInput
-//             name="otp"
+//             name="phoneno"
 //             control={control}
 //             placeholder="Enter your confirmation code"
 //             rules={{
@@ -89,8 +89,8 @@
 //             OTP:
 //           </Text>
 //           <TextInput
-//             onChangeText={setOtp}
-//             value={otp}
+//             onChangeText={setPhoneno}
+//             value={phoneno}
 //             keyboardType={'numeric'}
 //             style={{
 //               height: 36,
@@ -210,7 +210,7 @@ import axios from 'axios';
 import AppLoader from '../../components/AppLoader';
 import {useAuthContext} from '../../src/Context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {USER_IP} from '@env';
+import {USER_IP, AUTH_IP} from '@env';
 // import Config from 'react-native-config';
 import Feather from 'react-native-vector-icons/Feather';
 // import OTPInput from '../../components/ForgotPasswordScreenComponent/OTPInput';
@@ -219,43 +219,61 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const ValidateEmailScreen = () => {
   const route = useRoute();
-  const {users, jsonValue} = useAuthContext();
+  const {users, setTokens} = useAuthContext();
   const width = Dimensions.get('window').width;
-  const email = route?.params.email;
+  const userID = route?.params.userID;
   const name = route?.params.name;
-  const password = route?.params.password;
-  const phoneno = route?.params.phoneno;
+  // const password = route?.params.password;
+  const token = route?.params.token;
   const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [otp, setOtp] = useState('');
-
+  const [phoneno, setPhoneno] = useState('');
+  let jsonValue;
   const navigation = useNavigation();
-
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
-      // console.log(otp);
+      // console.log(phoneno);
+      // const response = await axios.post(
+      //   `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
+      //   {phoneno: phoneno},
+      // );
+      // const value = await AsyncStorage.getItem('userDetail');
+      // jsonValue = JSON.parse(value);
+      // setTokens(jsonValue.token);
+      // console.log('token:', jsonValue.token);
+      // console.log(phoneno);
       const response = await axios.post(
-        `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
-        {otp: otp},
+        `http://${AUTH_IP}/api/v1/userverification/sendmobileotp`,
+        {
+          phoneno: phoneno,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
-      // console.log('response:', response);
-
-      const res = await axios.post(`http://${AUTH_IP}/api/v1/user/register`, {
-        name: name,
-        email: email,
-        phoneno: phoneno,
-        password: password,
-      });
+      // console.log('hello');
+      // const res = await axios.post(`http://${AUTH_IP}/api/v1/user/register`, {
+      //   name: name,
+      //   email: email,
+      //   phoneno: phoneno,
+      //   password: password,
+      // });
       // console.log('res:', res);
-      const obj = {
-        token: res.data.token,
-        userID: res.data.user.id,
-        name: res.data.user.name,
-      };
-      const jsonValue = JSON.stringify(obj);
-      await AsyncStorage.setItem('userDetail', jsonValue);
-      navigation.navigate('SignIn');
+      // const obj = {
+      //   token: res.data.token,
+      //   userID: res.data.user.id,
+      //   name: res.data.user.name,
+      // };
+      // const jsonValue = JSON.stringify(obj);
+      // await AsyncStorage.setItem('userDetail', jsonValue);
+      navigation.navigate('OtpScreen', {
+        token: token,
+        userID: userID,
+        name: name,
+      });
       setLoading(false);
     } catch (e) {
       setCheck(true);
@@ -291,7 +309,7 @@ const ValidateEmailScreen = () => {
               fontFamily: 'Poppins-SemiBold',
               color: '#353535',
             }}>
-            Enter OTP
+            Enter Phone No.
           </Text>
           <Text
             style={{
@@ -299,21 +317,21 @@ const ValidateEmailScreen = () => {
               fontFamily: 'Poppins-Medium',
               color: 'grey',
             }}>
-            A 4-digit code has been sent to your email.
+            {/* A 4-digit code has been sent to your email. */}
           </Text>
           <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
             <Feather
-              name="unlock"
+              name="phone"
               size={20}
               color={'#757575'}
               style={{marginRight: 3}}
             />
             <TextInput
-              onChangeText={setOtp}
+              onChangeText={setPhoneno}
               placeholderTextColor="grey"
-              placeholder="Enter OTP"
-              value={otp}
+              placeholder="Enter Phone No."
+              value={phoneno}
               style={{
                 height: 40,
                 marginLeft: 4,
@@ -339,8 +357,8 @@ const ValidateEmailScreen = () => {
             OTP:
           </Text>
           <TextInput
-            onChangeText={setOtp}
-            value={otp}
+            onChangeText={setPhoneno}
+            value={phoneno}
             keyboardType={'numeric'}
             style={{
               height: 36,
@@ -365,7 +383,7 @@ const ValidateEmailScreen = () => {
                 textAlign: 'left',
                 opacity: check ? 1 : 0,
               }}>
-              Invalid OTP
+              Invalid Phone No.
             </Text>
           </View>
 

@@ -8,6 +8,7 @@ import NewPasswordScreen from '../screens/NewPasswordScreen';
 import ValidateEmailScreen from '../screens/ValidateEmailScreen';
 import {useAuthContext} from '../src/Context/AuthContext';
 import BottomTabNav from './BottomTabNav';
+import OtpScreen from '../screens/OtpScreen/OtpScreen';
 const Stack = createNativeStackNavigator();
 
 const index = () => {
@@ -39,6 +40,7 @@ const StackNavigator2 = () => {
         name="ValidateEmailScreen"
         component={ValidateEmailScreen}
       />
+      <Stack.Screen name="OtpScreen" component={OtpScreen} />
     </Stack.Navigator>
   );
 };
