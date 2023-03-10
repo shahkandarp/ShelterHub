@@ -24,7 +24,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   phoneno:{
     type: String,
-    required: [true, "Please provide password"],
+    default:"",
   },
   lat:{
     type:mongoose.Decimal128,
