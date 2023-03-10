@@ -142,6 +142,7 @@ const sendUserOTP = async (req,res) => {
     throw new BadRequestError("Please provide Phone Number");
   }
   const otp = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
+  console.log(otp)
   const user = await User.findOneAndUpdate({_id:userId},{phoneotp:otp,phoneno},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   var options = {authorization : process.env.API_KEY , message : `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.` ,  numbers : [
     `${phoneno}`]} 

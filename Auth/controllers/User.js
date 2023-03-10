@@ -102,8 +102,6 @@ const loginUser = async (req, res) => {
 const sendUserOTP = async (req,res) => {
   const {userId} = req.user
   var {phoneno} = req.body
-  console.log(userId)
-  console.log(phoneno)
   if(!phoneno){
     throw new BadRequestError("Please provide Phone Number");
   }
