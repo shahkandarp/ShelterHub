@@ -4,27 +4,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {createStackNavigator} from '@react-navigation/stack';
-// import HistoryScreen from '../screens/MyEvents';
 import ProfileScreen from '../screens/ProfileScreen';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
-// // import BasketScreen from '../screens/BasketScreen';
-// import TechEvents from '../screens/HomeScreen/TechEvents';
-// import NonTechEvents from '../screens/HomeScreen/NonTechEvents';
-// import CulturalEvents from '../screens/HomeScreen/CulturalEvents';
-// import Workshop from '../screens/HomeScreen/Workshop';
-// import EventDetailScreen from '../screens/HomeScreen/EventDetailScreen';
-// import SearchScreen from '../screens/HomeScreen/SearchScreen';
-// // import ComboScreen from '../screens/ComboScreen';
-// // import MyEvents from '../screens/HistoryScreen';
-// import StaticComboScreen from '../screens/ComboScreen/StaticComboScreen';
-// import DynamicComboScreen from '../screens/ComboScreen/DynamicComboScreen';
-// import DynamicTechSelectScreen from '../screens/ComboScreen/DynamicTechSelectScreen';
-// import DynamicNonTechSelectScreen from '../screens/ComboScreen/DynamicNonTechSelectScreen';
-// import DynamicWorkshopSelectScreen from '../screens/ComboScreen/DynamicWorkshopSelectScreen';
-// import AntDesign from 'react-native-vector-icons/AntDesign';
 import HistoryScreen from '../screens/HistoryScreen';
 import FilterScreen from '../screens/FilterScreen';
+import SearchScreen from '../screens/HomeScreen/SearchScreen';
+import {PRIMARY_COLOR} from '@env';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const BottomTabNav = () => {
@@ -32,12 +17,12 @@ const BottomTabNav = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarInactiveTintColor: '#d8d3f2',
-        tabBarActiveTintColor: '#6949ff',
+        tabBarInactiveTintColor: '#e0e9ff',
+        tabBarActiveTintColor: PRIMARY_COLOR,
         tabBarStyle: {
           height: 54,
           position: 'absolute',
-          bottom: 10,
+          bottom: 15,
           right: 16,
           left: 16,
           borderRadius: 13,
@@ -146,9 +131,9 @@ const HomeStack = () => {
       <Stack.Screen component={NonTechEvents} name="NonTechEvents" />
       <Stack.Screen component={CulturalEvents} name="CulturalEvents" />
       <Stack.Screen component={Workshop} name="Workshop" />
-      <Stack.Screen component={EventDetailScreen} name="EventDetailScreen" />
-      <Stack.Screen component={SearchScreen} name="SearchScreen" /> */}
+  <Stack.Screen component={EventDetailScreen} name="EventDetailScreen" />*/}
       <Stack.Screen component={HomeScreen} name="HomeScreen" />
+      <Stack.Screen component={SearchScreen} name="SearchScreen" />
     </Stack.Navigator>
   );
 };

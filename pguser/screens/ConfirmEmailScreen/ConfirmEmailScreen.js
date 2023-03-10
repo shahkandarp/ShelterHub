@@ -70,7 +70,7 @@
 //               alignSelf: 'center',
 //             }}
 //           />
-//           <Text style={styles.title}>Confirm your email</Text>
+//           <Text style={styles.titlee}>Confirm your email</Text>
 
 //           {/* <CustomInput
 //             name="otp"
@@ -170,7 +170,7 @@
 //     // alignItems: 'center',
 //     padding: 20,
 //   },
-//   title: {
+//   titlee: {
 //     fontSize: 18,
 //     color: 'black',
 //     margin: 10,
@@ -199,6 +199,7 @@ import {
   TextInput,
   Pressable,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 // import CustomInput from '../../components/CustomInput';
 // import CustomButton from '../../components/CustomButton';
@@ -209,13 +210,20 @@ import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import AppLoader from '../../components/AppLoader';
 import {useAuthContext} from '../../src/Context/AuthContext';
-import {USER_IP} from '@env';
+import {USER_IP, PRIMARY_COLOR} from '@env';
 // import Config from 'react-native-config';
 import Feather from 'react-native-vector-icons/Feather';
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from 'react-native-confirmation-code-field';
 // import OTPInput from '../../components/ForgotPasswordScreenComponent/OTPInput';
 // import {PAYMENT_IP} from '@env';
 // import {Auth} from 'aws-amplify';
 
+const CELL_COUNT = 4;
 const ConfirmEmailScreen = () => {
   const route = useRoute();
   const {users, jsonValue} = useAuthContext();
@@ -223,17 +231,21 @@ const ConfirmEmailScreen = () => {
   const email = route?.params.email;
   const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [otp, setOtp] = useState('');
+  const [value, setValue] = useState('');
+  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
 
   const navigation = useNavigation();
-
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
-      console.log(otp);
+      console.log(value);
       const response = await axios.post(
         `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
-        {otp: otp},
+        {otp: value},
       );
       console.log(response);
       navigation.navigate('NewPasswordScreen', {email});
@@ -255,8 +267,8 @@ const ConfirmEmailScreen = () => {
         style={{backgroundColor: 'white', padding: 20}}>
         <View style={{}}>
           <Image
-            source={require('../../data/otpdesign.jpg')}
-            resizeMode={'stretch'}
+            source={require('../../data/email1.jpg')}
+            // resizeMode={'stretch'}
             style={{
               height: 200,
               width: 300,
@@ -282,7 +294,7 @@ const ConfirmEmailScreen = () => {
             }}>
             A 4-digit code has been sent to your email.
           </Text>
-          <View
+          {/* <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
             <Feather
               name="unlock"
@@ -310,32 +322,29 @@ const ConfirmEmailScreen = () => {
                 color: '#212121',
               }}
             />
-          </View>
-          {/* <Text
-            style={{
-              color: 'black',
-              fontSize: 14,
-              fontFamily: 'Fredoka-Regular',
-            }}>
-            OTP:
-          </Text>
-          <TextInput
-            onChangeText={setOtp}
-            value={otp}
-            keyboardType={'numeric'}
-            style={{
-              height: 36,
-              borderWidth: 0.5,
-              borderColor: '#d1cfcf',
-              marginTop: 5,
-              borderRadius: 8,
-              paddingHorizontal: 10,
-              fontSize: 13,
-              fontFamily: 'Fredoka-Regular',
-              color: 'black',
-            }}
-          /> */}
-
+          </View> */}
+          <SafeAreaView style={styles.root}>
+            {/* <Text style={styles.title}>Verification</Text> */}
+            <CodeField
+              ref={ref}
+              {...props}
+              // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+              value={value}
+              onChangeText={setValue}
+              cellCount={CELL_COUNT}
+              rootStyle={styles.codeFieldRoot}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
+              renderCell={({index, symbol, isFocused}) => (
+                <Text
+                  key={index}
+                  style={[styles.cell, isFocused && styles.focusCell]}
+                  onLayout={getCellOnLayoutHandler(index)}>
+                  {symbol || (isFocused ? <Cursor /> : null)}
+                </Text>
+              )}
+            />
+          </SafeAreaView>
           <View style={{alignContent: 'flex-start'}}>
             <Text
               style={{
@@ -349,11 +358,6 @@ const ConfirmEmailScreen = () => {
               Invalid OTP
             </Text>
           </View>
-
-          {/* <CustomButton
-            text="Confirm"
-            onPress={handleSubmit(onConfirmPressed)}
-          /> */}
           <View style={{borderRadius: 9}}>
             <Pressable
               onPress={onConfirmPressed}
@@ -369,7 +373,7 @@ const ConfirmEmailScreen = () => {
                 elevation: 14,
                 alignContent: 'center',
                 alignSelf: 'center',
-                marginTop: 25,
+                marginTop: 15,
                 // backgroundColor: '#6949ff',
                 backgroundColor: '#19347d',
                 paddingVertical: 10,
@@ -434,11 +438,11 @@ const ConfirmEmailScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  root: {
-    // alignItems: 'center',
-    // padding: 20,
-  },
-  title: {
+  // root: {
+  //   // alignItems: 'center',
+  //   // padding: 20,
+  // },
+  titlee: {
     fontSize: 18,
     color: 'black',
     margin: 10,
@@ -452,6 +456,26 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#FDB075',
+  },
+  root: {padding: 20},
+  title: {textAlign: 'center', fontSize: 30},
+  codeFieldRoot: {marginTop: 20},
+  cell: {
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: PRIMARY_COLOR,
+    textAlign: 'center',
+    color: '#101010',
+    borderRadius: 8,
+    // fontFamily: 'Poppins-Medium',
+    // paddingBottom: -5,
+  },
+  focusCell: {
+    borderColor: PRIMARY_COLOR,
+    color: '#101010',
   },
 });
 

@@ -68,7 +68,7 @@ const SignInScreen = () => {
           setName(response.data.user.name);
           setUserId(response.data.user.id);
           await getData();
-          setTimeout(() => console.log('a', tokens), 1000);
+          // setTimeout(() => console.log('a', tokens), 1000);
           setLoginPending(false);
         } catch (err) {
           Alert.alert('Email or password is wrong');

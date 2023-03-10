@@ -39,7 +39,7 @@ const NewPasswordScreen = () => {
       try {
         setLoading(true);
         console.log(email);
-        const response = await axios.patch(
+        const response = await axios.post(
           `http://${USER_IP}/api/v1/user/${email}/password`,
           {password: password},
         );

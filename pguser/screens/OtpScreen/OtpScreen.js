@@ -17,7 +17,7 @@
 // // import AppLoader from '../../components/AppLoader';
 // // import {PAYMENT_IP} from '@env';x
 
-// const ValidateEmailScreen = () => {
+// const ConfirmEmailScreen = () => {
 //   const route = useRoute();
 //   const {users} = useAuthContext();
 //   // const {control, handleSubmit, watch} = useForm({
@@ -27,7 +27,7 @@
 //   // const username = watch('username');
 //   const [check, setCheck] = useState(false);
 //   const [loading, setLoading] = useState(false);
-//   const [phoneno, setPhoneno] = useState('');
+//   const [otp, setOtp] = useState('');
 
 //   const navigation = useNavigation();
 
@@ -38,7 +38,7 @@
 //       setLoading(true);
 //       const response = await axios.post(
 //         `http://10.0.2.2:8000/api/v1/user/${users}/validateOtp`,
-//         {phoneno: phoneno},
+//         {otp: otp},
 //       );
 //       console.log(response);
 //       navigation.navigate('NewPasswordScreen', {email});
@@ -70,10 +70,10 @@
 //               alignSelf: 'center',
 //             }}
 //           />
-//           <Text style={styles.title}>Confirm your email</Text>
+//           <Text style={styles.e}>Confirm your email</Text>
 
 //           {/* <CustomInput
-//             name="phoneno"
+//             name="otp"
 //             control={control}
 //             placeholder="Enter your confirmation code"
 //             rules={{
@@ -89,8 +89,8 @@
 //             OTP:
 //           </Text>
 //           <TextInput
-//             onChangeText={setPhoneno}
-//             value={phoneno}
+//             onChangeText={setOtp}
+//             value={otp}
 //             keyboardType={'numeric'}
 //             style={{
 //               height: 36,
@@ -170,7 +170,7 @@
 //     // alignItems: 'center',
 //     padding: 20,
 //   },
-//   title: {
+//   e: {
 //     fontSize: 18,
 //     color: 'black',
 //     margin: 10,
@@ -187,7 +187,7 @@
 //   },
 // });
 
-// export default ValidateEmailScreen;
+// export default ConfirmEmailScreen;
 import React, {useState} from 'react';
 import {
   View,
@@ -199,54 +199,52 @@ import {
   TextInput,
   Pressable,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
-// import CustomInput from '../../components/CustomInput';
-// import CustomButton from '../../components/CustomButton';
-// import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/core';
-// import {useForm} from 'react-hook-form';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import AppLoader from '../../components/AppLoader';
 import {useAuthContext} from '../../src/Context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {USER_IP, AUTH_IP} from '@env';
-// import Config from 'react-native-config';
+import {USER_IP, AUTH_IP, PRIMARY_COLOR} from '@env';
 import Feather from 'react-native-vector-icons/Feather';
-// import OTPInput from '../../components/ForgotPasswordScreenComponent/OTPInput';
-// import {PAYMENT_IP} from '@env';
-// import {Auth} from 'aws-amplify';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from 'react-native-confirmation-code-field';
+const CELL_COUNT = 4;
 
-const ValidateEmailScreen = () => {
+const OtpScreen = () => {
   const route = useRoute();
-  const {users, setTokens} = useAuthContext();
+  const {users, jsonValue, setTokens, setName, setUserId, getData} =
+    useAuthContext();
   const width = Dimensions.get('window').width;
+  //   const email = route?.params.email;
   const userID = route?.params.userID;
   const name = route?.params.name;
-  // const password = route?.params.password;
   const token = route?.params.token;
   const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [phoneno, setPhoneno] = useState('');
-  let jsonValue;
+  const [value, setValue] = useState('');
+  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
+
   const navigation = useNavigation();
+
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
-      // console.log(phoneno);
-      // const response = await axios.post(
-      //   `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
-      //   {phoneno: phoneno},
-      // );
-      // const value = await AsyncStorage.getItem('userDetail');
-      // jsonValue = JSON.parse(value);
-      // setTokens(jsonValue.token);
-      // console.log('token:', jsonValue.token);
-      // console.log(phoneno);
+      console.log(value);
       const response = await axios.post(
-        `http://${AUTH_IP}/api/v1/userverification/sendmobileotp`,
+        `http://${AUTH_IP}/api/v1/userverification/verifymobileotp`,
         {
-          phoneno: phoneno,
+          otp: value,
         },
         {
           headers: {
@@ -254,26 +252,19 @@ const ValidateEmailScreen = () => {
           },
         },
       );
-      // console.log('hello');
-      // const res = await axios.post(`http://${AUTH_IP}/api/v1/user/register`, {
-      //   name: name,
-      //   email: email,
-      //   phoneno: phoneno,
-      //   password: password,
-      // });
-      // console.log('res:', res);
-      // const obj = {
-      //   token: res.data.token,
-      //   userID: res.data.user.id,
-      //   name: res.data.user.name,
-      // };
-      // const jsonValue = JSON.stringify(obj);
-      // await AsyncStorage.setItem('userDetail', jsonValue);
-      navigation.navigate('OtpScreen', {
+      const obj = {
         token: token,
         userID: userID,
         name: name,
-      });
+      };
+      console.log(obj);
+      const jsonValue = JSON.stringify(obj);
+      await AsyncStorage.setItem('userDetail', jsonValue);
+      setTokens(token);
+      setName(name);
+      setUserId(userID);
+      await getData();
+      //   navigation.navigate('HomeScreen');
       setLoading(false);
     } catch (e) {
       setCheck(true);
@@ -292,8 +283,8 @@ const ValidateEmailScreen = () => {
         style={{backgroundColor: 'white', padding: 20}}>
         <View style={{}}>
           <Image
-            source={require('../../data/otpdesign.jpg')}
-            resizeMode={'stretch'}
+            source={require('../../data/email1.jpg')}
+            // resizeMode={'stretch'}
             style={{
               height: 200,
               width: 300,
@@ -309,7 +300,7 @@ const ValidateEmailScreen = () => {
               fontFamily: 'Poppins-SemiBold',
               color: '#353535',
             }}>
-            Enter Phone No.
+            Enter OTP
           </Text>
           <Text
             style={{
@@ -317,21 +308,21 @@ const ValidateEmailScreen = () => {
               fontFamily: 'Poppins-Medium',
               color: 'grey',
             }}>
-            {/* A 4-digit code has been sent to your email. */}
+            A 4-digit code has been sent to your Phone No.
           </Text>
-          <View
+          {/* <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
             <Feather
-              name="phone"
+              name="unlock"
               size={20}
               color={'#757575'}
               style={{marginRight: 3}}
             />
             <TextInput
-              onChangeText={setPhoneno}
+              onChangeText={setOtp}
               placeholderTextColor="grey"
-              placeholder="Enter Phone No."
-              value={phoneno}
+              placeholder="Enter OTP"
+              value={otp}
               style={{
                 height: 40,
                 marginLeft: 4,
@@ -347,32 +338,29 @@ const ValidateEmailScreen = () => {
                 color: '#212121',
               }}
             />
-          </View>
-          {/* <Text
-            style={{
-              color: 'black',
-              fontSize: 14,
-              fontFamily: 'Fredoka-Regular',
-            }}>
-            OTP:
-          </Text>
-          <TextInput
-            onChangeText={setPhoneno}
-            value={phoneno}
-            keyboardType={'numeric'}
-            style={{
-              height: 36,
-              borderWidth: 0.5,
-              borderColor: '#d1cfcf',
-              marginTop: 5,
-              borderRadius: 8,
-              paddingHorizontal: 10,
-              fontSize: 13,
-              fontFamily: 'Fredoka-Regular',
-              color: 'black',
-            }}
-          /> */}
-
+          </View> */}
+          <SafeAreaView style={styles.root}>
+            {/* <Text style={styles.e}>Verification</Text> */}
+            <CodeField
+              ref={ref}
+              {...props}
+              // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
+              value={value}
+              onChangeText={setValue}
+              cellCount={CELL_COUNT}
+              rootStyle={styles.codeFieldRoot}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
+              renderCell={({index, symbol, isFocused}) => (
+                <Text
+                  key={index}
+                  style={[styles.cell, isFocused && styles.focusCell]}
+                  onLayout={getCellOnLayoutHandler(index)}>
+                  {symbol || (isFocused ? <Cursor /> : null)}
+                </Text>
+              )}
+            />
+          </SafeAreaView>
           <View style={{alignContent: 'flex-start'}}>
             <Text
               style={{
@@ -383,14 +371,9 @@ const ValidateEmailScreen = () => {
                 textAlign: 'left',
                 opacity: check ? 1 : 0,
               }}>
-              Invalid Phone No.
+              Invalid OTP
             </Text>
           </View>
-
-          {/* <CustomButton
-            text="Confirm"
-            onPress={handleSubmit(onConfirmPressed)}
-          /> */}
           <View style={{borderRadius: 9}}>
             <Pressable
               onPress={onConfirmPressed}
@@ -426,32 +409,6 @@ const ValidateEmailScreen = () => {
               </Text>
             </Pressable>
           </View>
-          {/* <Pressable
-            onPress={onConfirmPressed}
-            style={{
-              alignContent: 'center',
-              alignSelf: 'center',
-              marginTop: 8,
-              backgroundColor: '#f35858',
-              paddingVertical: 12,
-              borderRadius: 9,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: 'Fredoka-Medium',
-                paddingHorizontal: 127,
-                fontSize: 15,
-              }}>
-              Confirm
-            </Text>
-          </Pressable> */}
-
-          {/* <CustomButton
-            text="Back to Sign in"
-            onPress={onSignInPress}
-            type="TERTIARY"
-          /> */}
           <Pressable
             onPress={onSignInPress}
             style={{
@@ -475,7 +432,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // padding: 20,
   },
-  title: {
+  titlee: {
     fontSize: 18,
     color: 'black',
     margin: 10,
@@ -490,6 +447,26 @@ const styles = StyleSheet.create({
   link: {
     color: '#FDB075',
   },
+  root: {padding: 20},
+  title: {textAlign: 'center', fontSize: 30},
+  codeFieldRoot: {marginTop: 20},
+  cell: {
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: PRIMARY_COLOR,
+    textAlign: 'center',
+    color: '#101010',
+    borderRadius: 8,
+    // fontFamily: 'Poppins-Medium',
+    // paddingBottom: -5,
+  },
+  focusCell: {
+    borderColor: PRIMARY_COLOR,
+    color: '#101010',
+  },
 });
 
-export default ValidateEmailScreen;
+export default OtpScreen;
