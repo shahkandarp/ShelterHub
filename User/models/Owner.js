@@ -24,7 +24,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   phoneno:{
     type: String,
-    required: [true, "Please provide password"],
+    default:"",
   },
   lat:{
     type:mongoose.Decimal128,
@@ -113,7 +113,7 @@ const OwnerSchema = new mongoose.Schema({
   typeofpg:{
     type:String,
     enum:['PG','FAMILYROOMS','HOSTEL'],
-    default:""
+    default:"PG"
   },
   isWIFI:{
     type:Boolean,
