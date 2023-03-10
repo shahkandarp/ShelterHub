@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const UserMiddleware = require('../middleware/authentication_user')
 
 const {
   getSpecificPgs,
@@ -23,8 +24,8 @@ const {
 router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
 router.route('/forgotpassword').patch(forgotPasswordUser);
-router.route('/sendmobileotp').post(sendUserOTP);
-router.route('/verifymobileotp').post(verifyUserOTP);
+router.route('/sendmobileotp').post(UserMiddleware,sendUserOTP);
+router.route('/verifymobileotp').post(UserMiddleware,verifyUserOTP);
 
 //pg
 router.route("/pg/:pid").get(getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
