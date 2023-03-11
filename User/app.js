@@ -38,6 +38,14 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
+
+//populate
+// const populate= require('./populate.json')
+// app.get('/populate',async(req,res)=>{
+//   const pgs = await Owner.find({})
+//   res.status(200).json(pgs)
+
+// })
 //routes user
 app.use("/api/v1/user", userRouter);
 //routes owner
@@ -121,7 +129,6 @@ app.post("/api/v1/addaddressproof",OwnerMiddleware, upload.single("pic"), async 
   const imageRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
-  // const ownerx = await Owner.findOne({_id:ownerId})
   const addressproof = `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`
   const owner = await Owner.findOneAndUpdate({_id:ownerId},{addressproof},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
@@ -136,7 +143,6 @@ app.post("/api/v1/addaadharproof",OwnerMiddleware, upload.single("pic"), async (
   const imageRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
-  //const ownerx = await Owner.findOne({_id:ownerId})
   const aadhaarno = `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`
   const owner = await Owner.findOneAndUpdate({_id:ownerId},{aadhaarno},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
