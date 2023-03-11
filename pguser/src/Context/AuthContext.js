@@ -51,6 +51,7 @@ const AuthContextProvider = ({children}) => {
   };
   const getFamousPg = async () => {
     console.log('hello');
+    // console.log(tokens);
     const response = await axios.get(
       `http://${USER_IP}/api/v1/user/${users}/pg?sort=ratings`,
       {headers: {Authorization: `Bearer ${tokens}`}},

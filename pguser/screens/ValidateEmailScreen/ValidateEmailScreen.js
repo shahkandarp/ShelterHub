@@ -1,250 +1,38 @@
-// import React, {useState} from 'react';
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   ScrollView,
-//   Alert,
-//   Image,
-//   TextInput,
-//   Pressable,
-// } from 'react-native';
-// import {useNavigation} from '@react-navigation/core';
-// // import {useForm} from 'react-hook-form';
-// import {useRoute} from '@react-navigation/native';
-// import axios from 'axios';
-// import {useAuthContext} from '../../src/Context/AuthContext';
-// // import AppLoader from '../../components/AppLoader';
-// // import {PAYMENT_IP} from '@env';x
-
-// const ValidateEmailScreen = () => {
-//   const route = useRoute();
-//   const {users} = useAuthContext();
-//   // const {control, handleSubmit, watch} = useForm({
-//   //   defaultValues: {username: route?.params?.username},
-//   // });
-//   const email = route?.params.email;
-//   // const username = watch('username');
-//   const [check, setCheck] = useState(false);
-//   const [loading, setLoading] = useState(false);
-//   const [phoneno, setPhoneno] = useState('');
-
-//   const navigation = useNavigation();
-
-//   const onConfirmPressed = async data => {
-//     try {
-//       // await Auth.confirmSignUp(data.username, data.code);
-//       console.log('email', email);
-//       setLoading(true);
-//       const response = await axios.post(
-//         `http://10.0.2.2:8000/api/v1/user/${users}/validateOtp`,
-//         {phoneno: phoneno},
-//       );
-//       console.log(response);
-//       navigation.navigate('NewPasswordScreen', {email});
-//       setLoading(false);
-//     } catch (e) {
-//       // Alert.alert();
-//       setCheck(true);
-//       setLoading(false);
-//     }
-//   };
-
-//   const onSignInPress = () => {
-//     navigation.navigate('SignIn');
-//   };
-
-//   return (
-//     <>
-//       <ScrollView
-//         showsVerticalScrollIndicator={false}
-//         style={{backgroundColor: 'white'}}>
-//         <View style={styles.root}>
-//           <Image
-//             source={require('../../data/email1.jpg')}
-//             style={{
-//               height: 230,
-//               width: 230,
-//               borderRadius: 20,
-//               marginTop: 30,
-//               alignSelf: 'center',
-//             }}
-//           />
-//           <Text style={styles.title}>Confirm your email</Text>
-
-//           {/* <CustomInput
-//             name="phoneno"
-//             control={control}
-//             placeholder="Enter your confirmation code"
-//             rules={{
-//               required: 'Confirmation code is required',
-//             }}
-//           /> */}
-//           <Text
-//             style={{
-//               color: 'black',
-//               fontSize: 14,
-//               fontFamily: 'Fredoka-Regular',
-//             }}>
-//             OTP:
-//           </Text>
-//           <TextInput
-//             onChangeText={setPhoneno}
-//             value={phoneno}
-//             keyboardType={'numeric'}
-//             style={{
-//               height: 36,
-//               borderWidth: 0.5,
-//               borderColor: '#d1cfcf',
-//               marginTop: 5,
-//               borderRadius: 8,
-//               paddingHorizontal: 10,
-//               fontSize: 13,
-//               fontFamily: 'Fredoka-Regular',
-//               color: 'black',
-//             }}
-//           />
-//           <View style={{alignContent: 'flex-start'}}>
-//             <Text
-//               style={{
-//                 color: 'red',
-//                 fontFamily: 'Fredoka-Regular',
-//                 fontSize: 12,
-//                 textAlign: 'left',
-//                 opacity: check ? 1 : 0,
-//               }}>
-//               Invalid OTP
-//             </Text>
-//           </View>
-
-//           {/* <CustomButton
-//             text="Confirm"
-//             onPress={handleSubmit(onConfirmPressed)}
-//           /> */}
-//           <Pressable
-//             onPress={onConfirmPressed}
-//             style={{
-//               alignContent: 'center',
-//               alignSelf: 'center',
-//               marginTop: 8,
-//               backgroundColor: '#f35858',
-//               paddingVertical: 12,
-//               borderRadius: 9,
-//             }}>
-//             <Text
-//               style={{
-//                 color: 'white',
-//                 fontFamily: 'Fredoka-Medium',
-//                 paddingHorizontal: 127,
-//                 fontSize: 15,
-//               }}>
-//               Confirm
-//             </Text>
-//           </Pressable>
-
-//           {/* <CustomButton
-//             text="Back to Sign in"
-//             onPress={onSignInPress}
-//             type="TERTIARY"
-//           /> */}
-//           <Pressable
-//             onPress={onSignInPress}
-//             style={{
-//               alignContent: 'center',
-//               alignSelf: 'center',
-//               marginTop: 20,
-//             }}>
-//             <Text style={{color: 'black', fontFamily: 'Fredoka-Regular'}}>
-//               Back to Sign in
-//             </Text>
-//           </Pressable>
-//         </View>
-//       </ScrollView>
-//       {/* {loading ? <AppLoader /> : null} */}
-//     </>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   root: {
-//     // alignItems: 'center',
-//     padding: 20,
-//   },
-//   title: {
-//     fontSize: 18,
-//     color: 'black',
-//     margin: 10,
-//     marginTop: 15,
-//     fontFamily: 'Fredoka-Medium',
-//     textAlign: 'center',
-//   },
-//   text: {
-//     color: 'gray',
-//     marginVertical: 10,
-//   },
-//   link: {
-//     color: '#FDB075',
-//   },
-// });
-
-// export default ValidateEmailScreen;
 import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  Alert,
   Image,
   TextInput,
   Pressable,
   Dimensions,
 } from 'react-native';
-// import CustomInput from '../../components/CustomInput';
-// import CustomButton from '../../components/CustomButton';
-// import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/core';
-// import {useForm} from 'react-hook-form';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import AppLoader from '../../components/AppLoader';
 import {useAuthContext} from '../../src/Context/AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {USER_IP, AUTH_IP} from '@env';
-// import Config from 'react-native-config';
+import {AUTH_IP} from '@env';
 import Feather from 'react-native-vector-icons/Feather';
-// import OTPInput from '../../components/ForgotPasswordScreenComponent/OTPInput';
-// import {PAYMENT_IP} from '@env';
-// import {Auth} from 'aws-amplify';
 
 const ValidateEmailScreen = () => {
   const route = useRoute();
-  const {users, setTokens} = useAuthContext();
   const width = Dimensions.get('window').width;
   const userID = route?.params.userID;
   const name = route?.params.name;
-  // const password = route?.params.password;
   const token = route?.params.token;
   const [check, setCheck] = useState(false);
   const [loading, setLoading] = useState(false);
   const [phoneno, setPhoneno] = useState('');
-  let jsonValue;
   const navigation = useNavigation();
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
-      // console.log(phoneno);
-      // const response = await axios.post(
-      //   `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
-      //   {phoneno: phoneno},
-      // );
-      // const value = await AsyncStorage.getItem('userDetail');
-      // jsonValue = JSON.parse(value);
-      // setTokens(jsonValue.token);
-      // console.log('token:', jsonValue.token);
-      // console.log(phoneno);
+      console.log(phoneno);
       const response = await axios.post(
-        `http://${AUTH_IP}/api/v1/userverification/sendmobileotp`,
+        `http://${AUTH_IP}/api/v1/user/sendmobileotp`,
         {
           phoneno: phoneno,
         },
@@ -254,21 +42,7 @@ const ValidateEmailScreen = () => {
           },
         },
       );
-      // console.log('hello');
-      // const res = await axios.post(`http://${AUTH_IP}/api/v1/user/register`, {
-      //   name: name,
-      //   email: email,
-      //   phoneno: phoneno,
-      //   password: password,
-      // });
-      // console.log('res:', res);
-      // const obj = {
-      //   token: res.data.token,
-      //   userID: res.data.user.id,
-      //   name: res.data.user.name,
-      // };
-      // const jsonValue = JSON.stringify(obj);
-      // await AsyncStorage.setItem('userDetail', jsonValue);
+      console.log('hello');
       navigation.navigate('OtpScreen', {
         token: token,
         userID: userID,
@@ -295,17 +69,17 @@ const ValidateEmailScreen = () => {
             source={require('../../data/otpdesign.jpg')}
             resizeMode={'stretch'}
             style={{
-              height: 200,
-              width: 300,
+              height: 190,
+              width: 287,
               borderRadius: 20,
-              marginTop: 30,
+              marginTop: 15,
               alignSelf: 'center',
             }}
           />
           <Text
             style={{
               marginTop: 45,
-              fontSize: 22,
+              fontSize: 20,
               fontFamily: 'Poppins-SemiBold',
               color: '#353535',
             }}>
@@ -316,9 +90,7 @@ const ValidateEmailScreen = () => {
               fontSize: 12,
               fontFamily: 'Poppins-Medium',
               color: 'grey',
-            }}>
-            {/* A 4-digit code has been sent to your email. */}
-          </Text>
+            }}></Text>
           <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
             <Feather
@@ -348,31 +120,6 @@ const ValidateEmailScreen = () => {
               }}
             />
           </View>
-          {/* <Text
-            style={{
-              color: 'black',
-              fontSize: 14,
-              fontFamily: 'Fredoka-Regular',
-            }}>
-            OTP:
-          </Text>
-          <TextInput
-            onChangeText={setPhoneno}
-            value={phoneno}
-            keyboardType={'numeric'}
-            style={{
-              height: 36,
-              borderWidth: 0.5,
-              borderColor: '#d1cfcf',
-              marginTop: 5,
-              borderRadius: 8,
-              paddingHorizontal: 10,
-              fontSize: 13,
-              fontFamily: 'Fredoka-Regular',
-              color: 'black',
-            }}
-          /> */}
-
           <View style={{alignContent: 'flex-start'}}>
             <Text
               style={{
@@ -387,15 +134,10 @@ const ValidateEmailScreen = () => {
             </Text>
           </View>
 
-          {/* <CustomButton
-            text="Confirm"
-            onPress={handleSubmit(onConfirmPressed)}
-          /> */}
           <View style={{borderRadius: 9}}>
             <Pressable
               onPress={onConfirmPressed}
               style={{
-                // shadowColor: '#4b2be3',
                 shadowColor: '#19347d',
                 shadowOffset: {
                   width: 0,
@@ -403,55 +145,27 @@ const ValidateEmailScreen = () => {
                 },
                 shadowOpacity: 0.41,
                 shadowRadius: 9.11,
-                elevation: 14,
+                elevation: 7,
                 alignContent: 'center',
                 alignSelf: 'center',
                 marginTop: 25,
-                // backgroundColor: '#6949ff',
                 backgroundColor: '#19347d',
-                paddingVertical: 10,
+                paddingVertical: 9,
                 borderRadius: 13,
                 flex: 1,
-                maxWidth: width,
-                paddingHorizontal: width / 2 - 54,
+                width: width - 48,
               }}>
               <Text
                 style={{
                   color: 'white',
                   alignSelf: 'center',
                   fontFamily: 'Poppins-SemiBold',
-                  fontSize: 15,
+                  fontSize: 14,
                 }}>
                 Confirm
               </Text>
             </Pressable>
           </View>
-          {/* <Pressable
-            onPress={onConfirmPressed}
-            style={{
-              alignContent: 'center',
-              alignSelf: 'center',
-              marginTop: 8,
-              backgroundColor: '#f35858',
-              paddingVertical: 12,
-              borderRadius: 9,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: 'Fredoka-Medium',
-                paddingHorizontal: 127,
-                fontSize: 15,
-              }}>
-              Confirm
-            </Text>
-          </Pressable> */}
-
-          {/* <CustomButton
-            text="Back to Sign in"
-            onPress={onSignInPress}
-            type="TERTIARY"
-          /> */}
           <Pressable
             onPress={onSignInPress}
             style={{
@@ -459,7 +173,12 @@ const ValidateEmailScreen = () => {
               alignSelf: 'center',
               marginTop: 20,
             }}>
-            <Text style={{color: 'black', fontFamily: 'Fredoka-Regular'}}>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Poppins-Medium',
+                fontSize: 12,
+              }}>
               Back to Sign in
             </Text>
           </Pressable>
@@ -471,10 +190,6 @@ const ValidateEmailScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  root: {
-    // alignItems: 'center',
-    // padding: 20,
-  },
   title: {
     fontSize: 18,
     color: 'black',

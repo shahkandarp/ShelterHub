@@ -3,12 +3,11 @@ const router = express.Router();
 const OwnerMiddleware = require('../middleware/authentication_owner')
 
 const {forgotPasswordOwner,loginOwner,registerOwner} = require('../controllers/Owner')
-const authMiddleware = require('../middleware/authentication_owner');
 
 //authentication owner
-router.route('/login').post(authMiddleware,loginOwner);
-router.route('/register').post(authMiddleware,registerOwner);
-router.route('/forgotpassword').patch(authMiddleware,forgotPasswordOwner);
+router.route('/login').post(loginOwner);
+router.route('/register').post(registerOwner);
+router.route('/forgotpassword').patch(forgotPasswordOwner);
 
 //owner details
 

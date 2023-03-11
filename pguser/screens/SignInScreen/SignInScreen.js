@@ -14,21 +14,15 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthContext} from '../../src/Context/AuthContext';
-import {USER_IP, AUTH_IP} from '@env';
-// import Config from 'react-native-config';
-import SearchLoader from '../../components/SearchLoader';
+import {AUTH_IP} from '@env';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AppLoader from '../../components/AppLoader';
-// import {UseTogglePasswordVisibility} from '../../components/LoginScreenComponent/UseTogglePasswordVisibility';
 
 const SignInScreen = () => {
-  const {setTokens, tokens, getData, setLoginPending, setName, setUserId} =
+  const {setTokens, getData, setLoginPending, setName, setUserId} =
     useAuthContext();
   const width = Dimensions.get('window').width;
-  // const {passwordVisibility, rightIcon, handlePasswordVisibility} =
-  // UseTogglePasswordVisibility();
   const navigation = useNavigation();
   const [changeText, setChangeText] = useState('');
   const [password, setPassword] = useState('');
@@ -68,7 +62,6 @@ const SignInScreen = () => {
           setName(response.data.user.name);
           setUserId(response.data.user.id);
           await getData();
-          // setTimeout(() => console.log('a', tokens), 1000);
           setLoginPending(false);
         } catch (err) {
           Alert.alert('Email or password is wrong');
@@ -95,21 +88,22 @@ const SignInScreen = () => {
           <Image
             source={require('../../data/login.jpg')}
             style={{
-              height: 232,
-              width: 232,
+              height: 220,
+              width: 220,
               borderRadius: 20,
-              marginTop: 30,
+              marginTop: 5,
               alignSelf: 'center',
             }}
           />
           <View
             style={{
-              marginVertical: 20,
-              marginBottom: 20,
+              // marginVertical: 20,
+              marginTop: 15,
+              marginBottom: 10,
             }}>
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 fontFamily: 'Poppins-SemiBold',
                 color: '#353535',
               }}>
@@ -196,10 +190,9 @@ const SignInScreen = () => {
           }}>
           <Text
             style={{
-              // color: '#6949ff',
               color: '#19347d',
               fontFamily: 'Poppins-Medium',
-              fontSize: 13,
+              fontSize: 12,
             }}>
             Forgot Password?
           </Text>
@@ -208,7 +201,6 @@ const SignInScreen = () => {
           <Pressable
             onPress={onSignInPressed}
             style={{
-              // shadowColor: '#4b2be3',
               shadowColor: '#19347d',
               shadowOffset: {
                 width: 0,
@@ -216,24 +208,24 @@ const SignInScreen = () => {
               },
               shadowOpacity: 0.41,
               shadowRadius: 9.11,
-              elevation: 14,
+              elevation: 7,
               alignContent: 'center',
               alignSelf: 'center',
-              marginTop: 25,
-              // backgroundColor: '#6949ff',
+              marginTop: 20,
               backgroundColor: '#19347d',
-              paddingVertical: 10,
+              paddingVertical: 9,
               borderRadius: 13,
               flex: 1,
-              maxWidth: width,
-              paddingHorizontal: width / 2 - 54,
+              width: width - 48,
+              // maxWidth: width,
+              // paddingHorizontal: width / 2 - 54,
             }}>
             <Text
               style={{
                 color: 'white',
                 alignSelf: 'center',
                 fontFamily: 'Poppins-SemiBold',
-                fontSize: 15,
+                fontSize: 14,
               }}>
               Login
             </Text>
@@ -252,17 +244,27 @@ const SignInScreen = () => {
         </View>
         <Pressable
           onPress={onSignUpPress}
-          style={{alignContent: 'center', alignSelf: 'center', marginTop: 20}}>
+          style={{
+            alignContent: 'center',
+            alignSelf: 'center',
+            marginTop: 20,
+            marginBottom: 40,
+          }}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: 'grey', fontFamily: 'Poppins-Medium'}}>
-              New to Imaze?
+            <Text
+              style={{
+                color: 'grey',
+                fontFamily: 'Poppins-Medium',
+                fontSize: 12,
+              }}>
+              New to Nivaas?
             </Text>
             <Text
               style={{
-                // color: '#6949ff',
                 color: '#19347d',
                 fontFamily: 'Poppins-SemiBold',
                 marginLeft: 5,
+                fontSize: 13,
               }}>
               Register
             </Text>

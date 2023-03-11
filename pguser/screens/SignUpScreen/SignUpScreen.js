@@ -6,45 +6,31 @@ import {
   ScrollView,
   Alert,
   Image,
-  useWindowDimensions,
   TextInput,
   Pressable,
   Linking,
   Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-// import {useForm} from 'react-hook-form';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {USER_IP, AUTH_IP} from '@env';
-// import Config from 'react-native-config';
+import {AUTH_IP} from '@env';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import AppLoader from '../../components/AppLoader';
-// import {PAYMENT_IP} from '@env';
-import PartySprayLoader from '../../components/PartySprayLoader';
 import RegisterLoader from '../../components/RegisterLoader';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUpScreen = () => {
-  const {height} = useWindowDimensions();
   const width = Dimensions.get('window').width;
-  // const {control, handleSubmit, watch} = useForm();
-  // const pwd = watch('password');
   const navigation = useNavigation();
   const [loadingPending, setLoadingPending] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [hidePass, setHidePass] = useState(true);
-  const [collegeName, setCollegeName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordRepeat, setPasswordRepeat] = useState('');
-  const [passwordWrong, setPasswordWrong] = useState(false);
   const [emailWrong, setEmailWrong] = useState(false);
   const [passwordMin, setPasswordMin] = useState(false);
 
@@ -52,7 +38,6 @@ const SignUpScreen = () => {
     setPasswordMin(false);
     setEmailWrong(false);
 
-    // setPasswordWrong(false);
     if (!name || !email || !password) {
       Alert.alert('Enter all required details.');
     } else {
@@ -61,11 +46,8 @@ const SignUpScreen = () => {
         setEmailWrong(true);
       } else {
         if (password.length >= 8) {
-          // if (password == passwordRepeat) {
           try {
             setLoadingPending(true);
-            // setTimeout(() => {},1000)
-            // console.log('ip:', AUTH_IP);
             const response = await axios.post(
               `http://${AUTH_IP}/api/v1/user/register`,
               {
@@ -74,14 +56,6 @@ const SignUpScreen = () => {
                 password: password,
               },
             );
-            // console.log('response:', response);
-            // const obj = {
-            //   token: response.data.token,
-            //   userID: response.data.user.id,
-            //   name: response.data.user.name,
-            // };
-            // const jsonValue = JSON.stringify(obj);
-            // await AsyncStorage.setItem('userDetail', jsonValue);
             navigation.navigate('ValidateEmailScreen', {
               token: response.data.token,
               userID: response.data.user.id,
@@ -89,13 +63,9 @@ const SignUpScreen = () => {
             });
             setLoadingPending(false);
           } catch (err) {
-            // setCheck(true);
             setLoadingPending(false);
             Alert.alert('Already registered.');
           }
-          // } else {
-          //   setPasswordWrong(true);
-          // }
         } else {
           setPasswordMin(true);
         }
@@ -118,11 +88,9 @@ const SignUpScreen = () => {
             style={[styles.logo]}
             resizeMode="contain"
           />
-          {/* </View> */}
-          {/* <Text style={styles.title}>Register</Text> */}
           <Text
             style={{
-              fontSize: 22,
+              fontSize: 20,
               fontFamily: 'Poppins-SemiBold',
               color: '#353535',
             }}>
@@ -190,67 +158,10 @@ const SignUpScreen = () => {
                 color: 'red',
                 fontFamily: 'Fredoka-Regular',
                 fontSize: 9,
-                // opacity: emailWrong ? 1 : 0,
               }}>
               Email is invalid
             </Text>
           )}
-          {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Feather
-              name="phone"
-              size={20}
-              color={'#757575'}
-              style={{marginRight: 3}}
-            />
-            <TextInput
-              onChangeText={setPhoneNumber}
-              placeholderTextColor="grey"
-              placeholder="Phone Number"
-              value={phoneNumber}
-              style={{
-                height: 40,
-                marginLeft: 4,
-                flex: 1,
-                borderBottomWidth: 1,
-                borderColor: '#d1cfcf',
-                marginVertical: 8,
-                borderRadius: 8,
-                paddingHorizontal: 10,
-                paddingBottom: 9,
-                fontSize: 13,
-                fontFamily: 'Poppins-Medium',
-                color: '#212121',
-              }}
-            />
-          </View> */}
-          {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <FontAwesome5
-              name="building"
-              size={20}
-              color={'#757575'}
-              style={{marginRight: 3}}
-            />
-            <TextInput
-              onChangeText={setCollegeName}
-              placeholderTextColor="grey"
-              placeholder="College Name"
-              value={collegeName}
-              style={{
-                height: 40,
-                marginLeft: 4,
-                flex: 1,
-                borderBottomWidth: 1,
-                borderColor: '#d1cfcf',
-                marginVertical: 5,
-                borderRadius: 8,
-                paddingHorizontal: 10,
-                paddingBottom: 9,
-                fontSize: 13,
-                fontFamily: 'Poppins-Medium',
-                color: '#212121',
-              }}
-            />
-          </View> */}
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Feather
               name="lock"
@@ -290,7 +201,6 @@ const SignUpScreen = () => {
                 color: 'red',
                 fontSize: 10,
                 fontFamily: 'Fredoka-Regular',
-                // opacity: passwordMin ? 1 : 0,
               }}>
               Password should be of minimum 8 characters
             </Text>
@@ -307,24 +217,22 @@ const SignUpScreen = () => {
                 },
                 shadowOpacity: 0.41,
                 shadowRadius: 9.11,
-                elevation: 14,
+                elevation: 7,
                 alignContent: 'center',
                 alignSelf: 'center',
                 marginTop: 40,
-                // backgroundColor: '#6949ff',
                 backgroundColor: '#19347d',
-                paddingVertical: 10,
+                paddingVertical: 9,
                 borderRadius: 13,
                 flex: 1,
-                maxWidth: width,
-                paddingHorizontal: width / 2 - 64,
+                width: width - 48,
               }}>
               <Text
                 style={{
                   color: 'white',
                   alignSelf: 'center',
                   fontFamily: 'Poppins-SemiBold',
-                  fontSize: 15,
+                  fontSize: 14,
                 }}>
                 Register
               </Text>
@@ -353,17 +261,6 @@ const SignUpScreen = () => {
               Privacy Policy
             </Text>
           </Text>
-          {/* <Pressable
-            onPress={onSignInPress}
-            style={{
-              alignContent: 'center',
-              alignSelf: 'center',
-              marginTop: 20,
-            }}>
-            <Text style={{color: 'black', fontFamily: 'Poppins-Regular'}}>
-              Have an account? Sign in
-            </Text>
-          </Pressable> */}
           <Pressable
             onPress={onSignInPress}
             style={{
@@ -371,16 +268,26 @@ const SignUpScreen = () => {
               alignSelf: 'center',
               marginTop: 20,
             }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{color: 'grey', fontFamily: 'Poppins-Medium'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 15,
+              }}>
+              <Text
+                style={{
+                  color: 'grey',
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 12,
+                }}>
                 Have an account?
               </Text>
               <Text
                 style={{
-                  // color: '#6949ff',
                   color: '#19347d',
                   fontFamily: 'Poppins-SemiBold',
                   marginLeft: 5,
+                  fontSize: 12,
                 }}>
                 Login
               </Text>
@@ -401,7 +308,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     fontFamily: 'Poppins-Medium',
-    // textAlign: 'center',
     textAlign: 'left',
     marginBottom: 10,
   },
@@ -415,10 +321,8 @@ const styles = StyleSheet.create({
     color: '#FDB075',
   },
   logo: {
-    width: 230,
-    height: 230,
-    // maxWidth: 260,
-    // maxHeight: 260,
+    width: 220,
+    height: 220,
     alignSelf: 'center',
   },
 });

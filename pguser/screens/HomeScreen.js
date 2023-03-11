@@ -22,8 +22,7 @@ import FamousPg from '../components/HomeScreenComponent/FamousPg';
 const HomeScreen = () => {
   const [location, setLocation] = useState(false);
   const navigation = useNavigation();
-  const {users, setLoginPending, loginPending, tokens, name, getFamousPg} =
-    useAuthContext();
+  const {users, setLoginPending, loginPending, tokens, name} = useAuthContext();
   useEffect(() => {
     getLocation();
   }, []);
@@ -49,7 +48,6 @@ const HomeScreen = () => {
             },
           },
         );
-        // console.log(response.data);
         setLoginPending(false);
       } catch (err) {
         setLoginPending(false);
@@ -64,17 +62,15 @@ const HomeScreen = () => {
         {
           title: 'Geolocation Permission',
           message: 'Can we access your location?',
-          buttonNeutral: 'Ask Me Later',
+          // buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
         },
       );
       console.log('granted', granted);
       if (granted === 'granted') {
-        // console.log('You can use Geolocation');
         return true;
       } else {
-        // console.log('You cannot use Geolocation');
         return false;
       }
     } catch (err) {
@@ -92,15 +88,12 @@ const HomeScreen = () => {
             setLocation(position);
           },
           error => {
-            // See error code charts below.
-            // console.log(error.code, error.message);
             setLocation(false);
           },
           {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
         );
       }
     });
-    // console.log(location);
   };
   const today = new Date();
   const greeting = () => {
@@ -113,6 +106,16 @@ const HomeScreen = () => {
     } else {
       return 'Good Night!';
     }
+  };
+  const getFamousPg = async () => {
+    console.log('hello');
+    // console.log(tokens);
+    const response = await axios.get(
+      `http://${USER_IP}/api/v1/user/${users}/pg?sort=ratings`,
+      {headers: {Authorization: `Bearer ${tokens}`}},
+    );
+    console.log('y');
+    console.log(response.data);
   };
   return (
     <ScrollView
@@ -129,26 +132,6 @@ const HomeScreen = () => {
           resizeMode: 'cover',
         }}
       />
-      {/* <View
-        style={{flexDirection: 'row', paddingHorizontal: 15, marginBottom: 2}}>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 14,
-            fontFamily: 'Poppins-Regular',
-          }}>
-          Hey {name} ,
-        </Text>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 14,
-            fontFamily: 'Poppins-Medium',
-          }}>
-          {' '}
-          {greeting()}
-        </Text>
-      </View> */}
       {/* Search Bar */}
       <Pressable
         style={styles.searchSection}
@@ -193,6 +176,9 @@ const HomeScreen = () => {
             }}>
             Please provide your location...
           </Text>
+          <Pressable onPress={getLocation}>
+            <Text>Provide Location</Text>
+          </Pressable>
         </View>
       )}
     </ScrollView>
