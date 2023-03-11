@@ -47,15 +47,15 @@ const OwnerSchema = new mongoose.Schema({
     default:"",
   },
   aadhaarno:{
-    type:String,
+    type:Object,
     default:""
   },
   addressproof:{
-    type:String,
+    type:Object,
     default:""
   },
   photos:{
-    type:[String],
+    type:[Object],
     default:[]
   },
   videos:{

@@ -101,23 +101,31 @@ const loginOwner = async (req, res) => {
   });
 };
 
-const ownerVerifyOTP = async (req, res) => {
-  const { ownerId } = req.user;
-  const { otp } = req.body;
-  if (!otp) {
+const ownerVerifyOTP = async (req,res) => {
+  const {email} = req.body
+  if(!email){
     throw new BadRequestError("Please provide OTP");
   }
-  const owner = await Owner.findOne({ _id: ownerId });
-  if (owner.mailotp != Number(otp)) {
+  const ownerx = await Owner.findOne({email});
+  const {otp} = req.body
+  if(!otp){
+    throw new BadRequestError("Please provide OTP");
+  }
+  const owner = await Owner.findOne({_id:ownerx._id})
+  if(owner.mailotp != Number(otp)){
     throw new BadRequestError("Please provide valid OTP");
   }
   res.status(StatusCodes.OK).json({ res: "Success" });
 };
 
-const changePassword = async (req, res) => {
-  const { ownerId } = req.user;
-  var { password } = req.body;
-  if (!password) {
+const changePassword = async (req,res) => {
+  const {email} = req.body
+  if(!email){
+    throw new BadRequestError("Please provide OTP");
+  }
+  const ownerx = await Owner.findOne({email});
+  var {password} = req.body
+  if(!password){
     throw new BadRequestError("Please provide password");
   }
   if (password.length < 6) {
@@ -125,13 +133,9 @@ const changePassword = async (req, res) => {
   }
   const salt = await bcrypt.genSalt(10);
   password = await bcrypt.hash(password, salt);
-  const owner = await Owner.findOneAndUpdate(
-    { _id: ownerId },
-    { password },
-    { runValidators: true, new: true, setDefaultsOnInsert: true }
-  );
-  res.status(StatusCodes.OK).json({ res: "Success" });
-};
+  const owner = await Owner.findOneAndUpdate({_id:ownerx._id},{password},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  res.status(StatusCodes.OK).json({res:'Success'})
+}
 
 const updateOwner = async (req, res) => {
   const { ownerId } = req.user;

@@ -13,8 +13,8 @@ router.route('/forgotpassword').patch(forgotPasswordOwner);
 
 const {ownerVerifyOTP,changePassword,updateOwner,displayOwner,createRoom,displayAllRooms,displayRoom,updateRoom,showInterests,mobileOTPSend,mobileOTPVerify} = require('../controllers/Owner')
 
-router.route('/verifyotp').post(OwnerMiddleware,ownerVerifyOTP)
-router.route('/changepassword').post(OwnerMiddleware,changePassword)
+router.route('/verifyotp').post(ownerVerifyOTP)
+router.route('/changepassword').post(changePassword)
 router.route('/updateowner').post(OwnerMiddleware,updateOwner)
 router.route('/displayowner').get(OwnerMiddleware,displayOwner)
 router.route('/createroom').post(OwnerMiddleware,createRoom)

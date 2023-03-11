@@ -62,9 +62,23 @@ app.post("/api/v1/addownerphoto",OwnerMiddleware, upload.single("pic"), async (r
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
   const ownerx = await Owner.findOne({_id:ownerId})
-  ownerx.photos.push(`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`)
+  var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
+  ownerx.photos.push(obj)
   const owner = await Owner.findOneAndUpdate({_id:ownerId},ownerx,{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
+});
+app.delete("/api/v1/deleteownerphoto", OwnerMiddleware,async (req, res) => {
+  const {name} = req.body;
+  const {ownerId} = req.user
+  console.log(name)
+  const deleteRef = ref(storage, name);
+  const resp = await deleteObject(deleteRef);
+  const owner = await Owner.findOne({_id:ownerId})
+  let photo = owner.photos.filter((own)=>{
+    return own.name != name
+  })
+  const ownerx = await Owner.findOneAndUpdate({_id:ownerId},{photos:photo},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  res.status(StatusCodes.OK).json({res:"Success",data:ownerx})
 });
 
 app.post("/api/v1/addownervideo",OwnerMiddleware, upload.single("pic"), async (req, res) => {
@@ -77,7 +91,8 @@ app.post("/api/v1/addownervideo",OwnerMiddleware, upload.single("pic"), async (r
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
   const ownerx = await Owner.findOne({_id:ownerId})
-  ownerx.videos.push(`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`)
+  var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
+  ownerx.videos.push(obj)
   const owner = await Owner.findOneAndUpdate({_id:ownerId},ownerx,{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
 });
@@ -96,7 +111,8 @@ app.post("/api/v1/addroomphoto/:rid",OwnerMiddleware, upload.single("pic"), asyn
   if(!roomx){
     throw new BadRequestError("Please provide Valid Room ID");
   }
-  roomx.photos.push(`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`)
+  var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
+  roomx.photos.push(obj)
   const room = await Room.findOneAndUpdate({_id:rid},roomx,{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:room})
 });
@@ -115,7 +131,8 @@ app.post("/api/v1/addroomvideo/:rid",OwnerMiddleware, upload.single("pic"), asyn
   if(!roomx){
     throw new BadRequestError("Please provide Valid Room ID");
   }
-  roomx.videos.push(`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`)
+  var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
+  roomx.videos.push(obj)
   const room = await Room.findOneAndUpdate({_id:rid},roomx,{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:room})
 });
@@ -129,8 +146,9 @@ app.post("/api/v1/addaddressproof",OwnerMiddleware, upload.single("pic"), async 
   const imageRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
-  const addressproof = `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`
-  const owner = await Owner.findOneAndUpdate({_id:ownerId},{addressproof},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  // const ownerx = await Owner.findOne({_id:ownerId})
+  var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
+  const owner = await Owner.findOneAndUpdate({_id:ownerId},{addressproof:obj},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
 });
 
@@ -143,8 +161,9 @@ app.post("/api/v1/addaadharproof",OwnerMiddleware, upload.single("pic"), async (
   const imageRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
-  const aadhaarno = `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`
-  const owner = await Owner.findOneAndUpdate({_id:ownerId},{aadhaarno},{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  //const ownerx = await Owner.findOne({_id:ownerId})
+  var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
+  const owner = await Owner.findOneAndUpdate({_id:ownerId},{aadhaarno:obj},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
 });
 
