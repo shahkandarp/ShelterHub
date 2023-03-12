@@ -44,13 +44,25 @@ app.use(xss());
 // const populate= require('./populate.json')
 // app.get('/populate',async(req,res)=>{
 //   const pgs = await Owner.find({})
-//   res.status(200).json(pgs)
+//   const newpgs = await Owner.insertMany(populate)
+//   res.status(200).json("success")
 
 // })
 //routes user
 app.use("/api/v1/user", userRouter);
 //routes owner
 app.use("/api/v1/owner",ownerRouter);
+
+//upload
+// app.post("/api/v1/upload",upload.single("pic"), async (req, res) => {
+
+//   const file = req.file;
+//   const imageRef = ref(storage, file.originalname);
+//   const metatype = { contentType: file.mimetype, name: file.originalname };
+//   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
+//   console.log(snapshot)
+//   res.send("success")
+// });
 
 //images/videos routes
 app.post("/api/v1/addownerphoto",OwnerMiddleware, upload.single("pic"), async (req, res) => {
@@ -71,7 +83,6 @@ app.post("/api/v1/addownerphoto",OwnerMiddleware, upload.single("pic"), async (r
 app.delete("/api/v1/deleteownerphoto", OwnerMiddleware,async (req, res) => {
   const {name} = req.body;
   const {ownerId} = req.user
-  console.log(name)
   const deleteRef = ref(storage, name);
   const resp = await deleteObject(deleteRef);
   const owner = await Owner.findOne({_id:ownerId})
@@ -100,7 +111,6 @@ app.post("/api/v1/addownervideo",OwnerMiddleware, upload.single("pic"), async (r
 app.delete("/api/v1/deleteownervideo", OwnerMiddleware,async (req, res) => {
   const {name} = req.body;
   const {ownerId} = req.user
-  console.log(name)
   const deleteRef = ref(storage, name);
   const resp = await deleteObject(deleteRef);
   const owner = await Owner.findOne({_id:ownerId})
@@ -195,7 +205,6 @@ app.post("/api/v1/addaddressproof",OwnerMiddleware, upload.single("pic"), async 
   const imageRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
-  // const ownerx = await Owner.findOne({_id:ownerId})
   var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
   const owner = await Owner.findOneAndUpdate({_id:ownerId},{addressproof:obj},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
@@ -220,7 +229,6 @@ app.post("/api/v1/addaadharproof",OwnerMiddleware, upload.single("pic"), async (
   const imageRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
   const snapshot = await uploadBytes(imageRef, file.buffer, metatype)
-  //const ownerx = await Owner.findOne({_id:ownerId})
   var obj = {name: snapshot.ref._location.path_,url:`https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`};
   const owner = await Owner.findOneAndUpdate({_id:ownerId},{aadhaarno:obj},{ runValidators: true, new: true, setDefaultsOnInsert: true })
   res.status(StatusCodes.OK).json({res:'Success',data:owner})
