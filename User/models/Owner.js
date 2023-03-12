@@ -59,7 +59,7 @@ const OwnerSchema = new mongoose.Schema({
     default:[]
   },
   videos:{
-    type:[String],
+    type:[Object],
     default:[]
   },
   Rules:{
