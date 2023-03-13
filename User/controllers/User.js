@@ -172,12 +172,13 @@ const getPGDetails = async (req, res) => {
   if (!pg) {
     throw new BadRequestError("No PG with provided pg id!");
   } else {
+    const rooms = await Room.find({ownerId:pid})
     const views = pg.views + 1;
-    const updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views},{
+    let updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views},{
       new:true,
       runValidators:true
     })
-    res.status(StatusCodes.OK).json({ res: "success", data: updated_pg });
+    res.status(StatusCodes.OK).json({ res: "success", data: {pg:updated_pg ,rooms}});
   }
 };
 const getSpecificPgs = async (req, res) => {
