@@ -7,6 +7,7 @@ const SearchComponent = ({searchResult}) => {
   const onPress = () => {
     navigation.navigate('EventDetailScreen', {eventId: searchResult._id});
   };
+  // console.log(searchResult);
   return (
     <Pressable
       onPress={onPress}
@@ -21,18 +22,31 @@ const SearchComponent = ({searchResult}) => {
       <View>
         <Image
           source={{uri: searchResult.photos[0]}}
-          style={{height: 50, width: 50, borderRadius: 25}}
+          style={{height: 45, width: 45, borderRadius: 22.5}}
         />
       </View>
-      <Text
-        style={{
-          color: 'black',
-          fontFamily: 'Poppins-Regular',
-          fontSize: 13,
-          marginHorizontal: 8,
-        }}>
-        {searchResult.name}
-      </Text>
+      <View>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'Poppins-Regular',
+            fontSize: 13,
+            marginHorizontal: 8,
+          }}>
+          {searchResult.propertytitle}
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={{
+            color: 'grey',
+            fontFamily: 'Poppins-Regular',
+            fontSize: 11,
+            marginHorizontal: 8,
+            maxWidth: 250,
+          }}>
+          {searchResult.address}
+        </Text>
+      </View>
       {/* <Image
         source={{uri: dish.imageUrl}}
         style={{width: 40, height: 40, borderRadius: 20}}

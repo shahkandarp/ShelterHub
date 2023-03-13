@@ -1,15 +1,32 @@
-import {View, Text, TextInput, StyleSheet, FlatList, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useAuthContext} from '../../src/Context/AuthContext';
 import axios from 'axios';
 import SearchComponent from '../../components/HomeScreenComponent/SearchComponent';
 import {USER_IP, PRIMARY_COLOR} from '@env';
+import {useRoute} from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Geolocation from 'react-native-geolocation-service';
 
 const SearchScreen = () => {
   const {name, tokens, users} = useAuthContext();
   const [search, setSearch] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
+  const route = useRoute();
+  const names = route?.params?.names;
+  const region = route?.params?.region;
+
   const onPress = async () => {
     if (search?.length >= 2) {
       const response = await axios.get(
@@ -23,11 +40,12 @@ const SearchScreen = () => {
   };
   const today = new Date();
   const greeting = () => {
-    if (today.getHours() < 12 && today.getHours() > 6) {
+    // console.log(today.getHours());
+    if (today.getHours() < 12 && today.getHours() >= 4) {
       return 'Good Morning';
-    } else if (today.getHours() > 12 && today.getHours() < 16) {
+    } else if (today.getHours() >= 12 && today.getHours() < 16) {
       return 'Good Afternoon!';
-    } else if (today.getHours() > 16 && today.getHours() < 23) {
+    } else if (today.getHours() >= 16 && today.getHours() < 22) {
       return 'Good Evening!';
     } else {
       return 'Good Night!';
@@ -35,39 +53,93 @@ const SearchScreen = () => {
   };
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
-      <Image
-        source={require('../../data/logo.png')}
+      <View
         style={{
-          width: 90,
-          height: 45,
-          marginTop: 8,
-          alignSelf: 'center',
-          resizeMode: 'cover',
-        }}
-      />
-      <View style={{paddingHorizontal: 15, marginBottom: 2}}>
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginHorizontal: 10,
+          marginBottom: 3,
+          marginTop: 10,
+        }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <MaterialIcons name="location-pin" size={22} color={PRIMARY_COLOR} />
+          <View style={{marginHorizontal: 5}}>
+            <TouchableOpacity
+              // onPress={getLocation}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                numberOfLines={1}
+                // maxFontSizeMultiplier={1}
+                minimumFontScale={10}
+                style={{
+                  color: PRIMARY_COLOR,
+                  fontSize: 12,
+                  fontFamily: 'Poppins-SemiBold',
+                  maxWidth: 140,
+                }}>
+                {names}
+              </Text>
+
+              <AntDesign
+                name="caretdown"
+                size={11}
+                style={{marginHorizontal: 2}}
+                color={PRIMARY_COLOR}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 10,
+                fontFamily: 'Poppins-Regular',
+              }}>
+              {region}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity>
+          <Ionicons
+            name="ios-notifications-outline"
+            size={20}
+            color={'black'}
+          />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginHorizontal: 15,
+          marginBottom: 4,
+        }}>
         <Text
           style={{
             color: 'black',
-            fontSize: 15,
+            fontSize: 12.5,
             fontFamily: 'Poppins-Regular',
           }}>
-          Hey {name},
+          Hey {name},{' '}
         </Text>
         <Text
           style={{
             color: 'black',
-            fontSize: 15,
+            fontSize: 12.5,
             fontFamily: 'Poppins-Medium',
           }}>
           {greeting()}
         </Text>
       </View>
+
+      {/* Search Bar */}
       <View style={styles.searchSection}>
         <Ionicons
           style={styles.searchIcon}
           name="ios-search"
-          size={20}
+          size={16}
           color={PRIMARY_COLOR}
         />
         <TextInput
@@ -75,7 +147,7 @@ const SearchScreen = () => {
           value={search}
           onChangeText={setSearch}
           onTextInput={onPress}
-          placeholder="Search PGs , Hostels..."
+          placeholder="Search for PGs, Hostels..."
           placeholderTextColor={'grey'}
           underlineColorAndroid="transparent"
         />
@@ -96,18 +168,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    marginTop: 4,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,
-    marginHorizontal: 20,
+    backgroundColor: '#f5f6f7',
+    marginTop: 1,
+    borderRadius: 25,
+    marginHorizontal: 15,
     marginBottom: 8,
   },
   searchIcon: {
@@ -117,11 +181,14 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingLeft: 0,
-    borderRadius: 10,
-    backgroundColor: '#fff',
+    borderRadius: 25,
+    backgroundColor: '#f5f6f7',
     color: PRIMARY_COLOR,
     height: 45,
+    fontSize: 12,
+    // marginTop: 5,
     justifyContent: 'center',
+    fontFamily: 'Poppins-Regular',
   },
 });
 export default SearchScreen;

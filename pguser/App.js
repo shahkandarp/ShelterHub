@@ -8,7 +8,9 @@ import Router from './Router/index';
 import SplashScreen from 'react-native-splash-screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AuthContextProvider from './src/Context/AuthContext';
+import {enableLatestRenderer} from 'react-native-maps';
 
+enableLatestRenderer();
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
