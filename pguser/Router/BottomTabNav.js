@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import FilterScreen from '../screens/FilterScreen';
 import SearchScreen from '../screens/HomeScreen/SearchScreen';
+import PgDetailScreen from '../screens/HomeScreen/PgDetailScreen';
 import {PRIMARY_COLOR} from '@env';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -20,11 +21,11 @@ const BottomTabNav = () => {
         tabBarInactiveTintColor: '#e0e9ff',
         tabBarActiveTintColor: PRIMARY_COLOR,
         tabBarStyle: {
-          height: 54,
+          height: 48,
           position: 'absolute',
-          bottom: 15,
-          right: 16,
-          left: 16,
+          bottom: 1,
+          right: 7,
+          left: 7,
           borderRadius: 13,
           paddingBottom: 6,
         },
@@ -37,7 +38,7 @@ const BottomTabNav = () => {
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <Entypo name="home" size={20} color={color} />
+            <Entypo name="home" size={16} color={color} />
           ),
         }}
       />
@@ -49,7 +50,7 @@ const BottomTabNav = () => {
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="filter" size={20} color={color} />
+            <FontAwesome5 name="filter" size={16} color={color} />
           ),
         }}
       />
@@ -61,7 +62,7 @@ const BottomTabNav = () => {
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="history" size={20} color={color} />
+            <FontAwesome5 name="history" size={16} color={color} />
           ),
         }}
       />
@@ -73,7 +74,7 @@ const BottomTabNav = () => {
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="user-alt" size={20} color={color} />
+            <FontAwesome5 name="user-alt" size={16} color={color} />
           ),
         }}
       />
@@ -134,6 +135,7 @@ const HomeStack = () => {
   <Stack.Screen component={EventDetailScreen} name="EventDetailScreen" />*/}
       <Stack.Screen component={HomeScreen} name="HomeScreen" />
       <Stack.Screen component={SearchScreen} name="SearchScreen" />
+      <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
     </Stack.Navigator>
   );
 };

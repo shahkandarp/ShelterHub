@@ -14,32 +14,34 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {USER_IP} from '@env';
+import ImageCarouselComponent from '../../components/HomeScreenComponent/ImageCarouselComponent';
 // import ImageCarouselData from '../../data/ImageCarouselData';
 // import {ScrollView} from 'react-native-gesture-handler';
 
 const {width: screenWidth} = Dimensions.get('window');
 
-const ImageCarousel = props => {
+const ImageCarousel = ({featured}) => {
   const [entries, setEntries] = useState([]);
   const carouselRef = useRef(null);
+  // console.log(featured);
   return (
-    <View style={{height: 200, marginTop: 8}}>
+    <View style={{height: 130, marginTop: 3}}>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          paddingHorizontal: 20,
+          paddingHorizontal: 15,
         }}>
         <Text
           style={{
             color: '#191919',
-            fontSize: 15,
+            fontSize: 13,
             fontFamily: 'Poppins-Medium',
           }}>
           Featured Hostels
         </Text>
       </View>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <ScrollView
           style={{paddingHorizontal: 7}}
           horizontal={true}
@@ -49,10 +51,10 @@ const ImageCarousel = props => {
             <Image
               source={require('../../data/hotel4.jpg')}
               style={{
-                width: 250,
-                height: 150,
+                width: 228,
+                height: 131,
                 borderRadius: 10,
-                marginHorizontal: 10,
+                marginHorizontal: 6,
                 borderWidth: 1,
                 // borderColor: '#c2c2c2',
               }}
@@ -61,10 +63,10 @@ const ImageCarousel = props => {
           <Image
             source={require('../../data/hotel5.jpg')}
             style={{
-              width: 250,
-              height: 150,
+              width: 228,
+              height: 131,
               borderRadius: 10,
-              marginHorizontal: 10,
+              marginHorizontal: 6,
               borderWidth: 1,
               // borderColor: '#c2c2c2',
             }}
@@ -72,10 +74,10 @@ const ImageCarousel = props => {
           <Image
             source={require('../../data/hotel3.jpg')}
             style={{
-              width: 250,
-              height: 150,
+              width: 228,
+              height: 131,
               borderRadius: 10,
-              marginHorizontal: 10,
+              marginHorizontal: 6,
               borderWidth: 1,
               // borderColor: '#c2c2c2',
             }}
@@ -83,27 +85,36 @@ const ImageCarousel = props => {
           <Image
             source={require('../../data/hotel1.jpg')}
             style={{
-              width: 250,
-              height: 150,
+              width: 228,
+              height: 131,
               borderRadius: 10,
-              marginHorizontal: 10,
+              marginHorizontal: 6,
               borderWidth: 1,
               // borderColor: '#c2c2c2',
             }}
           />
           <Image
-            source={require('../../data/hotel2.jpg')}
+            source={require('../../data/oyo3.jpg')}
             style={{
-              width: 250,
-              height: 150,
+              width: 228,
+              height: 131,
               borderRadius: 10,
-              marginHorizontal: 10,
+              marginHorizontal: 6,
               borderWidth: 1,
               // borderColor: '#c2c2c2',
             }}
           />
         </ScrollView>
-      </View>
+      </View> */}
+      <FlatList
+        data={featured}
+        horizontal
+        style={{marginBottom: 20, marginTop: 5}}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => <ImageCarouselComponent famous={item} />}
+        keyExtractor={item => item.name}
+      />
     </View>
   );
 };
