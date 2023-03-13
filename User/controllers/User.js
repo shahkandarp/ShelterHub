@@ -12,6 +12,7 @@ const {
 const nodemailer = require("nodemailer");
 const fast2sms = require('fast-two-sms');
 const bcrypt = require("bcryptjs");
+const City = require("../models/City");
 
 //utility
 const calculateDistance = (lat1, lat2, lon1, lon2) => {
@@ -171,7 +172,12 @@ const getPGDetails = async (req, res) => {
   if (!pg) {
     throw new BadRequestError("No PG with provided pg id!");
   } else {
-    res.status(StatusCodes.OK).json({ res: "success", data: pg });
+    const views = pg.views + 1;
+    const updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views},{
+      new:true,
+      runValidators:true
+    })
+    res.status(StatusCodes.OK).json({ res: "success", data: updated_pg });
   }
 };
 const getSpecificPgs = async (req, res) => {
@@ -182,7 +188,7 @@ const getSpecificPgs = async (req, res) => {
     throw new NotFoundError("User does not exists!");
   } else {
     if (search) {
-      const pgs = await Owner.find({ name: { $regex: search, $options: "i" } });
+      const pgs = await Owner.find({ propertytitle: { $regex: search, $options: "i" } });
       res.status(StatusCodes.OK).json({ res: "success", data: pgs });
     }
     if (sort) {
@@ -204,7 +210,36 @@ const getNearbyPgs = async (req, res) => {
   }
 };
 const getFilteredPgs = async (req, res) => {
-  res.status(StatusCodes.OK).send("hI");
+  let req_obj = req.body;
+  if(req_obj.cityname){
+    req_obj.cityname = {$regex:req.body.cityname,$options:"i"}
+  }
+  if (req_obj.Filters) {
+    const operatorMap = {
+      '>': '$gt',
+      '>=': '$gte',
+      '=': '$eq',
+      '<': '$lt',
+      '<=': '$lte',
+    }
+    const regEx = /\b(<|>|>=|=|<|<=)\b/g
+    let filters = req_obj.Filters.replace(
+      regEx,
+      (match) => `&${operatorMap[match]}&`
+    )
+    const options = ['price', 'ratings']
+    filters = filters.split(',').forEach((item) => {
+      const [field1,op1, val1, field2,op2,val2] = item.split('&')
+
+      if (options.includes(field1)) {
+        req_obj[field1] = { [op1]: Number(val1),[op2]:Number(val2) }
+
+      }
+    })
+    delete req_obj.Filters
+  }
+  const pgs = await Owner.find(req_obj);
+  res.status(StatusCodes.OK).json({res:"success",data:pgs});
 };
 
 //user
@@ -267,6 +302,12 @@ const getCurrentInterests = async (req, res) => {
 const createUserInterest = async (req, res) => {
   res.status(StatusCodes.OK).send("hI");
 };
+
+//cities
+const getCities = async(req,res)=>{
+  const cities = await City.find({})
+  res.status(StatusCodes.OK).json({res:"success",data:cities})
+}
 module.exports = {
   getSpecificPgs,
   getPGDetails,
@@ -283,4 +324,5 @@ module.exports = {
   loginUser,
   sendUserOTP,
   verifyUserOTP,
+  getCities
 };
