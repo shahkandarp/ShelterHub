@@ -33,11 +33,11 @@ const RoomSchema = new mongoose.Schema({
     default:""
   },
   photos:{
-    type:[String],
+    type:[Object],
     default:[]
   },
   videos:{
-    type:[String],
+    type:[Object],
     default:[]
   },
   price:{

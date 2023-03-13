@@ -9,6 +9,11 @@ const CitySchema = new mongoose.Schema({
   places:{
     type:[Object],
     default:[]
+  },
+  image:{
+    type:String,
+    required:[true,"Please provide image url"],
+    default:""
   }
 });
 

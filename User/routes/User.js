@@ -18,6 +18,7 @@ const {
   loginUser,
   sendUserOTP,
   verifyUserOTP,
+  getCities
 } = require("../controllers/User");
 const authMiddleware = require('../middleware/authentication_user');
 
@@ -44,4 +45,7 @@ router.route("/:email/password").post(changeUserPassword); //change password [re
 router.route("/:uid/interest").get(authMiddleware,getCurrentInterests); //pgs in which user is interested
 router.route("/:uid/interest").post(authMiddleware,createUserInterest); //call this api when the user clicks interested button [req.body={room:room_id}]
 
+
+//cities
+router.route("/city").get(authMiddleware,getCities); //get all the cities
 module.exports = router;

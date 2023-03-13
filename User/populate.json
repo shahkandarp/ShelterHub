@@ -1,0 +1,458 @@
+[
+  {
+    "phoneno": "8200470050",
+    "lat": {
+      "$numberDecimal": "22.55199714735032"
+    },
+    "lng": {
+      "$numberDecimal": "72.92254571164636"
+    },
+    "phoneotp": 6681,
+    "mailotp": 1312,
+    "address": "7/b, Parvati Chambers, Pratapnagar Road, Opp. Apsara Cinema, Pratapnagar Road",
+    "aadhaarno": {
+      "name": "Screenshot (397).png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (397).png?alt=media"
+    },
+    "addressproof": {
+      "name": "Singing.png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Singing.png?alt=media"
+    },
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [""],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Anand",
+    "famousplacedistance": [],
+    "isMale": true,
+    "isFemale": false,
+    "isAC": true,
+    "isCooler": false,
+    "typeofpg": "PG",
+    "isWIFI": true,
+    "isHotWater": true,
+    "mode": "LIGHT",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "",
+    "propertytitle": "Stanza living penza house",
+    "_id": "640c1b6c38d1f638948af403",
+    "name": "Pratham Shah",
+    "email": "prathamshah019@gmail.com",
+    "password": "$2a$10$ad/6bgpxAAjwj5qvecFweO90762VQ/MnzBDoDUw7XFpmdqae1lNgW",
+    "__v": 0
+  },
+  {
+    "phoneno": "7016763640",
+    "lat": {
+      "$numberDecimal": "22.556443132480577"
+    },
+    "lng": {
+      "$numberDecimal": "72.93433830481341"
+    },
+    "phoneotp": 6681,
+    "mailotp": 1312,
+    "address": "A5 SVNIT Quarters,Icchanath,Surat",
+    "aadhaarno": {
+      "name": "Screenshot (397).png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (397).png?alt=media"
+    },
+    "addressproof": {
+      "name": "Singing.png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Singing.png?alt=media"
+    },
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [""],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Vidyanagar",
+    "famousplacedistance": [],
+    "isMale": false,
+    "isFemale": true,
+    "isAC": true,
+    "isCooler": true,
+    "typeofpg": "FAMILYROOMS",
+    "isWIFI": true,
+    "isHotWater": true,
+    "mode": "LIGHT",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "",
+    "propertytitle": "Laxmi vilas",
+    "_id": "640c1b6c38d1f638948af408",
+    "name": "Haiya Prajapati",
+    "email": "hetvrunda@gmail.com",
+    "password": "$2a$10$VOTtran2bGEmr6hSf8qeYufHcN77.saUbxnIacdWjEUCZU.AsbZ16",
+    "__v": 0
+  },
+  {
+    "phoneno": "7016763640",
+    "lat": {
+      "$numberDecimal": "22.552179132677704"
+    },
+    "lng": {
+      "$numberDecimal": "72.9337097007453"
+    },
+    "phoneotp": 6681,
+    "mailotp": 1312,
+    "address": "A5 SVNIT Quarters,Icchanath,Surat",
+    "aadhaarno": {
+      "name": "Screenshot (397).png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (397).png?alt=media"
+    },
+    "addressproof": {
+      "name": "Singing.png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Singing.png?alt=media"
+    },
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [""],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Vidyanagar",
+    "famousplacedistance": [],
+    "isMale": true,
+    "isFemale": false,
+    "isAC": false,
+    "isCooler": false,
+    "typeofpg": "PG",
+    "isWIFI": false,
+    "isHotWater": false,
+    "mode": "LIGHT",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "",
+    "propertytitle": "BAPS APC",
+    "_id": "640c1b6c38d1f638948af407",
+    "name": "Peter Pathan",
+    "email": "prathamshah19@gmail.com",
+    "password": "$2a$10$VOTtran2bGEmr6hSf8qeYufHcN77.saUbxnIacdWjEUCZU.AsbZ16",
+    "__v": 0
+  },
+  {
+    "phoneno": "7016763640",
+    "lat": {
+      "$numberDecimal": "22.556634210859993"
+    },
+    "lng": {
+      "$numberDecimal": "72.91767482041857"
+    },
+    "phoneotp": 6681,
+    "mailotp": 1312,
+    "address": "16, 16, Shambhupark Society, Navavadaj",
+    "aadhaarno": {
+      "name": "Screenshot (397).png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (397).png?alt=media"
+    },
+    "addressproof": {
+      "name": "Singing.png",
+      "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Singing.png?alt=media"
+    },
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [""],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Vidyanagar",
+    "famousplacedistance": [],
+    "isMale": true,
+    "isFemale": true,
+    "isAC": false,
+    "isCooler": false,
+    "typeofpg": "HOSTEL",
+    "isWIFI": true,
+    "isHotWater": true,
+    "mode": "LIGHT",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "",
+    "propertytitle": "Khadayata chhatralaya",
+    "_id": "640c1b6c38d1f638948af404",
+    "name": "Het Patel",
+    "email": "hetpatel5542@gmail.com",
+    "password": "$2a$10$VOTtran2bGEmr6hSf8qeYufHcN77.saUbxnIacdWjEUCZU.AsbZ16",
+    "__v": 0
+  },
+  {
+    "phoneno": "7016763640",
+    "lat": {
+      "$numberDecimal": "22.55719575491725"
+    },
+    "lng": {
+      "$numberDecimal": "72.92139137098722"
+    },
+    "phoneotp": 6681,
+    "mailotp": 1312,
+    "address": "G-3/a, Klassic Avenue, Ashram Road, Opp Sales India Nr Toran Hotel, Ashram Road",
+    "aadhaarno": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/aadhar_card.jpg?alt=media",
+    "addressproof": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/656543418.PDF?alt=media",
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [""],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Vidyanagar",
+    "famousplacedistance": [],
+    "isMale": true,
+    "isFemale": false,
+    "isAC": false,
+    "isCooler": false,
+    "typeofpg": "FAMILYROOMS",
+    "isWIFI": true,
+    "isHotWater": true,
+    "mode": "DARK",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "",
+    "propertytitle": "VRINDAVAN",
+    "_id": "640c1b6c38d1f638948af405",
+    "name": "Kirtan Prajapati",
+    "email": "wade.hirthe51@gmail.com",
+    "password": "$2a$10$VOTtran2bGEmr6hSf8qeYufHcN77.saUbxnIacdWjEUCZU.AsbZ16",
+    "__v": 0
+  },
+  {
+    "phoneno": "7016763640",
+    "lat": {
+      "$numberDecimal": "22.560169643648013"
+    },
+    "lng": {
+      "$numberDecimal": "72.92268758490876"
+    },
+    "phoneotp": 6681,
+    "mailotp": 1312,
+    "address": "A5 SVNIT Quarters,Icchanath,Surat",
+    "aadhaarno": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/aadhar_card.jpg?alt=media",
+    "addressproof": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/656543418.PDF?alt=media",
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [""],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Vidyanagar",
+    "famousplacedistance": [],
+    "isMale": true,
+    "isFemale": false,
+    "isAC": false,
+    "isCooler": true,
+    "typeofpg": "PG",
+    "isWIFI": false,
+    "isHotWater": true,
+    "mode": "LIGHT",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "",
+    "propertytitle": "Nishtha 2",
+    "_id": "640c1b6c38d1f638948af406",
+    "name": "Asharam Bapu",
+    "email": "prathamshah1903@gmail.com",
+    "password": "$2a$10$VOTtran2bGEmr6hSf8qeYufHcN77.saUbxnIacdWjEUCZU.AsbZ16",
+    "__v": 0
+  },
+  {
+    "phoneno": "7016700396",
+    "lat": {
+      "$numberDecimal": "22.55807998734649"
+    },
+    "lng": {
+      "$numberDecimal": "72.94979995116591"
+    },
+    "phoneotp": 7603,
+    "mailotp": 1734,
+    "address": "131 Test landmark, anand , 388325",
+    "aadhaarno": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot_1677726580.png?alt=media",
+    "addressproof": "",
+    "photos": [
+      {
+        "name": "Screenshot (86).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (86).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      },
+      {
+        "name": "Screenshot (74).png",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Screenshot (74).png?alt=media"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4",
+        "url": "https://firebasestorage.googleapis.com/v0/b/pgrental-8e454.appspot.com/o/Document and 4 more pages - Personal - Microsoft​ Edge 2022-03-22 20-30-29.mp4?alt=media"
+      }
+    ],
+    "Rules": [
+      {
+        "id": "7rmm7bnowmk",
+        "text": "Free breakfast\nFree Lunch\nFree Evening breakfast\nFree dinner\nFree water \nCosting is based on use of washroom and bathroom.\nThanks kirtan ,nice work "
+      }
+    ],
+    "About": "",
+    "interestedusers": 0,
+    "views": 0,
+    "ratings": {
+      "$numberDecimal": "0"
+    },
+    "noofraters": 0,
+    "cityname": "Vidyanagar",
+    "famousplacedistance": [],
+    "isMale": true,
+    "isFemale": true,
+    "isAC": true,
+    "isCooler": true,
+    "typeofpg": "PG",
+    "isWIFI": true,
+    "isHotWater": true,
+    "mode": "LIGHT",
+    "phoneVerified": true,
+    "detailsEntered": false,
+    "nameasperaadhar": "Kirtan Prajapati",
+    "propertytitle": "Radhe residency ",
+    "_id": "640c41e76333024cd5af97f0",
+    "email": "Kirtanprajapati24@gmail.com",
+    "password": "$2a$10$nRYqbYx6czAoSClb2SKaiOhz514Xq.vchrBrggprMEpWvdOsfE1hi",
+    "name": "Kirtna",
+    "__v": 0
+  }
+]
