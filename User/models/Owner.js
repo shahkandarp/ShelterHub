@@ -20,19 +20,19 @@ const OwnerSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please provide password"],
-    minlength:6
+    minlength: 6,
   },
-  phoneno:{
+  phoneno: {
     type: String,
-    default:"",
+    default: "",
   },
-  lat:{
-    type:mongoose.Decimal128,
-    default:0
+  lat: {
+    type: mongoose.Decimal128,
+    default: 0,
   },
-  lng:{
-    type:mongoose.Decimal128,
-    default:0
+  lng: {
+    type: mongoose.Decimal128,
+    default: 0,
   },
   phoneotp: {
     type: Number,
@@ -44,106 +44,110 @@ const OwnerSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    default:"",
+    default: "",
   },
-  aadhaarno:{
-    type:Object,
-    default:""
+  aadhaarno: {
+    type: Object,
+    default: "",
   },
-  addressproof:{
-    type:Object,
-    default:""
+  addressproof: {
+    type: Object,
+    default: "",
   },
-  photos:{
-    type:[Object],
-    default:[]
+  photos: {
+    type: [Object],
+    default: [],
   },
-  videos:{
-    type:[Object],
-    default:[]
+  videos: {
+    type: [Object],
+    default: [],
   },
-  Rules:{
-    type:[Object],
-    default:""
+  Rules: {
+    type: [Object],
+    default: "",
   },
-  About:{
-    type:String,
-    default:""
+  About: {
+    type: String,
+    default: "",
   },
-  interestedusers:{
-    type:Number,
-    default:0
+  interestedusers: {
+    type: Number,
+    default: 0,
   },
-  views:{
-    type:Number,
-    default:0
+  views: {
+    type: Number,
+    default: 0,
   },
-  ratings:{
-    type:mongoose.Decimal128,
-    default:0
+  ratings: {
+    type: mongoose.Decimal128,
+    default: 0,
   },
-  noofraters:{
-    type:Number,
-    default:0
+  noofraters: {
+    type: Number,
+    default: 0,
   },
-  cityname:{
-    type:String,
-    default:'Kota'
+  cityname: {
+    type: String,
+    default: "Kota",
   },
-  famousplacedistance:{
-    type:[Object],
-    default:[]
+  famousplacedistance: {
+    type: [Object],
+    default: [],
   },
-  isMale:{
-    type:Boolean,
-    default:false
+  isMale: {
+    type: Boolean,
+    default: false,
   },
-  isFemale:{
-    type:Boolean,
-    default:false
+  isFemale: {
+    type: Boolean,
+    default: false,
   },
-  isAC:{
-    type:Boolean,
-    default:false
+  isAC: {
+    type: Boolean,
+    default: false,
   },
-  isCooler:{
-    type:Boolean,
-    default:false
+  isCooler: {
+    type: Boolean,
+    default: false,
   },
-  typeofpg:{
-    type:String,
-    enum:['PG','FAMILYROOMS','HOSTEL'],
-    default:"PG"
+  typeofpg: {
+    type: String,
+    enum: ["PG", "FAMILYROOMS", "HOSTEL"],
+    default: "PG",
   },
-  isWIFI:{
-    type:Boolean,
-    default:false
+  isWIFI: {
+    type: Boolean,
+    default: false,
   },
-  isHotWater:{
-    type:Boolean,
-    default:false
+  isHotWater: {
+    type: Boolean,
+    default: false,
   },
-  mode:{
-    type:String,
-    enum:['DARK','LIGHT'],
-    default:'LIGHT'
+  mode: {
+    type: String,
+    enum: ["DARK", "LIGHT"],
+    default: "LIGHT",
   },
-  phoneVerified:{
-    type:Boolean,
-    default:false
+  phoneVerified: {
+    type: Boolean,
+    default: false,
   },
-  detailsEntered:{
-    type:Boolean,
-    default:false
+  detailsEntered: {
+    type: Boolean,
+    default: false,
   },
-  nameasperaadhar:{
-    type:String,
-    default:""
+  nameasperaadhar: {
+    type: String,
+    default: "",
   },
-  propertytitle:{
-    type:String,
-    default:""
-  }
+  propertytitle: {
+    type: String,
+    default: "",
+  },
+  roomFilled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 OwnerSchema.pre("save", async function () {

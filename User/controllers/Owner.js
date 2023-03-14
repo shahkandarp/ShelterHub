@@ -96,36 +96,37 @@ const loginOwner = async (req, res) => {
       id: owner._id,
       phoneVerified: owner.phoneVerified,
       detailsEntered: owner.detailsEntered,
+      roomFilled: owner.roomFilled,
     },
     token,
   });
 };
 
-const ownerVerifyOTP = async (req,res) => {
-  const {email} = req.body
-  if(!email){
+const ownerVerifyOTP = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
     throw new BadRequestError("Please provide OTP");
   }
-  const ownerx = await Owner.findOne({email});
-  const {otp} = req.body
-  if(!otp){
+  const ownerx = await Owner.findOne({ email });
+  const { otp } = req.body;
+  if (!otp) {
     throw new BadRequestError("Please provide OTP");
   }
-  const owner = await Owner.findOne({_id:ownerx._id})
-  if(owner.mailotp != Number(otp)){
+  const owner = await Owner.findOne({ _id: ownerx._id });
+  if (owner.mailotp != Number(otp)) {
     throw new BadRequestError("Please provide valid OTP");
   }
   res.status(StatusCodes.OK).json({ res: "Success" });
 };
 
-const changePassword = async (req,res) => {
-  const {email} = req.body
-  if(!email){
+const changePassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
     throw new BadRequestError("Please provide OTP");
   }
-  const ownerx = await Owner.findOne({email});
-  var {password} = req.body
-  if(!password){
+  const ownerx = await Owner.findOne({ email });
+  var { password } = req.body;
+  if (!password) {
     throw new BadRequestError("Please provide password");
   }
   if (password.length < 6) {
@@ -133,9 +134,13 @@ const changePassword = async (req,res) => {
   }
   const salt = await bcrypt.genSalt(10);
   password = await bcrypt.hash(password, salt);
-  const owner = await Owner.findOneAndUpdate({_id:ownerx._id},{password},{ runValidators: true, new: true, setDefaultsOnInsert: true })
-  res.status(StatusCodes.OK).json({res:'Success'})
-}
+  const owner = await Owner.findOneAndUpdate(
+    { _id: ownerx._id },
+    { password },
+    { runValidators: true, new: true, setDefaultsOnInsert: true }
+  );
+  res.status(StatusCodes.OK).json({ res: "Success" });
+};
 
 const updateOwner = async (req, res) => {
   const { ownerId } = req.user;
@@ -274,6 +279,18 @@ const mobileOTPVerify = async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "Success" });
 };
 
+const getStatus = async (req, res) => {
+  const { ownerId, expires } = req.user;
+  console.log(expires);
+  const owner = await Owner.findOne({ _id: ownerId });
+  const obj = {
+    phoneVerified: owner.phoneVerified,
+    detailsEntered: owner.detailsEntered,
+    roomFilled: owner.roomFilled,
+  };
+  res.status(StatusCodes.OK).json({ res: "Success", data: obj });
+};
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -289,4 +306,5 @@ module.exports = {
   showInterests,
   mobileOTPSend,
   mobileOTPVerify,
+  getStatus,
 };
