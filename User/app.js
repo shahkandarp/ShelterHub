@@ -55,7 +55,7 @@ app.post(
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     ownerx.photos.push(obj);
     const owner = await Owner.findOneAndUpdate({ _id: ownerId }, ownerx, {
@@ -99,7 +99,7 @@ app.post(
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     ownerx.videos.push(obj);
     const owner = await Owner.findOneAndUpdate({ _id: ownerId }, ownerx, {
@@ -147,7 +147,7 @@ app.post(
     }
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     roomx.photos.push(obj);
     const room = await Room.findOneAndUpdate({ _id: rid }, roomx, {
@@ -204,7 +204,7 @@ app.post(
     }
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     roomx.videos.push(obj);
     const room = await Room.findOneAndUpdate({ _id: rid }, roomx, {
@@ -251,7 +251,7 @@ app.post(
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     const owner = await Owner.findOneAndUpdate(
       { _id: ownerId },
@@ -291,7 +291,7 @@ app.post(
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     const owner = await Owner.findOneAndUpdate(
       { _id: ownerId },
