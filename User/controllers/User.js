@@ -174,11 +174,31 @@ const getPGDetails = async (req, res) => {
   } else {
     const rooms = await Room.find({ownerId:pid})
     const views = pg.views + 1;
-    let updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views},{
-      new:true,
-      runValidators:true
-    })
-    res.status(StatusCodes.OK).json({ res: "success", data: {pg:updated_pg ,rooms}});
+    if(pg.famousplacedistance.length==0){
+      let distance_array = [];
+      const city = await City.findOne({name:pg.cityname});
+      const places = city.places;
+      for(let i=0;i<places.length;i++)
+      {
+        const obj = {}
+        const distance = calculateDistance(places[i].lat,pg.lat,places[i].lng,pg.lng);
+        obj.name = places[i].name;
+        obj.distance = distance;
+        distance_array.push(obj);
+      }
+      let updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views,famousplacedistance:distance_array},{
+        new:true,
+        runValidators:true
+      })
+      res.status(StatusCodes.OK).json({ res: "success", data: {pg:updated_pg ,rooms}});
+    }
+    else{
+      let updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views},{
+        new:true,
+        runValidators:true
+      })
+      res.status(StatusCodes.OK).json({ res: "success", data: {pg:updated_pg ,rooms}});
+    }
   }
 };
 const getSpecificPgs = async (req, res) => {
