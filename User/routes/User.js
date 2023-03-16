@@ -38,7 +38,7 @@ router.route("/pg/:pid").get(authMiddleware,getPGDetails); //get pg by it's id, 
 router.route("/:uid/pg").get(authMiddleware,getSpecificPgs); //get specific and top rated pgs [?search=' '] [?sort=ratings]
 router.route("/:uid/pg/nearby").get(authMiddleware,getNearbyPgs); //nearby pgs [:uid = user id]
 router.route("/pg/filter").post(authMiddleware,getFilteredPgs); //get pgs after applying the main filter [req.body={cityname:'Kota',isAC:True}]
-//for price or rating filters, Filters = price>2000&price<5000,ratings>3&ratings<5
+//for price or rating filters, priceFilters = price>2000&price<5000 , ratingFilers =ratings>3&ratings<5
 
 //user
 router.route("/:uid").get(authMiddleware,getUserDetails); //get user by it's id [:uid = user id]

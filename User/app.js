@@ -33,6 +33,26 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 
+// app.get("/populate", async (req, res) => {
+//   const photos = [
+//     {
+//       name: "IMG-20230213-WA0001.jpg",
+//       uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/IMG-20230213-WA0001.jpg?alt=media",
+//     },
+//   ];
+//   // const videos = [
+//   //   {
+//   //     name: "video.mp4",
+//   //     uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/video.mp4?alt=media",
+//   //   },
+//   // ];
+//   const pgs = await Owner.find({});
+//   for(let i=0;i<pgs.length;i++){
+//     const temp = await Owner.findOneAndUpdate({_id:pgs[i]._id},{dphotos:photos},{new:true});
+//     console.log(temp)
+//   }
+//   res.send("success");
+// });
 //routes user
 app.use("/api/v1/user", userRouter);
 //routes owner
