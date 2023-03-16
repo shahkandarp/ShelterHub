@@ -318,10 +318,27 @@ const changeUserPassword = async (req, res) => {
 
 //interests
 const getCurrentInterests = async (req, res) => {
-  res.status(StatusCodes.OK).send("hI");
+  const {uid} = req.params;
+  const interests = await Interest.find({userId:uid});
+  let response_array  = [];
+  for(let i=0;i<interests.length;i++)
+  {
+    let obj = {}
+    const owner = await Owner.findOne({_id:interests[i].ownerId});
+    const room = await Room.findOne({_id:interests[i].roomId});
+    obj.pg = owner;
+    obj.room = room;
+    response_array.push(obj);
+  }
+  res.status(StatusCodes.OK).json({res:"success",data:response_array})
 };
 const createUserInterest = async (req, res) => {
-  res.status(StatusCodes.OK).send("hI");
+  const {uid} = req.params;
+  const {room} = req.body;
+  const owner_room= await Room.findOne({_id:room});
+  const owner_id = owner_room.ownerId;
+  const interest = await Interest.create({userId:uid,ownerId:owner_id,roomId:room});
+  res.status(StatusCodes.OK).json({res:"success",data:interest});
 };
 
 //cities
