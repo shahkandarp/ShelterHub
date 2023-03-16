@@ -29,6 +29,10 @@ router.route('/forgotpassword').patch(forgotPasswordUser);
 router.route('/sendmobileotp').post(UserMiddleware,sendUserOTP);
 router.route('/verifymobileotp').post(UserMiddleware,verifyUserOTP);
 
+
+//cities
+router.route("/city").get(authMiddleware,getCities); //get all the cities
+
 //pg
 router.route("/pg/:pid").get(authMiddleware,getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
 router.route("/:uid/pg").get(authMiddleware,getSpecificPgs); //get specific and top rated pgs [?search=' '] [?sort=ratings]
@@ -47,7 +51,5 @@ router.route("/:uid/interest").get(authMiddleware,getCurrentInterests); //pgs in
 router.route("/:uid/interest").post(authMiddleware,createUserInterest); //call this api when the user clicks interested button [req.body={room:room_id}]
 
 
-//cities
-router.route("/city").get(authMiddleware,getCities); //get all the cities
 
 module.exports = router;

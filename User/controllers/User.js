@@ -326,7 +326,7 @@ const createUserInterest = async (req, res) => {
 
 //cities
 const getCities = async(req,res)=>{
-  const cities = await City.find({})
+  const cities = await City.find({});
   res.status(StatusCodes.OK).json({res:"success",data:cities})
 }
 module.exports = {
