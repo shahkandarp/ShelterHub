@@ -291,6 +291,21 @@ const getStatus = async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "Success", data: obj });
 };
 
+const deleteRoom = async (req,res) => {
+  const {ownerId} = req.user
+  const {rid} = req.params
+  if(!rid){
+    throw new BadRequestError("Please provide Room ID");
+  }
+  
+  const room = await Room.deleteOne({_id:rid})
+  if(!room){
+    throw new BadRequestError("Please provide Valid Room ID");
+  }
+
+  res.status(StatusCodes.OK).json({res:"Success"});
+}
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -307,4 +322,5 @@ module.exports = {
   mobileOTPSend,
   mobileOTPVerify,
   getStatus,
+  deleteRoom
 };

@@ -33,6 +33,26 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 
+// app.get("/populate", async (req, res) => {
+//   const photos = [
+//     {
+//       name: "IMG-20230213-WA0001.jpg",
+//       uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/IMG-20230213-WA0001.jpg?alt=media",
+//     },
+//   ];
+//   // const videos = [
+//   //   {
+//   //     name: "video.mp4",
+//   //     uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/video.mp4?alt=media",
+//   //   },
+//   // ];
+//   const pgs = await Owner.find({});
+//   for(let i=0;i<pgs.length;i++){
+//     const temp = await Owner.findOneAndUpdate({_id:pgs[i]._id},{dphotos:photos},{new:true});
+//     console.log(temp)
+//   }
+//   res.send("success");
+// });
 //routes user
 app.use("/api/v1/user", userRouter);
 //routes owner
@@ -49,13 +69,13 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     ownerx.photos.push(obj);
     const owner = await Owner.findOneAndUpdate({ _id: ownerId }, ownerx, {
@@ -93,13 +113,13 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     ownerx.videos.push(obj);
     const owner = await Owner.findOneAndUpdate({ _id: ownerId }, ownerx, {
@@ -138,8 +158,8 @@ app.post(
       throw new BadRequestError("Please provide Room ID");
     }
     const file = req.file;
-    const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -147,7 +167,7 @@ app.post(
     }
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     roomx.photos.push(obj);
     const room = await Room.findOneAndUpdate({ _id: rid }, roomx, {
@@ -195,8 +215,8 @@ app.post(
       throw new BadRequestError("Please provide Room ID");
     }
     const file = req.file;
-    const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -204,7 +224,7 @@ app.post(
     }
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     roomx.videos.push(obj);
     const room = await Room.findOneAndUpdate({ _id: rid }, roomx, {
@@ -246,12 +266,12 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     const owner = await Owner.findOneAndUpdate(
       { _id: ownerId },
@@ -286,12 +306,12 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
-      url: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
     const owner = await Owner.findOneAndUpdate(
       { _id: ownerId },

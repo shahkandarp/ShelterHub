@@ -10,11 +10,24 @@ const {
   NotFoundError,
 } = require("../errors/index");
 const nodemailer = require("nodemailer");
-const fast2sms = require('fast-two-sms');
+const fast2sms = require("fast-two-sms");
 const bcrypt = require("bcryptjs");
 const City = require("../models/City");
 
 //utility
+function getCommonItems(array1, array2) {
+  var common = []; // Initialize array to contain common items
+  
+  for (var i = 0; i < array1.length; i++) {
+    for (var j = 0; j < array2.length; j++) {
+      if (String(array1[i]._id) === String(array2[j]._id)) { // If item is present in both arrays
+        common.push(array1[i]); // Push to common array
+      }
+    }
+  }
+ 
+  return common; // Return the common items
+}
 const calculateDistance = (lat1, lat2, lon1, lon2) => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
@@ -49,18 +62,17 @@ const nearByPgs = async (lat, lng, pgs = null) => {
   return pg_array;
 };
 
-
 //authentication user
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   if (!email || !name || !password) {
     throw new BadRequestError("Please provide necessary credentials");
   }
-  const userx = await User.findOne({email:req.body.email})
-  if(userx){
+  const userx = await User.findOne({ email: req.body.email });
+  if (userx) {
     throw new BadRequestError("This Email already Exists");
   }
-  if(req.body.password.length<8){
+  if (req.body.password.length < 8) {
     throw new BadRequestError("Minimum size of password should be 8");
   }
   const user = await User.create(req.body);
@@ -85,7 +97,6 @@ const forgotPasswordUser = async (req, res) => {
   if (!user) {
     throw new BadRequestError("Please provide valid email");
   }
-
 
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com", // hostname
@@ -136,34 +147,40 @@ const loginUser = async (req, res) => {
     .json({ user: { name: user.name, id: user._id }, token });
 };
 
-const sendUserOTP = async (req,res) => {
-  const {userId} = req.user
-  var {phoneno} = req.body
-  if(!phoneno){
+const sendUserOTP = async (req, res) => {
+  const { userId } = req.user;
+  var { phoneno } = req.body;
+  if (!phoneno) {
     throw new BadRequestError("Please provide Phone Number");
   }
   const otp = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
-  console.log(otp)
-  const user = await User.findOneAndUpdate({_id:userId},{phoneotp:otp,phoneno},{ runValidators: true, new: true, setDefaultsOnInsert: true })
-  var options = {authorization : process.env.API_KEY , message : `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.` ,  numbers : [
-    `${phoneno}`]} 
-  const response = await fast2sms.sendMessage(options)
-  res.status(StatusCodes.OK).json({res:'Success',data:response})
-}
+  console.log(otp);
+  const user = await User.findOneAndUpdate(
+    { _id: userId },
+    { phoneotp: otp, phoneno },
+    { runValidators: true, new: true, setDefaultsOnInsert: true }
+  );
+  var options = {
+    authorization: process.env.API_KEY,
+    message: `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.`,
+    numbers: [`${phoneno}`],
+  };
+  const response = await fast2sms.sendMessage(options);
+  res.status(StatusCodes.OK).json({ res: "Success", data: response });
+};
 
-const verifyUserOTP = async (req,res) => {
-  const {userId} = req.user
-  const {otp} = req.body
-  if(!otp){
+const verifyUserOTP = async (req, res) => {
+  const { userId } = req.user;
+  const { otp } = req.body;
+  if (!otp) {
     throw new BadRequestError("Please provide OTP");
   }
-  const user = await User.findOne({_id:userId})
-  if(user.phoneotp != Number(otp)){
+  const user = await User.findOne({ _id: userId });
+  if (user.phoneotp != Number(otp)) {
     throw new BadRequestError("Please provide valid OTP");
   }
-  res.status(StatusCodes.OK).json({res:'Success'})
-}
-
+  res.status(StatusCodes.OK).json({ res: "Success" });
+};
 
 //pgs
 const getPGDetails = async (req, res) => {
@@ -172,13 +189,48 @@ const getPGDetails = async (req, res) => {
   if (!pg) {
     throw new BadRequestError("No PG with provided pg id!");
   } else {
-    const rooms = await Room.find({ownerId:pid})
+    const rooms = await Room.find({ ownerId: pid });
     const views = pg.views + 1;
-    let updated_pg = await Owner.findOneAndUpdate({_id:pid},{views:views},{
-      new:true,
-      runValidators:true
-    })
-    res.status(StatusCodes.OK).json({ res: "success", data: {pg:updated_pg ,rooms}});
+    if (pg.famousplacedistance.length == 0) {
+      let distance_array = [];
+      const city = await City.findOne({ name: pg.cityname });
+      const places = city.places;
+      for (let i = 0; i < places.length; i++) {
+        const obj = {};
+        const distance = calculateDistance(
+          places[i].lat,
+          pg.lat,
+          places[i].lng,
+          pg.lng
+        );
+        obj.name = places[i].name;
+        obj.distance = distance;
+        distance_array.push(obj);
+      }
+      let updated_pg = await Owner.findOneAndUpdate(
+        { _id: pid },
+        { views: views, famousplacedistance: distance_array },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      res
+        .status(StatusCodes.OK)
+        .json({ res: "success", data: { pg: updated_pg, rooms } });
+    } else {
+      let updated_pg = await Owner.findOneAndUpdate(
+        { _id: pid },
+        { views: views },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      res
+        .status(StatusCodes.OK)
+        .json({ res: "success", data: { pg: updated_pg, rooms } });
+    }
   }
 };
 const getSpecificPgs = async (req, res) => {
@@ -189,58 +241,103 @@ const getSpecificPgs = async (req, res) => {
     throw new NotFoundError("User does not exists!");
   } else {
     if (search) {
-      const pgs = await Owner.find({ propertytitle: { $regex: search, $options: "i" } });
+      const pgs = await Owner.find({
+        propertytitle: { $regex: search, $options: "i" },
+      });
       res.status(StatusCodes.OK).json({ res: "success", data: pgs });
     }
     if (sort) {
       const pgs = await Owner.find({}).sort(sort);
-      let nearby_pgs = await nearByPgs(user.lat, user.lng,pgs);
+      let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
       res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
     }
   }
 };
 const getNearbyPgs = async (req, res) => {
   const { uid } = req.params;
-  const user = await User.findOne({_id:uid});
-  if(!user){
+  const user = await User.findOne({ _id: uid });
+  if (!user) {
     throw new NotFoundError("User does not exists!");
-  }
-  else{
-    let nearby_pgs = await nearByPgs(user.lat,user.lng);
-    res.status(StatusCodes.OK).json({res:"success",data:nearby_pgs})
+  } else {
+    let nearby_pgs = await nearByPgs(user.lat, user.lng);
+    res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
   }
 };
 const getFilteredPgs = async (req, res) => {
-  let req_obj = req.body;
-  if(req_obj.cityname){
-    req_obj.cityname = {$regex:req.body.cityname,$options:"i"}
-  }
-  if (req_obj.Filters) {
-    const operatorMap = {
-      '>': '$gt',
-      '>=': '$gte',
-      '=': '$eq',
-      '<': '$lt',
-      '<=': '$lte',
+  let pg_req_obj = req.body; //general pg/hostel amenities
+  let room_req_obj = {
+    occupancy: pg_req_obj.occupancy,
+    isAttached: pg_req_obj.isAttached,
+    Filters: req.body.priceFilters,
+  }; //occupancy, attached bathrooms, price
+
+  //room
+  if (room_req_obj.occupancy) {
+    delete pg_req_obj.isAttached;
+    delete pg_req_obj.occupancy;
+    if (room_req_obj.occupancy === "shared") {
+      room_req_obj.occupancy = { $gt: 1 };
+    } else {
+      room_req_obj.occupancy = { $eq: 1 };
     }
-    const regEx = /\b(<|>|>=|=|<|<=)\b/g
-    let filters = req_obj.Filters.replace(
+  }
+  if (room_req_obj.Filters) {
+    delete pg_req_obj.priceFilters;
+
+    const operatorMap = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+    const regEx = /\b(<|>|>=|=|<|<=)\b/g;
+    let filters = room_req_obj.Filters.replace(
       regEx,
       (match) => `&${operatorMap[match]}&`
-    )
-    const options = ['price', 'ratings']
-    filters = filters.split(',').forEach((item) => {
-      const [field1,op1, val1, field2,op2,val2] = item.split('&')
-
-      if (options.includes(field1)) {
-        req_obj[field1] = { [op1]: Number(val1),[op2]:Number(val2) }
-
-      }
-    })
-    delete req_obj.Filters
+    );
+    filters = filters.split(",").forEach((item) => {
+      const [field1, op1, val1, field2, op2, val2] = item.split("&");
+      room_req_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
+    });
+    delete room_req_obj.Filters;
   }
-  const pgs = await Owner.find(req_obj);
-  res.status(StatusCodes.OK).json({res:"success",data:pgs});
+
+  //pg
+  if (pg_req_obj.cityname) {
+    pg_req_obj.cityname = { $regex: req.body.cityname, $options: "i" };
+  }
+  if (pg_req_obj.ratingFilters) {
+    const operatorMap = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+    const regEx = /\b(<|>|>=|=|<|<=)\b/g;
+    let filters = pg_req_obj.ratingFilters.replace(
+      regEx,
+      (match) => `&${operatorMap[match]}&`
+    );
+    filters = filters.split(",").forEach((item) => {
+      const [field1, op1, val1, field2, op2, val2] = item.split("&");
+      pg_req_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
+    });
+    delete pg_req_obj.ratingFilters;
+  }
+  let pgs_1 = [];
+  const rooms = await Room.find(room_req_obj);
+  for (let i = 0; i < rooms.length; i++) {
+    const temp = await Owner.findOne({ _id: rooms[i].ownerId });
+    pgs_1.push(temp);
+  }
+  const pgs_2 = await Owner.find(pg_req_obj);
+
+
+  const pgs = getCommonItems(pgs_1,pgs_2)
+
+  res.status(StatusCodes.OK).json({ res: "success", data: pgs });
 };
 
 //user
@@ -298,17 +395,37 @@ const changeUserPassword = async (req, res) => {
 
 //interests
 const getCurrentInterests = async (req, res) => {
-  res.status(StatusCodes.OK).send("hI");
+  const { uid } = req.params;
+  const interests = await Interest.find({ userId: uid });
+  let response_array = [];
+  for (let i = 0; i < interests.length; i++) {
+    let obj = {};
+    const owner = await Owner.findOne({ _id: interests[i].ownerId });
+    const room = await Room.findOne({ _id: interests[i].roomId });
+    obj.pg = owner;
+    obj.room = room;
+    response_array.push(obj);
+  }
+  res.status(StatusCodes.OK).json({ res: "success", data: response_array });
 };
 const createUserInterest = async (req, res) => {
-  res.status(StatusCodes.OK).send("hI");
+  const { uid } = req.params;
+  const { room } = req.body;
+  const owner_room = await Room.findOne({ _id: room });
+  const owner_id = owner_room.ownerId;
+  const interest = await Interest.create({
+    userId: uid,
+    ownerId: owner_id,
+    roomId: room,
+  });
+  res.status(StatusCodes.OK).json({ res: "success", data: interest });
 };
 
 //cities
-const getCities = async(req,res)=>{
-  const cities = await City.find({})
-  res.status(StatusCodes.OK).json({res:"success",data:cities})
-}
+const getCities = async (req, res) => {
+  const cities = await City.find({});
+  res.status(StatusCodes.OK).json({ res: "success", data: cities });
+};
 module.exports = {
   getSpecificPgs,
   getPGDetails,
@@ -325,5 +442,5 @@ module.exports = {
   loginUser,
   sendUserOTP,
   verifyUserOTP,
-  getCities
+  getCities,
 };

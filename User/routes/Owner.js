@@ -28,6 +28,7 @@ const {
   mobileOTPSend,
   mobileOTPVerify,
   getStatus,
+  deleteRoom
 } = require("../controllers/Owner");
 
 router.route("/verifyotp").post(ownerVerifyOTP);
@@ -42,5 +43,6 @@ router.route("/showinterests").get(OwnerMiddleware, showInterests);
 router.route("/mobileOTPSend").post(OwnerMiddleware, mobileOTPSend);
 router.route("/mobileOTPVerify").post(OwnerMiddleware, mobileOTPVerify);
 router.route("/getstatus").get(OwnerMiddleware, getStatus);
+router.route('/deleteroom/:rid').delete(OwnerMiddleware,deleteRoom)
 
 module.exports = router;

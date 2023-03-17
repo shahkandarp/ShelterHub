@@ -29,11 +29,15 @@ router.route("/forgotpassword").patch(forgotPasswordUser);
 router.route("/sendmobileotp").post(UserMiddleware, sendUserOTP);
 router.route("/verifymobileotp").post(UserMiddleware, verifyUserOTP);
 
+//cities
+router.route("/city").get(authMiddleware, getCities); //get all the cities
+
 //pg
 router.route("/pg/:pid").get(authMiddleware, getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
 router.route("/:uid/pg").get(authMiddleware, getSpecificPgs); //get specific and top rated pgs [?search=' '] [?sort=ratings]
 router.route("/:uid/pg/nearby").get(authMiddleware, getNearbyPgs); //nearby pgs [:uid = user id]
-router.route("/pg/filter").post(authMiddleware, getFilteredPgs); //get pgs after applying the main filter [req.body={location:'Kota',isAC:True}]
+router.route("/pg/filter").post(authMiddleware, getFilteredPgs); //get pgs after applying the main filter [req.body={cityname:'Kota',isAC:True}]
+//for price or rating filters, priceFilters = price>2000&price<5000 , ratingFilers =ratings>3&ratings<5
 
 //user
 router.route("/:uid").get(authMiddleware, getUserDetails); //get user by it's id [:uid = user id]
@@ -45,6 +49,4 @@ router.route("/:email/password").post(changeUserPassword); //change password [re
 router.route("/:uid/interest").get(authMiddleware, getCurrentInterests); //pgs in which user is interested
 router.route("/:uid/interest").post(authMiddleware, createUserInterest); //call this api when the user clicks interested button [req.body={room:room_id}]
 
-//cities
-router.route("/city").get(authMiddleware, getCities); //get all the cities
 module.exports = router;
