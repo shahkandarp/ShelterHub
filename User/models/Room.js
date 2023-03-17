@@ -16,7 +16,7 @@ const RoomSchema = new mongoose.Schema({
     type:Boolean,
     default:false
   },
-  isAttatched:{
+  isAttached:{
     type:Boolean,
     default:false
   },
