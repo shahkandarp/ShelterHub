@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const mime = require('mime')
 
 //dependencies
 require("dotenv").config();
@@ -71,8 +70,8 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname).split('/')[1]}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname)}` };
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
@@ -116,8 +115,8 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname).split('/')[1]}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname)}` };
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
@@ -162,8 +161,8 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname).split('/')[1]}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname)}` };
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -220,8 +219,8 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname).split('/')[1]}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname)}` };
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -272,8 +271,8 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname).split('/')[1]}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname)}` };
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
@@ -313,8 +312,8 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname).split('/')[1]}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname.split('.')[0]}-${dateTime}.${mime.getType(file.originalname)}` };
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,

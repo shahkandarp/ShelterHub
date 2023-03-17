@@ -21,7 +21,6 @@
     "http-status-codes": "^2.1.4",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
-    "mime": "^3.0.0",
     "mongoose": "^5.13.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.7.8",
