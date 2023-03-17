@@ -265,36 +265,26 @@ const getNearbyPgs = async (req, res) => {
   }
 };
 const getFilteredPgs = async (req, res) => {
-  let pg_req_obj = req.body; //general pg/hostel amenities
-  const occupancy = req.body.occupancy;
-  const isAttached = req.body.isAttached;
-  const Filters = req.body.priceFilters;
-  var flag = 1;
-  if(occupancy || isAttached || Filters){
-    flag = 0;
-  }
-  let room_req_obj = {
-    occupancy: occupancy,
-    isAttached: isAttached,
-    Filters: Filters,
-  }; //occupancy, attached bathrooms, price
+  let pg_obj ={}; //general pg/hostel amenities
+  let room_obj = {}; //occupancy, attached bathrooms, price
 
+  const {isAttached,isAC,isHotWater,isWIFI,typeofpg,isFemale,isMale,cityname,ratingFilters,priceFilters,occupancy} = req.body;
+  
   //room
-  if(room_req_obj.isAttached){
-    delete pg_req_obj.isAttached;
+  if(isAttached){
+    room_obj.isAttached = isAttached;
   }
-  if (room_req_obj.occupancy) {
-    flag = 1;
-    delete pg_req_obj.occupancy;
-    if (room_req_obj.occupancy === "shared") {
-      room_req_obj.occupancy = { $gt: 1 };
+  if(isAC){
+    room_obj.isAC = isAC;
+  }
+  if(occupancy){
+    if (room_obj.occupancy === "shared") {
+      room_obj.occupancy = { $gt: 1 };
     } else {
-      room_req_obj.occupancy = { $eq: 1 };
+      room_obj.occupancy = { $eq: 1 };
     }
   }
-  if (room_req_obj.Filters) {
-    delete pg_req_obj.priceFilters;
-    flag = 1;
+  if (priceFilters) {
     const operatorMap = {
       ">": "$gt",
       ">=": "$gte",
@@ -303,22 +293,36 @@ const getFilteredPgs = async (req, res) => {
       "<=": "$lte",
     };
     const regEx = /\b(<|>|>=|=|<|<=)\b/g;
-    let filters = room_req_obj.Filters.replace(
+    let filters = priceFilters.replace(
       regEx,
       (match) => `&${operatorMap[match]}&`
     );
     filters = filters.split(",").forEach((item) => {
       const [field1, op1, val1, field2, op2, val2] = item.split("&");
-      room_req_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
+      room_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
     });
-    delete room_req_obj.Filters;
   }
 
   //pg
-  if (pg_req_obj.cityname) {
-    pg_req_obj.cityname = { $regex: req.body.cityname, $options: "i" };
+  if(isHotWater){
+    pg_obj.isHotWater = isHotWater;
   }
-  if (pg_req_obj.ratingFilters) {
+  if(isWIFI){
+    pg_obj.isWIFI = isWIFI;
+  }
+  if(typeofpg){
+    pg_obj.typeofpg = typeofpg;
+  }
+  if(isFemale){
+    pg_obj.isFemale = isFemale;
+  }
+  if(isMale){
+    pg_obj.isMale = isMale;
+  }
+  if (cityname) {
+    pg_obj.cityname = { $regex: req.body.cityname, $options: "i" };
+  }
+  if (ratingFilters) {
     const operatorMap = {
       ">": "$gt",
       ">=": "$gte",
@@ -327,30 +331,36 @@ const getFilteredPgs = async (req, res) => {
       "<=": "$lte",
     };
     const regEx = /\b(<|>|>=|=|<|<=)\b/g;
-    let filters = pg_req_obj.ratingFilters.replace(
+    let filters = ratingFilters.replace(
       regEx,
       (match) => `&${operatorMap[match]}&`
     );
     filters = filters.split(",").forEach((item) => {
       const [field1, op1, val1, field2, op2, val2] = item.split("&");
-      pg_req_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
+      pg_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
     });
-    delete pg_req_obj.ratingFilters;
   }
+  //get the pgs which satisfies room filters
   let pgs_1 = [];
-  const rooms = await Room.find(room_req_obj);
+  const rooms = await Room.find(room_obj);
   for (let i = 0; i < rooms.length; i++) {
     const temp = await Owner.findOne({ _id: rooms[i].ownerId });
     pgs_1.push(temp);
   }
-  const pgs_2 = await Owner.find(pg_req_obj);
-  if(flag==0){
-    var pgs = getCommonItems(pgs_1,pgs_2)
-  }
-  else{
+
+  //get the pgs which satisfies general pg filters
+  const pgs_2 = await Owner.find(pg_obj);
+
+  if(pgs_1.keys.length ==0){
     var pgs = pgs_2;
   }
-  res.status(StatusCodes.OK).json({ res: "success", data: pgs });
+  else if(pgs_2.keys.length ==0){
+    var pgs = pgs_1;
+  }
+  else{
+    var pgs = getCommonItems(pgs_1,pgs_2)
+  }
+  res.status(StatusCodes.OK).json({ res: "success",nhits:pgs.length, data: pgs});
 };
 const addRating = async(req,res)=>{
   let {uid,pid} = req.params;
