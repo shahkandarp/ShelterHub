@@ -1,11 +1,17 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Pressable} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const ImageCarouselComponent = ({famous}) => {
+  // console.log('famous:', famous);
+  const navigation = useNavigation();
+  const onPress = () => {
+    navigation.navigate('FilteredPgScreen', {city: famous.name});
+  };
   return (
-    <View style={{marginLeft: 16, alignItems: 'center'}}>
+    <Pressable style={{marginLeft: 16, alignItems: 'center'}} onPress={onPress}>
       <Image
-        source={{uri: famous.photos[0].url}}
+        source={{uri: famous?.image}}
         style={{height: 55, width: 55, borderRadius: 27.5}}
       />
       <Text
@@ -17,9 +23,9 @@ const ImageCarouselComponent = ({famous}) => {
           marginTop: 8,
           maxWidth: 70,
         }}>
-        {famous.propertytitle}
+        {famous.name}
       </Text>
-    </View>
+    </Pressable>
   );
 };
 

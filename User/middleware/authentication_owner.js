@@ -10,7 +10,6 @@ const auth = (req, res, next) => {
   }
   const token = authHeader.split(" ")[1];
   try {
-    console.log(token);
     const payload = jwt.verify(token, process.env.JWT_SECRET_OWNER);
     // attach the user to the job routes
     req.user = {

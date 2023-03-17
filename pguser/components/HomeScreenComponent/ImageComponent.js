@@ -6,7 +6,7 @@ const ImageComponent = ({image, modal}) => {
   return (
     <View>
       <Image
-        source={{uri: image.url}}
+        source={{uri: image?.uri}}
         style={{
           width: modal ? width - 30 : 65,
           height: modal ? 190 : 45,
