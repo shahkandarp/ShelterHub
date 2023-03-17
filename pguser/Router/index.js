@@ -18,7 +18,11 @@ const index = () => {
 
 const StackNavigator1 = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      tabBarOptions={{
+        keyboardHidesTabBar: true,
+      }}>
       <Stack.Screen
         component={BottomTabNav}
         name="BottomTabBarNavigation"

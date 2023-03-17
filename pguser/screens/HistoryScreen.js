@@ -2,9 +2,9 @@ import {View, Text, FlatList, ScrollView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import HistoryComponent from '../components/HistoryScreenComponent/HistoryComponent';
 import axios from 'axios';
-import {USER_IP} from '@env';
+import {USER_IP, PRIMARY_COLOR} from '@env';
 import {useAuthContext} from '../src/Context/AuthContext';
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const HistoryScreen = () => {
   const {users, tokens} = useAuthContext();
   const [data, setData] = useState([]);
@@ -19,20 +19,31 @@ const HistoryScreen = () => {
     setData(response.data.data);
   };
   return (
-    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
-      <Text
+    <ScrollView
+      style={{flex: 1, backgroundColor: 'white'}}
+      showsVerticalScrollIndicator={false}>
+      <View
         style={{
-          fontFamily: 'Poppins-Medium',
-          fontSize: 15,
-          color: '#191919',
+          flexDirection: 'row',
+          alignItems: 'center',
           marginHorizontal: 13,
           marginTop: 13,
         }}>
-        You shown interest in those PGs/Hostels,
-      </Text>
+        <FontAwesome5 name="hotel" size={18} color={PRIMARY_COLOR} />
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            fontSize: 15,
+            color: '#191919',
+            marginHorizontal: 5,
+            marginTop: 3,
+          }}>
+          You shown interest in those PGs/Hostels,
+        </Text>
+      </View>
       <FlatList
         data={data}
-        style={{marginBottom: 20, marginTop: 5}}
+        style={{marginBottom: 60, marginTop: 5}}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <HistoryComponent data={item} />}
         keyExtractor={item => item._id}
