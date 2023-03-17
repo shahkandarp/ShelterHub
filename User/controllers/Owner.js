@@ -155,6 +155,8 @@ const updateOwner = async (req, res) => {
 const displayOwner = async (req, res) => {
   const { ownerId } = req.user;
   const owner = await Owner.findOne({ _id: ownerId });
+  
+  res.setHeader('Cache-Control','no-cache')
   res.status(StatusCodes.OK).json({ res: "Success", data: owner });
 };
 
