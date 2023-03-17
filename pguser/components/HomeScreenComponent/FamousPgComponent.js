@@ -1,13 +1,18 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Pressable} from 'react-native';
 import React from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
 const FamousPgComponent = ({famous}) => {
+  const navigation = useNavigation();
+  const onPress = () => {
+    navigation.navigate('PgDetailScreen', {data: famous});
+  };
   return (
-    <View style={{marginLeft: 20, marginTop: 10}}>
+    <Pressable style={{marginLeft: 20, marginTop: 10}} onPress={onPress}>
       <View>
         <Image
-          source={{uri: famous.photos[0]?.url}}
+          source={{uri: famous.photos[0]?.uri}}
           style={{height: 125, width: 170, borderRadius: 7}}
         />
       </View>
@@ -96,7 +101,7 @@ const FamousPgComponent = ({famous}) => {
           {famous?.views} views
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

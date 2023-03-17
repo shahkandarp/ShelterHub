@@ -5,7 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 const SearchComponent = ({searchResult}) => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('EventDetailScreen', {eventId: searchResult._id});
+    console.log(searchResult._id);
+    navigation.navigate('PgDetailScreen', {data: searchResult});
   };
   // console.log(searchResult);
   return (
@@ -21,7 +22,7 @@ const SearchComponent = ({searchResult}) => {
       }}>
       <View>
         <Image
-          source={{uri: searchResult.photos[0]}}
+          source={{uri: searchResult.photos[0].url}}
           style={{height: 45, width: 45, borderRadius: 22.5}}
         />
       </View>

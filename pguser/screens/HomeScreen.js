@@ -158,10 +158,9 @@ const HomeScreen = () => {
     setData(response.data.data);
   };
   const getFeaturedPg = async () => {
-    const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/${users}/pg?sort=name`,
-      {headers: {Authorization: `Bearer ${tokens}`}},
-    );
+    const response = await axios.get(`http://${USER_IP}/api/v1/user/city`, {
+      headers: {Authorization: `Bearer ${tokens}`},
+    });
     setFeaturedData(response.data.data);
   };
   const getNearByPg = async () => {

@@ -10,7 +10,10 @@ import HistoryScreen from '../screens/HistoryScreen';
 import FilterScreen from '../screens/FilterScreen';
 import SearchScreen from '../screens/HomeScreen/SearchScreen';
 import PgDetailScreen from '../screens/HomeScreen/PgDetailScreen';
+import FilteredPgScreen from '../screens/HomeScreen/FilteredPgScreen';
 import {PRIMARY_COLOR} from '@env';
+import MapScreen from '../screens/HomeScreen/MapScreen';
+import HistoryDetailScreen from '../screens/HistoryScreen/HistoryDetailScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const BottomTabNav = () => {
@@ -34,7 +37,7 @@ const BottomTabNav = () => {
         component={HomeStack}
         name="Home"
         options={{
-          unmountOnBlur: true,
+          // unmountOnBlur: true,
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
@@ -89,6 +92,10 @@ const HistoryStack = () => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {/* <Stack.Screen component={MyEvents} name="MyEvents" /> */}
       <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
+      <Stack.Screen
+        component={HistoryDetailScreen}
+        name="HistoryDetailScreen"
+      />
     </Stack.Navigator>
   );
 };
@@ -136,6 +143,8 @@ const HomeStack = () => {
       <Stack.Screen component={HomeScreen} name="HomeScreen" />
       <Stack.Screen component={SearchScreen} name="SearchScreen" />
       <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
+      <Stack.Screen component={MapScreen} name="MapScreen" />
+      <Stack.Screen component={FilteredPgScreen} name="FilteredPgScreen" />
     </Stack.Navigator>
   );
 };
