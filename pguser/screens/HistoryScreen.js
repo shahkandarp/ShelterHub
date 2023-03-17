@@ -1,4 +1,4 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, ScrollView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import HistoryComponent from '../components/HistoryScreenComponent/HistoryComponent';
 import axios from 'axios';
@@ -19,7 +19,7 @@ const HistoryScreen = () => {
     setData(response.data.data);
   };
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
       <Text
         style={{
           fontFamily: 'Poppins-Medium',
@@ -37,7 +37,7 @@ const HistoryScreen = () => {
         renderItem={({item}) => <HistoryComponent data={item} />}
         keyExtractor={item => item._id}
       />
-    </View>
+    </ScrollView>
   );
 };
 
