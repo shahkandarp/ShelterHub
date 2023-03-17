@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import NearByPgComponent from '../../components/HomeScreenComponent/NearByPgComponent';
 import axios from 'axios';
@@ -24,7 +24,7 @@ const FilteredPgScreen = () => {
     setCityFilteredPg(response.data.data);
   };
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
       <Text
         style={{
           marginHorizontal: 13,
@@ -36,7 +36,7 @@ const FilteredPgScreen = () => {
         PGs/Hostels in {city}
       </Text>
       <NearByPgComponent data={cityFilteredPg} check={true} />
-    </View>
+    </ScrollView>
   );
 };
 

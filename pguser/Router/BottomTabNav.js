@@ -26,7 +26,7 @@ const BottomTabNav = () => {
         tabBarStyle: {
           height: 48,
           position: 'absolute',
-          bottom: 1,
+          bottom: 7,
           right: 7,
           left: 7,
           borderRadius: 13,

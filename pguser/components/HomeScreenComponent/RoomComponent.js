@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,13 +31,24 @@ const RoomComponent = ({datas, data2, check}) => {
   const showInterest = async () => {
     const response = await axios.post(
       `http://${USER_IP}/api/v1/user/${users}/interest`,
-      {},
+      {room: datas._id},
       {
         headers: {Authorization: `Bearer ${tokens}`},
       },
     );
-    console.log(response);
+    // console.log(response.data.data);
+    await showToastWithGravityAndOffset();
+    setModal(false);
     // setPgDetails(response.data.data);
+  };
+  const showToastWithGravityAndOffset = async () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Your interest sent to Owner!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
   };
   const [modal, setModal] = useState(false);
   return (
@@ -94,7 +106,7 @@ const RoomComponent = ({datas, data2, check}) => {
         </View>
         <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>
           <Image
-            source={{uri: datas?.photos[0]?.url}}
+            source={{uri: datas?.photos[0]?.uri}}
             style={{height: 70, width: 70, borderRadius: 10}}
           />
         </View>
