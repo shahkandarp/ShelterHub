@@ -18,15 +18,16 @@ const Rating = require("../models/Rating");
 //utility
 function getCommonItems(array1, array2) {
   var common = []; // Initialize array to contain common items
-  
+
   for (var i = 0; i < array1.length; i++) {
     for (var j = 0; j < array2.length; j++) {
-      if (String(array1[i]._id) === String(array2[j]._id)) { // If item is present in both arrays
+      if (String(array1[i]._id) === String(array2[j]._id)) {
+        // If item is present in both arrays
         common.push(array1[i]); // Push to common array
       }
     }
   }
- 
+
   return common; // Return the common items
 }
 const calculateDistance = (lat1, lat2, lon1, lon2) => {
@@ -265,19 +266,32 @@ const getNearbyPgs = async (req, res) => {
   }
 };
 const getFilteredPgs = async (req, res) => {
-  let pg_obj ={}; //general pg/hostel amenities
+  let pg_obj = {}; //general pg/hostel amenities
   let room_obj = {}; //occupancy, attached bathrooms, price
 
-  const {isAttached,isAC,isHotWater,isWIFI,typeofpg,isFemale,isMale,cityname,ratingFilters,priceFilters,occupancy} = req.body;
-  
+  const {
+    isAttached,
+    isAC,
+    isHotWater,
+    isWIFI,
+    typeofpg,
+    isFemale,
+    isMale,
+    cityname,
+    ratingFilters,
+    priceFilters,
+    occupancy,
+    isCooler
+  } = req.body;
+
   //room
-  if(isAttached){
+  if (isAttached) {
     room_obj.isAttached = isAttached;
   }
-  if(isAC){
+  if (isAC) {
     room_obj.isAC = isAC;
   }
-  if(occupancy){
+  if (occupancy) {
     if (room_obj.occupancy === "shared") {
       room_obj.occupancy = { $gt: 1 };
     } else {
@@ -304,19 +318,22 @@ const getFilteredPgs = async (req, res) => {
   }
 
   //pg
-  if(isHotWater){
+  if (isHotWater) {
     pg_obj.isHotWater = isHotWater;
   }
-  if(isWIFI){
+  if (isCooler) {
+    pg_obj.isCooler = isCooler;
+  }
+  if (isWIFI) {
     pg_obj.isWIFI = isWIFI;
   }
-  if(typeofpg){
+  if (typeofpg) {
     pg_obj.typeofpg = typeofpg;
   }
-  if(isFemale){
+  if (isFemale) {
     pg_obj.isFemale = isFemale;
   }
-  if(isMale){
+  if (isMale) {
     pg_obj.isMale = isMale;
   }
   if (cityname) {
@@ -340,50 +357,69 @@ const getFilteredPgs = async (req, res) => {
       pg_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
     });
   }
-  //get the pgs which satisfies room filters
-  let pgs_1 = [];
-  const rooms = await Room.find(room_obj);
-  for (let i = 0; i < rooms.length; i++) {
-    const temp = await Owner.findOne({ _id: rooms[i].ownerId });
-    pgs_1.push(temp);
-  }
 
   //get the pgs which satisfies general pg filters
-  const pgs_2 = await Owner.find(pg_obj);
+  const pgs = await Owner.find(pg_obj);
+  let data = [];
+  for (let i =0;i<pgs.length;i++)
+  {
+    let obj = {};
+    if(Object.keys(room_obj).length==0){
+      const rooms = await Room.find({ownerId:pgs[i]._id});
+      if(rooms.length == 0)
+      {
+        continue;
+      }
+      obj.pg = pgs[i];
+      obj.rooms = rooms;
+    }
+    else{
+      room_obj.ownerId = pgs[i]._id;
+      const rooms =await  Room.find(room_obj);
+      if(rooms.length == 0)
+      {
+        continue;
+      }
+      obj.pg = pgs[i];
+      obj.rooms = rooms;
+    }
+    data.push(obj)
+  }
 
-  if(pgs_1.keys.length ==0){
-    var pgs = pgs_2;
-  }
-  else if(pgs_2.keys.length ==0){
-    var pgs = pgs_1;
-  }
-  else{
-    var pgs = getCommonItems(pgs_1,pgs_2)
-  }
-  res.status(StatusCodes.OK).json({ res: "success",nhits:pgs.length, data: pgs});
+
+  res
+    .status(StatusCodes.OK)
+    .json({ res: "success", nhits: data.length, data });
 };
-const addRating = async(req,res)=>{
-  let {uid,pid} = req.params;
-  let {rating} = req.body;
+const addRating = async (req, res) => {
+  let { uid, pid } = req.params;
+  let { rating } = req.body;
   rating = Number(rating);
-  const pg = await Owner.findOne({_id:pid});
+  const pg = await Owner.findOne({ _id: pid });
   let pg_rating = (
     (pg.ratings * pg.noofraters + rating) /
     (pg.noofraters + 1)
   ).toFixed(1);
-  let raters = pg.noofraters+1
-  const user_rating = await Rating.findOne({userId:uid});
-  if(!user_rating){
-    const update_pg = await Owner.findOneAndUpdate({_id:pid},{ratings:pg_rating,noofraters:raters},{new:true,runValidators:true});
-    const new_rating = await Rating.create({userId:uid,ownerId:pid,rating:rating});
-    res.status(StatusCodes.OK).json({res:"success",data:update_pg});
+  let raters = pg.noofraters + 1;
+  const user_rating = await Rating.findOne({ userId: uid });
+  if (!user_rating) {
+    const update_pg = await Owner.findOneAndUpdate(
+      { _id: pid },
+      { ratings: pg_rating, noofraters: raters },
+      { new: true, runValidators: true }
+    );
+    const new_rating = await Rating.create({
+      userId: uid,
+      ownerId: pid,
+      rating: rating,
+    });
+    res.status(StatusCodes.OK).json({ res: "success", data: update_pg });
+  } else {
+    res
+      .status(StatusCodes.OK)
+      .json({ res: "failed", data: "user has already rated" });
   }
-  else{
-    res.status(StatusCodes.OK).json({res:"failed",data:"user has already rated"})
-  }
-
-
-}
+};
 
 //user
 const getUserDetails = async (req, res) => {
@@ -468,10 +504,10 @@ const createUserInterest = async (req, res) => {
 
 //cities
 const getCities = async (req, res) => {
-  const {search} = req.query;
+  const { search } = req.query;
   var cities = await City.find({});
-  if(search){
-    cities = await City.find({name:{$regex:search,$options:"i"}});
+  if (search) {
+    cities = await City.find({ name: { $regex: search, $options: "i" } });
   }
   res.status(StatusCodes.OK).json({ res: "success", data: cities });
 };
@@ -492,5 +528,5 @@ module.exports = {
   sendUserOTP,
   verifyUserOTP,
   getCities,
-  addRating
+  addRating,
 };
