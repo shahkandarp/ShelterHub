@@ -50,7 +50,7 @@ app.post(
     }
     const file = req.file;
     const imageRef = ref(storage, file.originalname);
-    const metatype = { contentType: file.mimetype, name: file.originalname };
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
