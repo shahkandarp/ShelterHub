@@ -27,7 +27,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {PRIMARY_COLOR} from '@env';
 import RulesComponent from '../../components/HomeScreenComponent/RulesComponent';
 import FamousPlaces from '../../components/HomeScreenComponent/FamousPlaces';
-const PgDetailScreen = () => {
+const HistoryDetailScreen = () => {
   const {tokens, users} = useAuthContext();
   const [modal, setModal] = useState(false);
   const [mapModal, setMapModal] = useState(false);
@@ -42,9 +42,10 @@ const PgDetailScreen = () => {
   }, []);
   const getPgDetail = async () => {
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/pg/${data._id}`,
+      `http://${USER_IP}/api/v1/user/pg/${data.pg._id}`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
+    console.log(response.data.data.rooms);
     setPgDetails(response.data.data);
   };
   const onPress = () => {
@@ -57,7 +58,7 @@ const PgDetailScreen = () => {
     <ScrollView style={{backgroundColor: 'white', flex: 1}}>
       <View>
         <ImageBackground
-          source={{uri: data.photos[0].uri}}
+          source={{uri: data.pg.photos[0].uri}}
           style={{width: width, height: 230, paddingTop: 130}}>
           <LinearGradient
             colors={['#00000000', '#ffffff']}
@@ -68,7 +69,7 @@ const PgDetailScreen = () => {
         </ImageBackground>
         <Pressable onPress={onPress}>
           <FlatList
-            data={data.photos}
+            data={data.pg.photos}
             horizontal
             style={{
               marginBottom: 20,
@@ -90,7 +91,7 @@ const PgDetailScreen = () => {
           fontSize: 16,
           marginHorizontal: 12,
         }}>
-        {data.propertytitle}
+        {data.pg.propertytitle}
       </Text>
       <Text
         style={{
@@ -99,7 +100,7 @@ const PgDetailScreen = () => {
           fontSize: 11,
           marginHorizontal: 12,
         }}>
-        {data.address}
+        {data.pg.address}
       </Text>
       <View
         style={{
@@ -117,7 +118,7 @@ const PgDetailScreen = () => {
             marginTop: 2,
           }}>
           {'  '}
-          {data?.ratings?.$numberDecimal}
+          {data.pg?.ratings?.$numberDecimal}
         </Text>
         <Text
           style={{
@@ -127,7 +128,7 @@ const PgDetailScreen = () => {
             marginTop: 2,
           }}>
           {' '}
-          {'\u25CF'} {data?.noofraters} ratings
+          {'\u25CF'} {data.pg?.noofraters} ratings
         </Text>
       </View>
       <View
@@ -147,7 +148,7 @@ const PgDetailScreen = () => {
         }}>
         Amenities
       </Text>
-      {data?.isAC && (
+      {data.pg?.isAC && (
         <View
           style={{
             flexDirection: 'row',
@@ -171,7 +172,7 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.isWIFI && (
+      {data.pg.isWIFI && (
         <View
           style={{
             flexDirection: 'row',
@@ -195,7 +196,7 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.isHotWater && (
+      {data.pg.isHotWater && (
         <View
           style={{
             flexDirection: 'row',
@@ -219,7 +220,7 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.isCooler && (
+      {data.pg.isCooler && (
         <View
           style={{
             flexDirection: 'row',
@@ -262,7 +263,7 @@ const PgDetailScreen = () => {
           // marginTop: 10,
           marginHorizontal: 12,
         }}>
-        Here's Our Room,
+        You showed interest in this room,
       </Text>
       <FlatList
         data={pgDetails.rooms}
@@ -271,7 +272,9 @@ const PgDetailScreen = () => {
           marginHorizontal: 10,
         }}
         showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <RoomComponent datas={item} data2={data} />}
+        renderItem={({item}) => (
+          <RoomComponent datas={item} data2={data.pg} check={true} />
+        )}
         keyExtractor={item => item._id}
       />
       {/* <View
@@ -312,7 +315,7 @@ const PgDetailScreen = () => {
             <FontAwesome
               style={{marginHorizontal: 3}}
               name={
-                i < Math.floor(data?.ratings?.$numberDecimal)
+                i < Math.floor(data.pg?.ratings?.$numberDecimal)
                   ? 'star'
                   : 'star-o'
               }
@@ -337,10 +340,10 @@ const PgDetailScreen = () => {
               fontSize: 17,
               color: '#191919',
             }}>
-            {data?.ratings?.$numberDecimal}
+            {data.pg?.ratings?.$numberDecimal}
           </Text>
           <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-            {data?.noofraters} ratings
+            {data.pg?.noofraters} ratings
           </Text>
           {/* </View> */}
         </View>
@@ -363,7 +366,7 @@ const PgDetailScreen = () => {
         What's nearby?
       </Text>
       <FlatList
-        data={pgDetails?.pg?.famousplacedistance}
+        data={data?.pg?.famousplacedistance}
         style={{
           marginBottom: 8,
           marginHorizontal: 13,
@@ -390,7 +393,7 @@ const PgDetailScreen = () => {
           marginTop: 10,
           marginHorizontal: 12,
         }}>
-        {pgDetails?.pg?.About}
+        {data?.pg?.About}
       </Text>
       <Text
         style={{
@@ -403,7 +406,7 @@ const PgDetailScreen = () => {
         Rules
       </Text>
       <FlatList
-        data={pgDetails?.pg?.Rules}
+        data={data?.pg?.Rules}
         style={{
           marginBottom: 55,
           marginHorizontal: 13,
@@ -460,12 +463,12 @@ const PgDetailScreen = () => {
                   color: 'grey',
                   fontSize: 11,
                 }}>
-                {data.photos.length > 0
-                  ? `${data.photos.length} Images`
+                {data.pg.photos.length > 0
+                  ? `${data.pg.photos.length} Images`
                   : '1 Image'}
               </Text>
               <FlatList
-                data={data.photos}
+                data={data.pg.photos}
                 style={{marginBottom: 153, alignSelf: 'center'}}
                 showsVerticalScrollIndicator={false}
                 renderItem={({item}) => (
@@ -511,16 +514,16 @@ const PgDetailScreen = () => {
                 width: width,
               }}
               initialRegion={{
-                latitude: data?.lat?.$numberDecimal,
-                longitude: data?.lng?.$numberDecimal,
+                latitude: data.pg?.lat?.$numberDecimal,
+                longitude: data.pg?.lng?.$numberDecimal,
                 latitudeDelta: 0.07,
                 longitudeDelta: 0.07,
               }}>
               <Marker
-                title={data?.propertytitle}
+                title={data.pg?.propertytitle}
                 coordinate={{
-                  latitude: data?.lat?.$numberDecimal,
-                  longitude: data?.lng?.$numberDecimal,
+                  latitude: data.pg?.lat?.$numberDecimal,
+                  longitude: data.pg?.lng?.$numberDecimal,
                 }}
                 description={data.address}>
                 <View
@@ -563,4 +566,4 @@ const PgDetailScreen = () => {
   );
 };
 
-export default PgDetailScreen;
+export default HistoryDetailScreen;

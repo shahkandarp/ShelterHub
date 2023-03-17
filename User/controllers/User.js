@@ -265,15 +265,25 @@ const getNearbyPgs = async (req, res) => {
 };
 const getFilteredPgs = async (req, res) => {
   let pg_req_obj = req.body; //general pg/hostel amenities
+  const occupancy = req.body.occupancy;
+  const isAttached = req.body.isAttached;
+  const Filters = req.body.priceFilters;
+  var flag = 1;
+  if(occupancy || isAttached || Filters){
+    flag = 0;
+  }
   let room_req_obj = {
-    occupancy: pg_req_obj.occupancy,
-    isAttached: pg_req_obj.isAttached,
-    Filters: req.body.priceFilters,
+    occupancy: occupancy,
+    isAttached: isAttached,
+    Filters: Filters,
   }; //occupancy, attached bathrooms, price
 
   //room
-  if (room_req_obj.occupancy) {
+  if(room_req_obj.isAttached){
     delete pg_req_obj.isAttached;
+  }
+  if (room_req_obj.occupancy) {
+    flag = 1;
     delete pg_req_obj.occupancy;
     if (room_req_obj.occupancy === "shared") {
       room_req_obj.occupancy = { $gt: 1 };
@@ -283,7 +293,7 @@ const getFilteredPgs = async (req, res) => {
   }
   if (room_req_obj.Filters) {
     delete pg_req_obj.priceFilters;
-
+    flag = 1;
     const operatorMap = {
       ">": "$gt",
       ">=": "$gte",
@@ -334,8 +344,12 @@ const getFilteredPgs = async (req, res) => {
   }
   const pgs_2 = await Owner.find(pg_req_obj);
 
-
-  const pgs = getCommonItems(pgs_1,pgs_2)
+  if(flag==0){
+    var pgs = getCommonItems(pgs_1,pgs_2)
+  }
+  else{
+    var pgs = pgs_2;
+  }
 
   res.status(StatusCodes.OK).json({ res: "success", data: pgs });
 };
