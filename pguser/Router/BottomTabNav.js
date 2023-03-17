@@ -23,6 +23,7 @@ const BottomTabNav = () => {
         headerShown: false,
         tabBarInactiveTintColor: '#e0e9ff',
         tabBarActiveTintColor: PRIMARY_COLOR,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: 48,
           position: 'absolute',
@@ -39,6 +40,7 @@ const BottomTabNav = () => {
         options={{
           // unmountOnBlur: true,
           headerShown: false,
+          // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
             <Entypo name="home" size={16} color={color} />
@@ -51,6 +53,7 @@ const BottomTabNav = () => {
         options={{
           unmountOnBlur: true,
           headerShown: false,
+          // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
             <FontAwesome5 name="filter" size={16} color={color} />
@@ -102,7 +105,8 @@ const HistoryStack = () => {
 
 const FilterStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}>
       {/* <Stack.Screen component={ComboScreen} name="ComboScreen" />
       <Stack.Screen component={StaticComboScreen} name="StaticComboScreen" />
       <Stack.Screen component={DynamicComboScreen} name="DynamicComboScreen" />
