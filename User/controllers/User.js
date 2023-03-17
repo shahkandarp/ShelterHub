@@ -344,14 +344,12 @@ const getFilteredPgs = async (req, res) => {
     pgs_1.push(temp);
   }
   const pgs_2 = await Owner.find(pg_req_obj);
-
   if(flag==0){
     var pgs = getCommonItems(pgs_1,pgs_2)
   }
   else{
     var pgs = pgs_2;
   }
-
   res.status(StatusCodes.OK).json({ res: "success", data: pgs });
 };
 const addRating = async(req,res)=>{
@@ -460,7 +458,11 @@ const createUserInterest = async (req, res) => {
 
 //cities
 const getCities = async (req, res) => {
-  const cities = await City.find({});
+  const {search} = req.query;
+  var cities = await City.find({});
+  if(search){
+    cities = await City.find({name:{$regex:search,$options:"i"}});
+  }
   res.status(StatusCodes.OK).json({ res: "success", data: cities });
 };
 module.exports = {

@@ -31,7 +31,8 @@ router.route("/sendmobileotp").post(UserMiddleware, sendUserOTP);
 router.route("/verifymobileotp").post(UserMiddleware, verifyUserOTP);
 
 //cities
-router.route("/city").get(authMiddleware, getCities); //get all the cities
+router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol]
+
 
 //pg
 router.route("/pg/:pid").get(authMiddleware, getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
