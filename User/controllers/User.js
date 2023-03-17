@@ -292,10 +292,10 @@ const getFilteredPgs = async (req, res) => {
     room_obj.isAC = isAC;
   }
   if (occupancy) {
-    if (room_obj.occupancy === "shared") {
-      room_obj.occupancy = { $gt: 1 };
+    if (occupancy === "shared") {
+      room_obj.occupancy = { '$gt': 1 };
     } else {
-      room_obj.occupancy = { $eq: 1 };
+      room_obj.occupancy = { '$eq': 1 };
     }
   }
   if (priceFilters) {
@@ -358,6 +358,7 @@ const getFilteredPgs = async (req, res) => {
     });
   }
 
+  console.log(room_obj)
   //get the pgs which satisfies general pg filters
   const pgs = await Owner.find(pg_obj);
   let data = [];
