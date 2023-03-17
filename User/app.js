@@ -69,8 +69,9 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
@@ -113,8 +114,9 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
@@ -158,8 +160,9 @@ app.post(
       throw new BadRequestError("Please provide Room ID");
     }
     const file = req.file;
-    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -215,8 +218,9 @@ app.post(
       throw new BadRequestError("Please provide Room ID");
     }
     const file = req.file;
-    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -266,8 +270,9 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
@@ -306,8 +311,9 @@ app.post(
       throw new BadRequestError("Please provide Owner ID");
     }
     const file = req.file;
-    const imageRef = ref(storage,`${file.originalname}-${new Date()}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${new Date()}` };
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
+    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
