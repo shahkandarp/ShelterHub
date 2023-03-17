@@ -13,6 +13,7 @@ const nodemailer = require("nodemailer");
 const fast2sms = require("fast-two-sms");
 const bcrypt = require("bcryptjs");
 const City = require("../models/City");
+const Rating = require("../models/Rating");
 
 //utility
 function getCommonItems(array1, array2) {
@@ -353,6 +354,28 @@ const getFilteredPgs = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ res: "success", data: pgs });
 };
+const addRating = async(req,res)=>{
+  let {uid,pid} = req.params;
+  let {rating} = req.body;
+  rating = Number(rating);
+  const pg = await Owner.findOne({_id:pid});
+  let pg_rating = (
+    (pg.ratings * pg.noofraters + rating) /
+    (pg.noofraters + 1)
+  ).toFixed(1);
+  let raters = pg.noofraters+1
+  const user_rating = await Rating.findOne({userId:uid});
+  if(!user_rating){
+    const update_pg = await Owner.findOneAndUpdate({_id:pid},{ratings:pg_rating,noofraters:raters},{new:true,runValidators:true});
+    const new_rating = await Rating.create({userId:uid,ownerId:pid,rating:rating});
+    res.status(StatusCodes.OK).json({res:"success",data:update_pg});
+  }
+  else{
+    res.status(StatusCodes.OK).json({res:"failed",data:"user has already rated"})
+  }
+
+
+}
 
 //user
 const getUserDetails = async (req, res) => {
@@ -457,4 +480,5 @@ module.exports = {
   sendUserOTP,
   verifyUserOTP,
   getCities,
+  addRating
 };

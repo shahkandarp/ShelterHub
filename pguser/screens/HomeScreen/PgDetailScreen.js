@@ -142,6 +142,33 @@ const PgDetailScreen = () => {
           fontFamily: 'Poppins-Medium',
           color: '#191919',
           fontSize: 15,
+          marginTop: 10,
+          marginHorizontal: 12,
+        }}>
+        Here's Our Room,
+      </Text>
+      <FlatList
+        data={pgDetails.rooms}
+        style={{
+          marginBottom: 4,
+          marginHorizontal: 10,
+        }}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => <RoomComponent datas={item} data2={data} />}
+        keyExtractor={item => item._id}
+      />
+      <View
+        style={{
+          backgroundColor: '#e0e0ed',
+          height: 1,
+          marginHorizontal: 30,
+          marginVertical: 15,
+        }}></View>
+      <Text
+        style={{
+          fontFamily: 'Poppins-Medium',
+          color: '#191919',
+          fontSize: 15,
           marginTop: 15,
           marginHorizontal: 12,
         }}>
@@ -254,26 +281,7 @@ const PgDetailScreen = () => {
         <Text style={{color: 'black'}}>View on map</Text>
       </Pressable> */}
       {/* <Text style={{}}>Rooms available</Text> */}
-      <Text
-        style={{
-          fontFamily: 'Poppins-Medium',
-          color: '#191919',
-          fontSize: 15,
-          // marginTop: 10,
-          marginHorizontal: 12,
-        }}>
-        Here's Our Room,
-      </Text>
-      <FlatList
-        data={pgDetails.rooms}
-        style={{
-          marginBottom: 4,
-          marginHorizontal: 10,
-        }}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <RoomComponent datas={item} data2={data} />}
-        keyExtractor={item => item._id}
-      />
+
       {/* <View
         style={{
           backgroundColor: '#e0e0ed',
@@ -282,13 +290,6 @@ const PgDetailScreen = () => {
           marginTop: 10,
           marginBottom: 10,
         }}></View> */}
-      <View
-        style={{
-          backgroundColor: '#e0e0ed',
-          height: 1,
-          marginHorizontal: 30,
-          marginVertical: 15,
-        }}></View>
       <Text
         style={{
           fontFamily: 'Poppins-Medium',
