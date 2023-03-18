@@ -34,11 +34,17 @@ const PgDetailScreen = () => {
   const {width, height} = useWindowDimensions();
   const route = useRoute();
   const data = route?.params?.data;
+  const check = route?.params?.check;
   const mapRef = useRef();
   const navigation = useNavigation();
   const [pgDetails, setPgDetails] = useState([]);
+  const pgDetail = route?.params?.pgDetail;
   useEffect(() => {
-    getPgDetail();
+    if (check) {
+      console.log(pgDetail);
+    } else {
+      getPgDetail();
+    }
   }, []);
   const getPgDetail = async () => {
     const response = await axios.get(
@@ -47,6 +53,13 @@ const PgDetailScreen = () => {
     );
     setPgDetails(response.data.data);
   };
+  //  const getDetails = async () => {
+  //    const response = await axios.get(
+  //      `http://${USER_IP}/api/v1/user/pg/${data._id}`,
+  //      {headers: {Authorization: `Bearer ${tokens}`}},
+  //    );
+  //    setPgDetails(response.data.data);
+  //  };
   const onPress = () => {
     setModal(true);
   };
@@ -148,7 +161,7 @@ const PgDetailScreen = () => {
         Here's Our Room,
       </Text>
       <FlatList
-        data={pgDetails.rooms}
+        data={check ? pgDetail : pgDetails.rooms}
         style={{
           marginBottom: 4,
           marginHorizontal: 10,
@@ -278,8 +291,9 @@ const PgDetailScreen = () => {
           marginVertical: 20,
         }}></View>
       {/* <Pressable onPress={() => navigation.navigate('MapScreen', {data: data})}>
-        <Text style={{color: 'black'}}>View on map</Text>
-      </Pressable> */}
+        {/* <Pressable onPress={() => console.log(data.lat.$numberDecimal)}> */}
+      {/* <Text style={{color: 'black'}}>View on map</Text> */}
+      {/* </Pressable> */}
       {/* <Text style={{}}>Rooms available</Text> */}
 
       {/* <View
@@ -364,7 +378,9 @@ const PgDetailScreen = () => {
         What's nearby?
       </Text>
       <FlatList
-        data={pgDetails?.pg?.famousplacedistance}
+        data={
+          check ? data.famousplacedistance : pgDetails?.pg?.famousplacedistance
+        }
         style={{
           marginBottom: 8,
           marginHorizontal: 13,
@@ -391,7 +407,7 @@ const PgDetailScreen = () => {
           marginTop: 10,
           marginHorizontal: 12,
         }}>
-        {pgDetails?.pg?.About}
+        {check ? data.About : pgDetails?.pg?.About}
       </Text>
       <Text
         style={{
@@ -404,7 +420,7 @@ const PgDetailScreen = () => {
         Rules
       </Text>
       <FlatList
-        data={pgDetails?.pg?.Rules}
+        data={check ? data.Rules : pgDetails?.pg?.Rules}
         style={{
           marginBottom: 55,
           marginHorizontal: 13,

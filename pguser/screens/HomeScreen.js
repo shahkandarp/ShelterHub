@@ -8,8 +8,10 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  RefreshControl,
+  StatusBar,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import {USER_IP, PRIMARY_COLOR} from '@env';
@@ -33,9 +35,28 @@ const HomeScreen = () => {
   const [data, setData] = useState([]);
   const [featuredData, setFeaturedData] = useState([]);
   const [nearByPg, setNearByPgData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   Geocoder.init('AIzaSyATSR2CjwA97n3qJ72ELXN9LcY9_BXkLbk');
   useEffect(() => {
     getLocation();
+  }, []);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // walletDetail();
+    // getUser();
+    // console.log(location);
+    // getLocation();
+
+    if (location) {
+      onUpdatePressed();
+      getData();
+      getFamousPg();
+      getFeaturedPg();
+      getNearByPg();
+    }
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   }, []);
   useEffect(() => {
     if (location) {
@@ -172,8 +193,16 @@ const HomeScreen = () => {
   };
   return (
     <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       style={{backgroundColor: 'white', flex: 1}}
       showsVerticalScrollIndicator={false}>
+      <StatusBar
+        animated={true}
+        backgroundColor={PRIMARY_COLOR}
+        barStyle={'light-content'}
+      />
       <View
         style={{
           flexDirection: 'row',

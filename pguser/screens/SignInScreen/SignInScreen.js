@@ -208,7 +208,7 @@ const SignInScreen = () => {
               },
               shadowOpacity: 0.41,
               shadowRadius: 9.11,
-              elevation: 7,
+              elevation: 3,
               alignContent: 'center',
               alignSelf: 'center',
               marginTop: 20,

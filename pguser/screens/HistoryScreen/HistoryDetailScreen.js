@@ -45,7 +45,7 @@ const HistoryDetailScreen = () => {
       `http://${USER_IP}/api/v1/user/pg/${data.pg._id}`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
-    console.log(response.data.data.rooms);
+    // console.log(response.data.data.rooms);
     setPgDetails(response.data.data);
   };
   const onPress = () => {
