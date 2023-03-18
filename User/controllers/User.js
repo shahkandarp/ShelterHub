@@ -281,7 +281,7 @@ const getFilteredPgs = async (req, res) => {
     ratingFilters,
     priceFilters,
     occupancy,
-    isCooler
+    isCooler,
   } = req.body;
 
   //room
@@ -293,9 +293,9 @@ const getFilteredPgs = async (req, res) => {
   }
   if (occupancy) {
     if (occupancy === "shared") {
-      room_obj.occupancy = { '$gt': 1 };
+      room_obj.occupancy = { $gt: 1 };
     } else {
-      room_obj.occupancy = { '$eq': 1 };
+      room_obj.occupancy = { $eq: 1 };
     }
   }
   if (priceFilters) {
@@ -357,40 +357,30 @@ const getFilteredPgs = async (req, res) => {
       pg_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
     });
   }
-
-  console.log(room_obj)
   //get the pgs which satisfies general pg filters
   const pgs = await Owner.find(pg_obj);
   let data = [];
-  for (let i =0;i<pgs.length;i++)
-  {
+  for (let i = 0; i < pgs.length; i++) {
     let obj = {};
-    if(Object.keys(room_obj).length==0){
-      const rooms = await Room.find({ownerId:pgs[i]._id});
-      if(rooms.length == 0)
-      {
+    if (Object.keys(room_obj).length == 0) {
+      const rooms = await Room.find({ ownerId: pgs[i]._id });
+      if (rooms.length == 0) {
         continue;
       }
       obj.pg = pgs[i];
       obj.rooms = rooms;
-    }
-    else{
+    } else {
       room_obj.ownerId = pgs[i]._id;
-      const rooms =await  Room.find(room_obj);
-      if(rooms.length == 0)
-      {
+      const rooms = await Room.find(room_obj);
+      if (rooms.length == 0) {
         continue;
       }
       obj.pg = pgs[i];
       obj.rooms = rooms;
     }
-    data.push(obj)
+    data.push(obj);
   }
-
-
-  res
-    .status(StatusCodes.OK)
-    .json({ res: "success", nhits: data.length, data });
+  res.status(StatusCodes.OK).json({ res: "success", nhits: data.length, data });
 };
 const addRating = async (req, res) => {
   let { uid, pid } = req.params;
@@ -451,7 +441,7 @@ const validateOtp = async (req, res) => {
     throw new BadRequestError("Please provide otp in the body");
   } else {
     const user = await User.findOne({ email: email });
-    if (user.otp !== otp) {
+    if (user.mailotp !== otp) {
       res.status(StatusCodes.OK).json({ res: "failed", data: "Invalid otp" });
     } else {
       res.status(StatusCodes.OK).json({ res: "success", data: "valid otp" });
