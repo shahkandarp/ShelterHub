@@ -6,6 +6,7 @@ const ImageCarouselComponent = ({famous}) => {
   // console.log('famous:', famous);
   const navigation = useNavigation();
   const onPress = () => {
+    // console.log(famous.name);
     navigation.navigate('FilteredPgScreen', {city: famous.name});
   };
   return (

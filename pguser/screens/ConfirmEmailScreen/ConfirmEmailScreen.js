@@ -8,6 +8,7 @@ import {
   Pressable,
   Dimensions,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useRoute} from '@react-navigation/native';
@@ -40,11 +41,17 @@ const ConfirmEmailScreen = () => {
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
+      console.log(value);
       const response = await axios.post(
         `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
         {otp: value},
       );
-      navigation.navigate('NewPasswordScreen', {email});
+      // console.log(response.data);
+      if (response.data.res == 'success') {
+        navigation.navigate('NewPasswordScreen', {email});
+      } else {
+        Alert.alert('Not a valid OTP.');
+      }
       setLoading(false);
     } catch (e) {
       setCheck(true);

@@ -22,7 +22,7 @@ const SearchComponent = ({searchResult}) => {
       }}>
       <View>
         <Image
-          source={{uri: searchResult.photos[0].url}}
+          source={{uri: searchResult.photos[0].uri}}
           style={{height: 45, width: 45, borderRadius: 22.5}}
         />
       </View>
