@@ -42,7 +42,7 @@ const BottomTabNav = () => {
         component={HomeStack}
         name="Home"
         options={{
-          unmountOnBlur: true,
+          // unmountOnBlur: true,
           headerShown: false,
           // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
