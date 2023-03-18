@@ -392,7 +392,7 @@ const addRating = async (req, res) => {
     (pg.noofraters + 1)
   ).toFixed(1);
   let raters = pg.noofraters + 1;
-  const user_rating = await Rating.findOne({ userId: uid });
+  const user_rating = await Rating.findOne({ userId: uid,ownerId:pid });
   if (!user_rating) {
     const update_pg = await Owner.findOneAndUpdate(
       { _id: pid },

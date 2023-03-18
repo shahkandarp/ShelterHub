@@ -34,23 +34,64 @@ app.use(helmet());
 app.use(cors());
 
 // app.get("/populate", async (req, res) => {
-//   const photos = [
-//     {
-//       name: "IMG-20230213-WA0001.jpg",
-//       uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/IMG-20230213-WA0001.jpg?alt=media",
+//   let data = {
+//     phoneno: "9723566998",
+//     lat: {
+//       $numberDecimal: "24.75342322173403",
 //     },
-//   ];
-//   // const videos = [
-//   //   {
-//   //     name: "video.mp4",
-//   //     uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/video.mp4?alt=media",
-//   //   },
-//   // ];
-//   const pgs = await Owner.find({});
-//   for(let i=0;i<pgs.length;i++){
-//     const temp = await Owner.findOneAndUpdate({_id:pgs[i]._id},{dphotos:photos},{new:true});
-//     console.log(temp)
-//   }
+//     lng: {
+//       $numberDecimal: "92.78157535957803",
+//     },
+//     phoneotp: 2272,
+//     mailotp: 0,
+//     address:
+//       "QQ2V+J75, SH 39, Ghungoor, Masimpur, Bariknagar Pt II, Assam 788118",
+//     aadhaarno: {
+//       name: "Screenshot_20230317-174315_merchantApp.jpg-1679058303149",
+//       uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/Screenshot_20230317-174315_merchantApp.jpg-1679058303149?alt=media",
+//     },
+//     addressproof: {
+//       name: "Screenshot_20230317-182059_merchantApp.jpg-1679058306264",
+//       uri: "https://firebasestorage.googleapis.com/v0/b/ssip-images.appspot.com/o/Screenshot_20230317-182059_merchantApp.jpg-1679058306264?alt=media",
+//     },
+//     photos: [
+//     ],
+//     videos: [],
+//     Rules: [""],
+//     About:
+//       "There are four blocks named East West North & South. Each room is for two students of different branches. There are 4 floors including the ground floor. One canteen is there. There is one guard to look for the hostel. Academic building is 500 meters from PG hostel.\n\nInside room you will get one bed, one fan, two tube lights, LAN supply is there, one table, one chair. Big drawer is there, one for each student. You have to buy your own bed sheet, bed, pillow, bucket etc. Each floor has bathrooms and toilets. It is cleaned in every two days. It is always in good condition. 24*7 water and electricity supply.\n\nThere are grounds for volleyball and badminton. One tennis playground is also there you can play in night too.",
+//     interestedusers: 0,
+//     views: 4,
+//     ratings: {
+//       $numberDecimal: "0",
+//     },
+//     noofraters: 0,
+//     cityname: "Silchar",
+//     famousplacedistance: [
+  
+//     ],
+//     isMale: false,
+//     isFemale: true,
+//     isAC: true,
+//     isCooler: true,
+//     typeofpg: "HOSTEL",
+//     isWIFI: true,
+//     isHotWater: false,
+//     mode: "LIGHT",
+//     phoneVerified: true,
+//     detailsEntered: false,
+//     nameasperaadhar: "Shankar Pandey",
+//     propertytitle: "NIT Silchar Girls Hostel",
+//     roomFilled: true,
+//     email: "Kirtanprajapati193@gmail.com",
+//     password: "$2a$10$l3SOplE73lKCIZGDeYKqTOtz86rEeoD1rPGUzTj2TRH6j1HVsWvvS",
+//     name: "Shankar Pandey",
+//     __v: 0,
+//   };
+
+ 
+//   const ss = await Owner.findOneAndUpdate({_id:'64128e057536ec50a4635601'},data)
+  
 //   res.send("success");
 // });
 //routes user
@@ -70,8 +111,11 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
@@ -115,8 +159,11 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const ownerx = await Owner.findOne({ _id: ownerId });
     var obj = {
@@ -161,8 +208,11 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -219,8 +269,11 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     const roomx = await Room.findOne({ _id: rid });
     if (!roomx) {
@@ -271,8 +324,11 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
@@ -312,8 +368,11 @@ app.post(
     }
     const file = req.file;
     const dateTime = new Date().getTime();
-    const imageRef = ref(storage,`${file.originalname}-${dateTime}` );
-    const metatype = { contentType: file.mimetype, name: `${file.originalname}-${dateTime}` };
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
     const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
     var obj = {
       name: snapshot.ref._location.path_,
