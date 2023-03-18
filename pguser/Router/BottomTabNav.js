@@ -42,7 +42,7 @@ const BottomTabNav = () => {
         component={HomeStack}
         name="Home"
         options={{
-          // unmountOnBlur: true,
+          unmountOnBlur: true,
           headerShown: false,
           // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
@@ -144,6 +144,10 @@ const ProfileScreenStack = () => {
         name="PrivacyPolicyScreen"
       />
       <Stack.Screen component={AboutUsScreen} name="AboutUsScreen" />
+      <Stack.Screen
+        component={HistoryDetailScreen}
+        name="HistoryDetailScreen"
+      />
     </Stack.Navigator>
   );
 };

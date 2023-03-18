@@ -25,24 +25,28 @@ const FamousPg = ({data}) => {
   // };
   return (
     <View style={{marginTop: 5}}>
-      <Text
-        style={{
-          fontFamily: 'Poppins-Medium',
-          color: '#191919',
-          fontSize: 13,
-          marginHorizontal: 15,
-        }}>
-        Famous Hostels/PGs in your Area...
-      </Text>
-      <FlatList
-        data={data}
-        horizontal
-        style={{marginBottom: 20, marginTop: 5}}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <FamousPgComponent famous={item} />}
-        keyExtractor={item => item.name}
-      />
+      {data.length > 0 && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 13,
+            marginHorizontal: 15,
+          }}>
+          Famous Hostels/PGs in your Area...
+        </Text>
+      )}
+      {data.length > 0 && (
+        <FlatList
+          data={data}
+          horizontal
+          style={{marginBottom: 20, marginTop: 5}}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => <FamousPgComponent famous={item} />}
+          keyExtractor={item => item.name}
+        />
+      )}
     </View>
   );
 };
