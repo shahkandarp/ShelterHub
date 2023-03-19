@@ -18,15 +18,16 @@ const Rating = require("../models/Rating");
 //utility
 function getCommonItems(array1, array2) {
   var common = []; // Initialize array to contain common items
-  
+
   for (var i = 0; i < array1.length; i++) {
     for (var j = 0; j < array2.length; j++) {
-      if (String(array1[i]._id) === String(array2[j]._id)) { // If item is present in both arrays
+      if (String(array1[i]._id) === String(array2[j]._id)) {
+        // If item is present in both arrays
         common.push(array1[i]); // Push to common array
       }
     }
   }
- 
+
   return common; // Return the common items
 }
 const calculateDistance = (lat1, lat2, lon1, lon2) => {
@@ -265,36 +266,39 @@ const getNearbyPgs = async (req, res) => {
   }
 };
 const getFilteredPgs = async (req, res) => {
-  let pg_req_obj = req.body; //general pg/hostel amenities
-  const occupancy = req.body.occupancy;
-  const isAttached = req.body.isAttached;
-  const Filters = req.body.priceFilters;
-  var flag = 1;
-  if(occupancy || isAttached || Filters){
-    flag = 0;
-  }
-  let room_req_obj = {
-    occupancy: occupancy,
-    isAttached: isAttached,
-    Filters: Filters,
-  }; //occupancy, attached bathrooms, price
+  let pg_obj = {}; //general pg/hostel amenities
+  let room_obj = {}; //occupancy, attached bathrooms, price
+
+  const {
+    isAttached,
+    isAC,
+    isHotWater,
+    isWIFI,
+    typeofpg,
+    isFemale,
+    isMale,
+    cityname,
+    ratingFilters,
+    priceFilters,
+    occupancy,
+    isCooler,
+  } = req.body;
 
   //room
-  if(room_req_obj.isAttached){
-    delete pg_req_obj.isAttached;
+  if (isAttached) {
+    room_obj.isAttached = isAttached;
   }
-  if (room_req_obj.occupancy) {
-    flag = 1;
-    delete pg_req_obj.occupancy;
-    if (room_req_obj.occupancy === "shared") {
-      room_req_obj.occupancy = { $gt: 1 };
+  if (isAC) {
+    room_obj.isAC = isAC;
+  }
+  if (occupancy) {
+    if (occupancy === "shared") {
+      room_obj.occupancy = { $gt: 1 };
     } else {
-      room_req_obj.occupancy = { $eq: 1 };
+      room_obj.occupancy = { $eq: 1 };
     }
   }
-  if (room_req_obj.Filters) {
-    delete pg_req_obj.priceFilters;
-    flag = 1;
+  if (priceFilters) {
     const operatorMap = {
       ">": "$gt",
       ">=": "$gte",
@@ -303,22 +307,39 @@ const getFilteredPgs = async (req, res) => {
       "<=": "$lte",
     };
     const regEx = /\b(<|>|>=|=|<|<=)\b/g;
-    let filters = room_req_obj.Filters.replace(
+    let filters = priceFilters.replace(
       regEx,
       (match) => `&${operatorMap[match]}&`
     );
     filters = filters.split(",").forEach((item) => {
       const [field1, op1, val1, field2, op2, val2] = item.split("&");
-      room_req_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
+      room_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
     });
-    delete room_req_obj.Filters;
   }
 
   //pg
-  if (pg_req_obj.cityname) {
-    pg_req_obj.cityname = { $regex: req.body.cityname, $options: "i" };
+  if (isHotWater) {
+    pg_obj.isHotWater = isHotWater;
   }
-  if (pg_req_obj.ratingFilters) {
+  if (isCooler) {
+    pg_obj.isCooler = isCooler;
+  }
+  if (isWIFI) {
+    pg_obj.isWIFI = isWIFI;
+  }
+  if (typeofpg) {
+    pg_obj.typeofpg = typeofpg;
+  }
+  if (isFemale) {
+    pg_obj.isFemale = isFemale;
+  }
+  if (isMale) {
+    pg_obj.isMale = isMale;
+  }
+  if (cityname) {
+    pg_obj.cityname = { $regex: req.body.cityname, $options: "i" };
+  }
+  if (ratingFilters) {
     const operatorMap = {
       ">": "$gt",
       ">=": "$gte",
@@ -327,55 +348,69 @@ const getFilteredPgs = async (req, res) => {
       "<=": "$lte",
     };
     const regEx = /\b(<|>|>=|=|<|<=)\b/g;
-    let filters = pg_req_obj.ratingFilters.replace(
+    let filters = ratingFilters.replace(
       regEx,
       (match) => `&${operatorMap[match]}&`
     );
     filters = filters.split(",").forEach((item) => {
       const [field1, op1, val1, field2, op2, val2] = item.split("&");
-      pg_req_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
+      pg_obj[field1] = { [op1]: Number(val1), [op2]: Number(val2) };
     });
-    delete pg_req_obj.ratingFilters;
   }
-  let pgs_1 = [];
-  const rooms = await Room.find(room_req_obj);
-  for (let i = 0; i < rooms.length; i++) {
-    const temp = await Owner.findOne({ _id: rooms[i].ownerId });
-    pgs_1.push(temp);
+  //get the pgs which satisfies general pg filters
+  const pgs = await Owner.find(pg_obj);
+  let data = [];
+  for (let i = 0; i < pgs.length; i++) {
+    let obj = {};
+    if (Object.keys(room_obj).length == 0) {
+      const rooms = await Room.find({ ownerId: pgs[i]._id });
+      if (rooms.length == 0) {
+        continue;
+      }
+      obj.pg = pgs[i];
+      obj.rooms = rooms;
+    } else {
+      room_obj.ownerId = pgs[i]._id;
+      const rooms = await Room.find(room_obj);
+      if (rooms.length == 0) {
+        continue;
+      }
+      obj.pg = pgs[i];
+      obj.rooms = rooms;
+    }
+    data.push(obj);
   }
-  const pgs_2 = await Owner.find(pg_req_obj);
-
-  if(flag==0){
-    var pgs = getCommonItems(pgs_1,pgs_2)
-  }
-  else{
-    var pgs = pgs_2;
-  }
-
-  res.status(StatusCodes.OK).json({ res: "success", data: pgs });
+  res.status(StatusCodes.OK).json({ res: "success", nhits: data.length, data });
 };
-const addRating = async(req,res)=>{
-  let {uid,pid} = req.params;
-  let {rating} = req.body;
+const addRating = async (req, res) => {
+  let { uid, pid } = req.params;
+  let { rating } = req.body;
   rating = Number(rating);
-  const pg = await Owner.findOne({_id:pid});
+  const pg = await Owner.findOne({ _id: pid });
   let pg_rating = (
     (pg.ratings * pg.noofraters + rating) /
     (pg.noofraters + 1)
   ).toFixed(1);
-  let raters = pg.noofraters+1
-  const user_rating = await Rating.findOne({userId:uid});
-  if(!user_rating){
-    const update_pg = await Owner.findOneAndUpdate({_id:pid},{ratings:pg_rating,noofraters:raters},{new:true,runValidators:true});
-    const new_rating = await Rating.create({userId:uid,ownerId:pid,rating:rating});
-    res.status(StatusCodes.OK).json({res:"success",data:update_pg});
+  let raters = pg.noofraters + 1;
+  const user_rating = await Rating.findOne({ userId: uid,ownerId:pid });
+  if (!user_rating) {
+    const update_pg = await Owner.findOneAndUpdate(
+      { _id: pid },
+      { ratings: pg_rating, noofraters: raters },
+      { new: true, runValidators: true }
+    );
+    const new_rating = await Rating.create({
+      userId: uid,
+      ownerId: pid,
+      rating: rating,
+    });
+    res.status(StatusCodes.OK).json({ res: "success", data: update_pg });
+  } else {
+    res
+      .status(StatusCodes.OK)
+      .json({ res: "failed", data: "user has already rated" });
   }
-  else{
-    res.status(StatusCodes.OK).json({res:"failed",data:"user has already rated"})
-  }
-
-
-}
+};
 
 //user
 const getUserDetails = async (req, res) => {
@@ -400,13 +435,14 @@ const updateUserDetails = async (req, res) => {
   }
 };
 const validateOtp = async (req, res) => {
-  const { otp } = req.body;
+  let { otp } = req.body;
   const { email } = req.params;
   if (!otp) {
     throw new BadRequestError("Please provide otp in the body");
   } else {
+    otp = Number(otp)
     const user = await User.findOne({ email: email });
-    if (user.otp !== otp) {
+    if (user.mailotp !== otp) {
       res.status(StatusCodes.OK).json({ res: "failed", data: "Invalid otp" });
     } else {
       res.status(StatusCodes.OK).json({ res: "success", data: "valid otp" });
@@ -460,7 +496,11 @@ const createUserInterest = async (req, res) => {
 
 //cities
 const getCities = async (req, res) => {
-  const cities = await City.find({});
+  const { search } = req.query;
+  var cities = await City.find({});
+  if (search) {
+    cities = await City.find({ name: { $regex: search, $options: "i" } });
+  }
   res.status(StatusCodes.OK).json({ res: "success", data: cities });
 };
 module.exports = {
@@ -480,5 +520,5 @@ module.exports = {
   sendUserOTP,
   verifyUserOTP,
   getCities,
-  addRating
+  addRating,
 };

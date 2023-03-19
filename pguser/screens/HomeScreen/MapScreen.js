@@ -5,7 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useRoute} from '@react-navigation/native';
 
 const MapScreen = () => {
-  // const mapRef = useRef();
+  const mapRef = useRef();
   const route = useRoute();
   const data = route?.params?.data;
   console.log(data);
@@ -14,12 +14,15 @@ const MapScreen = () => {
     <View
       style={{
         backgroundColor: '#ffffff',
-        height: '100%',
+        // height: height,
+        // width: width,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
       }}>
       <MapView
-        // ref={mapRef}
+        ref={mapRef}
         provider={PROVIDER_GOOGLE}
         followsUserLocation={true}
         showsUserLocation={true}
@@ -30,8 +33,8 @@ const MapScreen = () => {
         initialRegion={{
           latitude: data.lat.$numberDecimal,
           longitude: data.lng.$numberDecimal,
-          latitudeDelta: 0.07,
-          longitudeDelta: 0.07,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02 * (width / height),
         }}>
         <Marker
           title={data.propertytitle}

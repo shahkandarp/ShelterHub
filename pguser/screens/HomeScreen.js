@@ -8,8 +8,10 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  RefreshControl,
+  StatusBar,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 import {USER_IP, PRIMARY_COLOR} from '@env';
@@ -24,6 +26,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Geocoder from 'react-native-geocoding';
 // import NearByPgScreen from './HomeScreen/NearByPgScreen';
 import NearByPgComponent from '../components/HomeScreenComponent/NearByPgComponent';
+import AppLoader from '../components/AppLoader';
 const HomeScreen = () => {
   const [location, setLocation] = useState(false);
   const navigation = useNavigation();
@@ -33,9 +36,24 @@ const HomeScreen = () => {
   const [data, setData] = useState([]);
   const [featuredData, setFeaturedData] = useState([]);
   const [nearByPg, setNearByPgData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
   Geocoder.init('AIzaSyATSR2CjwA97n3qJ72ELXN9LcY9_BXkLbk');
   useEffect(() => {
     getLocation();
+  }, []);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    if (location) {
+      onUpdatePressed();
+      getData();
+      getFamousPg();
+      getFeaturedPg();
+      getNearByPg();
+    }
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   }, []);
   useEffect(() => {
     if (location) {
@@ -151,170 +169,192 @@ const HomeScreen = () => {
     }
   };
   const getFamousPg = async () => {
+    setLoading(true);
     const response = await axios.get(
       `http://${USER_IP}/api/v1/user/${users}/pg?sort=ratings`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setData(response.data.data);
+    setLoading(false);
   };
   const getFeaturedPg = async () => {
+    setLoading(true);
     const response = await axios.get(`http://${USER_IP}/api/v1/user/city`, {
       headers: {Authorization: `Bearer ${tokens}`},
     });
     setFeaturedData(response.data.data);
+    setLoading(false);
   };
   const getNearByPg = async () => {
+    setLoading(true);
     const response = await axios.get(
       `http://${USER_IP}/api/v1/user/${users}/pg/nearby`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setNearByPgData(response.data.data);
+    setLoading(false);
   };
   return (
-    <ScrollView
-      style={{backgroundColor: 'white', flex: 1}}
-      showsVerticalScrollIndicator={false}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginHorizontal: 10,
-          marginBottom: 3,
-          marginTop: 10,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <MaterialIcons name="location-pin" size={22} color={PRIMARY_COLOR} />
-          <View style={{marginHorizontal: 5}}>
-            <TouchableOpacity
-              onPress={getLocation}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Text
-                numberOfLines={1}
-                // maxFontSizeMultiplier={1}
-                minimumFontScale={10}
+    <>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        style={{backgroundColor: 'white', flex: 1}}
+        showsVerticalScrollIndicator={false}>
+        <StatusBar
+          animated={true}
+          backgroundColor={PRIMARY_COLOR}
+          barStyle={'light-content'}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 10,
+            marginBottom: 3,
+            marginTop: 10,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <MaterialIcons
+              name="location-pin"
+              size={22}
+              color={PRIMARY_COLOR}
+            />
+            <View style={{marginHorizontal: 5}}>
+              <TouchableOpacity
+                onPress={getLocation}
                 style={{
-                  color: PRIMARY_COLOR,
-                  fontSize: 12,
-                  fontFamily: 'Poppins-SemiBold',
-                  maxWidth: 140,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}>
-                {location ? names : 'Provide Location'}
-              </Text>
+                <Text
+                  numberOfLines={1}
+                  // maxFontSizeMultiplier={1}
+                  minimumFontScale={10}
+                  style={{
+                    color: PRIMARY_COLOR,
+                    fontSize: 12,
+                    fontFamily: 'Poppins-SemiBold',
+                    maxWidth: 140,
+                  }}>
+                  {location ? names : 'Provide Location'}
+                </Text>
 
-              <AntDesign
-                name="caretdown"
-                size={11}
-                style={{marginHorizontal: 2}}
-                color={PRIMARY_COLOR}
-              />
-            </TouchableOpacity>
+                <AntDesign
+                  name="caretdown"
+                  size={11}
+                  style={{marginHorizontal: 2}}
+                  color={PRIMARY_COLOR}
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 10,
+                  fontFamily: 'Poppins-Regular',
+                }}>
+                {location ? region : 'None'}
+              </Text>
+            </View>
+          </View>
+          <TouchableOpacity>
+            <Ionicons
+              name="ios-notifications-outline"
+              size={20}
+              color={'black'}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginHorizontal: 15,
+            marginBottom: 4,
+          }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 12.5,
+              fontFamily: 'Poppins-Regular',
+            }}>
+            Hey {name},{' '}
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 12.5,
+              fontFamily: 'Poppins-Medium',
+            }}>
+            {greeting()}
+          </Text>
+        </View>
+
+        {/* Search Bar */}
+        <Pressable
+          style={styles.searchSection}
+          onPress={() =>
+            navigation.navigate('SearchScreen', {names: names, region: region})
+          }>
+          <Ionicons
+            style={styles.searchIcon}
+            name="ios-search"
+            size={16}
+            color={PRIMARY_COLOR}
+          />
+          <View style={styles.input}>
             <Text
               style={{
-                color: 'black',
-                fontSize: 10,
                 fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginLeft: -5,
+                color: 'grey',
               }}>
-              {location ? region : 'None'}
+              Search for PGs , Hostels...
             </Text>
           </View>
-        </View>
-        <TouchableOpacity>
-          <Ionicons
-            name="ios-notifications-outline"
-            size={20}
-            color={'black'}
-          />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginHorizontal: 15,
-          marginBottom: 4,
-        }}>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 12.5,
-            fontFamily: 'Poppins-Regular',
-          }}>
-          Hey {name},{' '}
-        </Text>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 12.5,
-            fontFamily: 'Poppins-Medium',
-          }}>
-          {greeting()}
-        </Text>
-      </View>
+        </Pressable>
 
-      {/* Search Bar */}
-      <Pressable
-        style={styles.searchSection}
-        onPress={() =>
-          navigation.navigate('SearchScreen', {names: names, region: region})
-        }>
-        <Ionicons
-          style={styles.searchIcon}
-          name="ios-search"
-          size={16}
-          color={PRIMARY_COLOR}
-        />
-        <View style={styles.input}>
-          <Text
-            style={{
-              fontFamily: 'Poppins-Regular',
-              fontSize: 12,
-              marginLeft: -5,
-              color: 'grey',
-            }}>
-            Search for PGs , Hostels...
-          </Text>
-        </View>
-      </Pressable>
-
-      {location && (
-        <View>
-          {/* Featured Carousel */}
+        {location && (
           <View>
-            <ImageCarousel featured={featuredData} />
-          </View>
+            {/* Featured Carousel */}
+            <View>
+              <ImageCarousel featured={featuredData} />
+            </View>
 
-          {/* Top 10 PGs */}
-          <View>
-            <FamousPg data={data} />
-          </View>
+            {/* Top 10 PGs */}
+            <View>
+              <FamousPg data={data} />
+            </View>
 
-          {/* Nearby PGs */}
-          <View>
-            <NearByPgComponent data={nearByPg} />
+            {/* Nearby PGs */}
+            <View>
+              <NearByPgComponent data={nearByPg} />
+            </View>
           </View>
-        </View>
-      )}
-      {!location && (
-        <View>
-          <Text
-            style={{
-              fontFamily: 'Poppins-Medium',
-              color: '#252525',
-              fontSize: 16,
-              textAlign: 'center',
-            }}>
-            Please provide your location...
-          </Text>
-          {/* <Pressable onPress={getLocation}>
+        )}
+        {!location && (
+          <View>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Medium',
+                color: '#252525',
+                fontSize: 16,
+                textAlign: 'center',
+              }}>
+              Please provide your location...
+            </Text>
+            {/* <Pressable onPress={getLocation}>
             <Text>Provide Location</Text>
           </Pressable> */}
-        </View>
-      )}
-    </ScrollView>
+          </View>
+        )}
+      </ScrollView>
+      {loginPending ? <AppLoader /> : null}
+      {loading ? <AppLoader /> : null}
+    </>
   );
 };
 const styles = StyleSheet.create({

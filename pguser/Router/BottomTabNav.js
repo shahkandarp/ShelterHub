@@ -14,6 +14,10 @@ import FilteredPgScreen from '../screens/HomeScreen/FilteredPgScreen';
 import {PRIMARY_COLOR} from '@env';
 import MapScreen from '../screens/HomeScreen/MapScreen';
 import HistoryDetailScreen from '../screens/HistoryScreen/HistoryDetailScreen';
+import FilterResultScreen from '../screens/FilterScreen/FilterResultScreen';
+import UpdateProfile from '../screens/ProfileScreen/UpdateProfile';
+import AboutUsScreen from '../screens/ProfileScreen/AboutUsScreen';
+import PrivacyPolicyScreen from '../screens/ProfileScreen/PrivacyPolicyScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const BottomTabNav = () => {
@@ -23,6 +27,7 @@ const BottomTabNav = () => {
         headerShown: false,
         tabBarInactiveTintColor: '#e0e9ff',
         tabBarActiveTintColor: PRIMARY_COLOR,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: 48,
           position: 'absolute',
@@ -39,6 +44,7 @@ const BottomTabNav = () => {
         options={{
           // unmountOnBlur: true,
           headerShown: false,
+          // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
             <Entypo name="home" size={16} color={color} />
@@ -51,6 +57,7 @@ const BottomTabNav = () => {
         options={{
           unmountOnBlur: true,
           headerShown: false,
+          // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
             <FontAwesome5 name="filter" size={16} color={color} />
@@ -102,7 +109,8 @@ const HistoryStack = () => {
 
 const FilterStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}>
       {/* <Stack.Screen component={ComboScreen} name="ComboScreen" />
       <Stack.Screen component={StaticComboScreen} name="StaticComboScreen" />
       <Stack.Screen component={DynamicComboScreen} name="DynamicComboScreen" />
@@ -120,6 +128,8 @@ const FilterStack = () => {
       />
       <Stack.Screen component={EventDetailScreen} name="EventDetailScreen" /> */}
       <Stack.Screen component={FilterScreen} name="FilterScreen" />
+      <Stack.Screen component={FilterResultScreen} name="FilterResultScreen" />
+      <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
     </Stack.Navigator>
   );
 };
@@ -127,6 +137,17 @@ const ProfileScreenStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
+      <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
+      <Stack.Screen component={UpdateProfile} name="UpdateProfile" />
+      <Stack.Screen
+        component={PrivacyPolicyScreen}
+        name="PrivacyPolicyScreen"
+      />
+      <Stack.Screen component={AboutUsScreen} name="AboutUsScreen" />
+      <Stack.Screen
+        component={HistoryDetailScreen}
+        name="HistoryDetailScreen"
+      />
     </Stack.Navigator>
   );
 };

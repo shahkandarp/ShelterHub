@@ -5,11 +5,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const NearByPgComponents = ({data}) => {
+const FilterComponent = ({data}) => {
   // console.log(data);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('PgDetailScreen', {data: data});
+    navigation.navigate('PgDetailScreen', {data: data.pg});
   };
   return (
     <TouchableOpacity
@@ -28,7 +28,7 @@ const NearByPgComponents = ({data}) => {
           alignContent: 'center',
         }}>
         <Image
-          source={{uri: data?.photos[0]?.uri}}
+          source={{uri: data?.pg.photos[0]?.uri}}
           style={{height: 66, width: 66, borderRadius: 13}}
         />
       </View>
@@ -68,7 +68,7 @@ const NearByPgComponents = ({data}) => {
             color: '#191919',
             fontSize: 12,
           }}>
-          {data.propertytitle}
+          {data.pg.propertytitle}
         </Text>
         <View
           style={{
@@ -84,7 +84,7 @@ const NearByPgComponents = ({data}) => {
               color: 'gray',
               fontSize: 10,
             }}>
-            {data.address}
+            {data.pg.address}
           </Text>
           {/* <Text
             style={{
@@ -107,7 +107,9 @@ const NearByPgComponents = ({data}) => {
             <FontAwesome
               style={{marginHorizontal: 0.5}}
               name={
-                i < Math.floor(data.ratings.$numberDecimal) ? 'star' : 'star-o'
+                i < Math.floor(data.pg.ratings.$numberDecimal)
+                  ? 'star'
+                  : 'star-o'
               }
               size={11}
               // color={dish.isAvailable ? '#fabe1b' : 'grey'}
@@ -127,10 +129,10 @@ const NearByPgComponents = ({data}) => {
                 marginLeft: 2,
               }}>
               <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-                {data.ratings.$numberDecimal}
+                {data.pg.ratings.$numberDecimal}
               </Text>
               <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-                ({data.noofraters})
+                ({data.pg.noofraters})
               </Text>
             </View>
           </View>
@@ -144,7 +146,7 @@ const NearByPgComponents = ({data}) => {
               fontSize: 10,
               // marginLeft: 25,
             }}>
-            {data?.views} views
+            {data?.pg.views} views
           </Text>
           <View
             style={{
@@ -152,15 +154,15 @@ const NearByPgComponents = ({data}) => {
               alignItems: 'center',
               marginLeft: 15,
             }}>
-            {data.isWIFI && <FontAwesome5 name="wifi" size={9} />}
-            {data.isAC && (
+            {data.pg.isWIFI && <FontAwesome5 name="wifi" size={9} />}
+            {data.pg.isAC && (
               <MaterialCommunityIcons
                 name="air-conditioner"
                 size={10}
                 style={{marginLeft: 10}}
               />
             )}
-            {data.isHotWater && (
+            {data.pg.isHotWater && (
               <FontAwesome5 name="hot-tub" size={10} style={{marginLeft: 10}} />
             )}
           </View>
@@ -170,4 +172,4 @@ const NearByPgComponents = ({data}) => {
   );
 };
 
-export default NearByPgComponents;
+export default FilterComponent;

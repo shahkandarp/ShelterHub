@@ -365,8 +365,8 @@ const RoomComponent = ({datas, data2, check}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginTop: 12,
-                  borderRadius: 7,
-                  height: 35,
+                  borderRadius: 12,
+                  height: 42,
                 }}>
                 <Text
                   style={{

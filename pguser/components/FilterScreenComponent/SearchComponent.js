@@ -1,12 +1,14 @@
 import {View, Text, Image, Pressable} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-
+import {useAuthContext} from '../../src/Context/AuthContext';
 const SearchComponent = ({searchResult}) => {
   const navigation = useNavigation();
+  const {setCity} = useAuthContext();
   const onPress = () => {
-    console.log(searchResult._id);
-    navigation.navigate('PgDetailScreen', {data: searchResult});
+    // console.log(searchResult.name);
+    // navigation.navigate('PgDetailScreen', {data: searchResult});
+    setCity(searchResult.name);
   };
   // console.log(searchResult);
   return (
@@ -22,7 +24,7 @@ const SearchComponent = ({searchResult}) => {
       }}>
       <View>
         <Image
-          source={{uri: searchResult.photos[0].uri}}
+          source={{uri: searchResult.image}}
           style={{height: 45, width: 45, borderRadius: 22.5}}
         />
       </View>
@@ -34,9 +36,9 @@ const SearchComponent = ({searchResult}) => {
             fontSize: 13,
             marginHorizontal: 8,
           }}>
-          {searchResult.propertytitle}
+          {searchResult.name}
         </Text>
-        <Text
+        {/* <Text
           numberOfLines={1}
           style={{
             color: 'grey',
@@ -46,7 +48,7 @@ const SearchComponent = ({searchResult}) => {
             maxWidth: 250,
           }}>
           {searchResult.address}
-        </Text>
+        </Text> */}
       </View>
       {/* <Image
         source={{uri: dish.imageUrl}}
