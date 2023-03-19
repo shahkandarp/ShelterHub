@@ -16,6 +16,7 @@ const auth = (req, res, next) => {
       ownerId: payload.userId,
       name: payload.name,
     };
+    console.log(req.user)
   } catch (error) {
     throw new UnauthenticatedError("Authentication invalid");
   }

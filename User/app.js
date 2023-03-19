@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
+const { BadRequestError, UnauthenticatedError } = require("./errors/index");
 
 //dependencies
 require("dotenv").config();
 require("express-async-errors");
 const { StatusCodes } = require("http-status-codes");
 const multer = require("multer");
-const { ref, uploadBytes, deleteObject } = require("firebase/storage");
+const { ref, uploadBytes, deleteObject ,listAll} = require("firebase/storage");
 const storage = require("./firebase");
 const memoStorage = multer.memoryStorage();
 const upload = multer({ memoStorage });
@@ -260,6 +261,23 @@ app.delete("/api/v1/deleteroomvideo", OwnerMiddleware, async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "Success", data: roomx });
 });
 
+app.get("/api/v1/checkimageorvideo", async (req, res) => {
+  const listRef = ref(storage);
+  let productPictures = [];
+  await listAll(listRef)
+    .then((pics) => {
+      productPictures = pics.items.map((item) => {
+        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`;
+        return {
+          url: publicUrl,
+          name: item._location.path_,
+        };
+      });
+      res.send(productPictures);
+    })
+    .catch((error) => console.log(error.message));
+});
+
 app.post(
   "/api/v1/addaddressproof",
   OwnerMiddleware,
@@ -342,6 +360,24 @@ app.delete("/api/v1/deleteaadharproof", OwnerMiddleware, async (req, res) => {
   );
   res.status(StatusCodes.OK).json({ res: "Success", data: ownerx });
 });
+
+app.post('/api/v1/verify',async(req,res)=>{
+  const {name} = req.body
+  if(!name){
+    throw new BadRequestError("Please provide Name");
+  }
+  const listRef = ref(storage);
+  let ans1 = false;
+  const ans = await listAll(listRef)
+
+  for(let i=0;i<ans.items.length;++i){
+    if(ans.items[i]._location.path_ == name){
+      ans1 = true;
+      break;
+    }
+  }
+  res.json({res:"Success",data:ans1})  
+})
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
