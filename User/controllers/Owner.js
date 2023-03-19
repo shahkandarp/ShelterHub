@@ -103,16 +103,14 @@ const loginOwner = async (req, res) => {
 };
 
 const ownerVerifyOTP = async (req, res) => {
-  const { email } = req.body;
-  if (!email) {
-    throw new BadRequestError("Please provide OTP");
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    throw new BadRequestError("Please provide neccesary Credentials");
   }
-  const ownerx = await Owner.findOne({ email });
-  const { otp } = req.body;
-  if (!otp) {
-    throw new BadRequestError("Please provide OTP");
+  const owner = await Owner.findOne({ email });
+  if (!owner) {
+    throw new BadRequestError("Please provide valid Email");
   }
-  const owner = await Owner.findOne({ _id: ownerx._id });
   if (owner.mailotp != Number(otp)) {
     throw new BadRequestError("Please provide valid OTP");
   }
