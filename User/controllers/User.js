@@ -412,7 +412,7 @@ const addRating = async (req, res) => {
     (pg.noofraters + 1)
   ).toFixed(1);
   let raters = pg.noofraters + 1;
-  const user_rating = await Rating.findOne({ userId: uid,ownerId:pid });
+  const user_rating = await Rating.findOne({ userId: uid, ownerId: pid });
   if (!user_rating) {
     const update_pg = await Owner.findOneAndUpdate(
       { _id: pid },
@@ -460,7 +460,7 @@ const validateOtp = async (req, res) => {
   if (!otp) {
     throw new BadRequestError("Please provide otp in the body");
   } else {
-    otp = Number(otp)
+    otp = Number(otp);
     const user = await User.findOne({ email: email });
     if (user.mailotp !== otp) {
       res.status(StatusCodes.OK).json({ res: "failed", data: "Invalid otp" });
@@ -513,6 +513,13 @@ const createUserInterest = async (req, res) => {
   });
   res.status(StatusCodes.OK).json({ res: "success", data: interest });
 };
+const deleteInterest = async(req,res)=>{
+  const { uid } = req.params;
+  const {interestId} = req.body;
+  const interest = await Interest.findOneAndDelete({_id:interestId,userId:uid})
+  res.status(StatusCodes.OK).json({ res: "success", data: interest });
+
+}
 
 //cities
 const getCities = async (req, res) => {
@@ -542,4 +549,5 @@ module.exports = {
   verifyUserOTP,
   getCities,
   addRating,
+  deleteInterest
 };

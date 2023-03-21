@@ -6,7 +6,7 @@ const GiftLoader = () => {
   return (
     <View style={[StyleSheet.absoluteFillObject, styles.container]}>
       <LottieView
-        source={require('../data/89021-jumping-gift-boxes.json')}
+        source={require('../data/22466-house-home-building-maison-012-mocca-animation.json')}
         autoPlay
         loop
       />
