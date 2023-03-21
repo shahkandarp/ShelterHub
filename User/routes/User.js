@@ -3,6 +3,7 @@ const router = express.Router();
 const UserMiddleware = require("../middleware/authentication_user");
 
 const {
+  loginUserByPhone,
   getSpecificPgs,
   getPGDetails,
   getNearbyPgs,
@@ -29,6 +30,7 @@ router.route("/login").post(loginUser);
 router.route("/forgotpassword").patch(forgotPasswordUser);
 router.route("/sendmobileotp").post(UserMiddleware, sendUserOTP);
 router.route("/verifymobileotp").post(UserMiddleware, verifyUserOTP);
+router.route("/loginphone").post(loginUserByPhone);
 
 //cities
 router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol]
