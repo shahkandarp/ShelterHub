@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "pguser.app"
-               BlueprintName = "pguser"
-               ReferencedContainer = "container:pguser.xcodeproj">
+               BuildableName = "ShelterHub.app"
+               BlueprintName = "ShelterHub"
+               ReferencedContainer = "container:ShelterHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "pguserTests.xctest"
-               BlueprintName = "pguserTests"
-               ReferencedContainer = "container:pguser.xcodeproj">
+               BuildableName = "ShelterHubTests.xctest"
+               BlueprintName = "ShelterHubTests"
+               ReferencedContainer = "container:ShelterHub.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pguser.app"
-            BlueprintName = "pguser"
-            ReferencedContainer = "container:pguser.xcodeproj">
+            BuildableName = "ShelterHub.app"
+            BlueprintName = "ShelterHub"
+            ReferencedContainer = "container:ShelterHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pguser.app"
-            BlueprintName = "pguser"
-            ReferencedContainer = "container:pguser.xcodeproj">
+            BuildableName = "ShelterHub.app"
+            BlueprintName = "ShelterHub"
+            ReferencedContainer = "container:ShelterHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,4 +1,4 @@
-package com.pguser;
+package com.het.shelterhub;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "pguser";
+    return "ShelterHub";
   }
 
   /**

@@ -1,4 +1,4 @@
-package com.pguser.newarchitecture.components;
+package com.het.shelterhub.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
