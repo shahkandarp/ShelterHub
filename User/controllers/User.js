@@ -149,6 +149,26 @@ const loginUser = async (req, res) => {
     .json({ user: { name: user.name, id: user._id }, token });
 };
 
+const loginUserByPhone = async (req, res) => {
+  let { phoneno, password } = req.body;
+  if (!phoneno || !password) {
+    throw new BadRequestError("Please provide email and password");
+  }
+  phoneno = String(phoneno)
+  const user = await User.findOne({ phoneno });
+  if (!user) {
+    throw new UnauthenticatedError("Invalid Credentials");
+  }
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError("Invalid Credentials");
+  }
+  const token = user.createJWT();
+  res
+    .status(StatusCodes.CREATED)
+    .json({ user: { name: user.name, id: user._id }, token });
+};
+
 const sendUserOTP = async (req, res) => {
   const { userId } = req.user;
   var { phoneno } = req.body;
@@ -504,6 +524,7 @@ const getCities = async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "success", data: cities });
 };
 module.exports = {
+  loginUserByPhone,
   getSpecificPgs,
   getPGDetails,
   getNearbyPgs,
