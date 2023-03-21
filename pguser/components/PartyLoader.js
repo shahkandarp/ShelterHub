@@ -6,7 +6,7 @@ const PartyLoader = () => {
   return (
     <View style={[StyleSheet.absoluteFillObject, styles.container]}>
       <LottieView
-        source={require('../data/29774-dance-party.json')}
+        source={require('../data/22466-house-home-building-maison-012-mocca-animation.json')}
         autoPlay
         loop
       />
