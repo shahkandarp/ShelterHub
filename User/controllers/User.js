@@ -493,6 +493,13 @@ const createUserInterest = async (req, res) => {
   });
   res.status(StatusCodes.OK).json({ res: "success", data: interest });
 };
+const deleteInterest = async(req,res)=>{
+  const { uid } = req.params;
+  const {interestId} = req.body;
+  const interest = await Interest.findOneAndDelete({_id:interestId,userId:uid})
+  res.status(StatusCodes.OK).json({ res: "success", data: interest });
+
+}
 
 //cities
 const getCities = async (req, res) => {
@@ -521,4 +528,5 @@ module.exports = {
   verifyUserOTP,
   getCities,
   addRating,
+  deleteInterest
 };
