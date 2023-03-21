@@ -26,7 +26,7 @@ const BottomTabNav = () => {
       screenOptions={{
         headerShown: false,
         tabBarInactiveTintColor: '#e0e9ff',
-        tabBarActiveTintColor: PRIMARY_COLOR,
+        tabBarActiveTintColor: 'white',
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: 48,
@@ -36,6 +36,7 @@ const BottomTabNav = () => {
           left: 7,
           borderRadius: 13,
           paddingBottom: 6,
+          backgroundColor: PRIMARY_COLOR,
         },
       }}>
       <Tab.Screen

@@ -5,7 +5,11 @@ import LottieView from 'lottie-react-native';
 const SearchLoader = () => {
   return (
     <View style={[StyleSheet.absoluteFillObject, styles.container]}>
-      <LottieView source={require('../data/111004-kycc.json')} autoPlay loop />
+      <LottieView
+        source={require('../data/22466-house-home-building-maison-012-mocca-animation.json')}
+        autoPlay
+        loop
+      />
     </View>
   );
 };
