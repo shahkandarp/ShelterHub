@@ -103,16 +103,14 @@ const loginOwner = async (req, res) => {
 };
 
 const ownerVerifyOTP = async (req, res) => {
-  const { email } = req.body;
-  if (!email) {
-    throw new BadRequestError("Please provide OTP");
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    throw new BadRequestError("Please provide neccesary Credentials");
   }
-  const ownerx = await Owner.findOne({ email });
-  const { otp } = req.body;
-  if (!otp) {
-    throw new BadRequestError("Please provide OTP");
+  const owner = await Owner.findOne({ email });
+  if (!owner) {
+    throw new BadRequestError("Please provide valid Email");
   }
-  const owner = await Owner.findOne({ _id: ownerx._id });
   if (owner.mailotp != Number(otp)) {
     throw new BadRequestError("Please provide valid OTP");
   }
@@ -155,8 +153,8 @@ const updateOwner = async (req, res) => {
 const displayOwner = async (req, res) => {
   const { ownerId } = req.user;
   const owner = await Owner.findOne({ _id: ownerId });
-  const period = 60*5
-  res.set('Cache-control',`public,max-age=${period}`)
+  const period = 60 * 5;
+  res.set("Cache-control", `public,max-age=${period}`);
   res.status(StatusCodes.OK).json({ res: "Success", data: owner });
 };
 
@@ -233,6 +231,9 @@ const showInterests = async (req, res) => {
     obj.userphoneno = user.phoneno;
     obj.useremail = user.email;
     const room = await Room.findOne({ _id: arr[i].roomId });
+    if (!room) {
+      continue;
+    }
     obj.roomtitle = room.title;
     obj.createdAt = arr[i].createdAt;
     arr1[j] = obj;
@@ -293,20 +294,20 @@ const getStatus = async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "Success", data: obj });
 };
 
-const deleteRoom = async (req,res) => {
-  const {ownerId} = req.user
-  const {rid} = req.params
-  if(!rid){
+const deleteRoom = async (req, res) => {
+  const { ownerId } = req.user;
+  const { rid } = req.params;
+  if (!rid) {
     throw new BadRequestError("Please provide Room ID");
   }
-  
-  const room = await Room.deleteOne({_id:rid})
-  if(!room){
+
+  const room = await Room.deleteOne({ _id: rid });
+  if (!room) {
     throw new BadRequestError("Please provide Valid Room ID");
   }
-
-  res.status(StatusCodes.OK).json({res:"Success"});
-}
+  const interest = await Interest.deleteMany({ roomId: rid });
+  res.status(StatusCodes.OK).json({ res: "Success" });
+};
 
 module.exports = {
   registerOwner,
@@ -324,5 +325,5 @@ module.exports = {
   mobileOTPSend,
   mobileOTPVerify,
   getStatus,
-  deleteRoom
+  deleteRoom,
 };

@@ -6,7 +6,7 @@ const PartyEmojiLoader = () => {
   return (
     <View style={[StyleSheet.absoluteFillObject, styles.container]}>
       <LottieView
-        source={require('../data/61417-animated-emojis-party-emoji.json')}
+        source={require('../data/22466-house-home-building-maison-012-mocca-animation.json')}
         autoPlay
         loop
       />

@@ -41,9 +41,10 @@ const PgDetailScreen = () => {
   const pgDetail = route?.params?.pgDetail;
   useEffect(() => {
     if (check) {
-      console.log(pgDetail);
+      // console.log(pgDetail);
     } else {
       getPgDetail();
+      console.log(stars);
     }
   }, []);
   const getPgDetail = async () => {
@@ -53,6 +54,9 @@ const PgDetailScreen = () => {
     );
     setPgDetails(response.data.data);
   };
+  const stars = (
+    data?.ratings?.$numberDecimal - Math.floor(data?.ratings?.$numberDecimal)
+  ).toFixed(1);
   //  const getDetails = async () => {
   //    const response = await axios.get(
   //      `http://${USER_IP}/api/v1/user/pg/${data._id}`,
@@ -62,6 +66,7 @@ const PgDetailScreen = () => {
   //  };
   const onPress = () => {
     setModal(true);
+    // console.log(stars);
   };
   const MapPressed = () => {
     setMapModal(true);
@@ -323,16 +328,15 @@ const PgDetailScreen = () => {
           // marginTop: 8,
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {[0, 0, 0, 0, 0].map((el, i) => (
+          {[0, 0, 0, 0, 0].map(i => (
             <FontAwesome
               style={{marginHorizontal: 3}}
               name={
-                i < Math.floor(data?.ratings?.$numberDecimal)
+                i <= Math.floor(data?.ratings?.$numberDecimal)
                   ? 'star'
                   : 'star-o'
               }
               size={22}
-              // color={dish.isAvailable ? '#fabe1b' : 'grey'}
               color={'#fabe1b'}
             />
           ))}

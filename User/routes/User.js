@@ -34,21 +34,19 @@ router.route("/verifymobileotp").post(UserMiddleware, verifyUserOTP);
 //cities
 router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol]
 
-
 //pg
 router.route("/pg/:pid").get(authMiddleware, getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
 router.route("/:uid/pg").get(authMiddleware, getSpecificPgs); //get specific and top rated pgs [?search=' '] [?sort=ratings]
 router.route("/:uid/pg/nearby").get(authMiddleware, getNearbyPgs); //nearby pgs [:uid = user id]
 router.route("/pg/filter").post(authMiddleware, getFilteredPgs); //get pgs after applying the main filter [req.body={cityname:'Kota',isAC:True}]
 //for price or rating filters, priceFilters = price>2000&price<5000 , ratingFilers =ratings>3&ratings<5
-router.route("/:uid/pg/:pid/rating").post(authMiddleware,addRating);// req.body = {rating:3.5}
+router.route("/:uid/pg/:pid/rating").post(authMiddleware, addRating); // req.body = {rating:3.5}
 
 //user
 router.route("/:uid").get(authMiddleware, getUserDetails); //get user by it's id [:uid = user id]
 router.route("/:uid").patch(authMiddleware, updateUserDetails); //update user details [:uid = user id]
 router.route("/:email/validateOTP").post(validateOtp); //validate otp [req.body = {otp:1234}]
 router.route("/:email/password").post(changeUserPassword); //change password [req.body = {password:' '}]
-
 
 //interest
 router.route("/:uid/interest").get(authMiddleware, getCurrentInterests); //pgs in which user is interested

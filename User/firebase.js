@@ -12,14 +12,24 @@ const { getStorage } = require("firebase/storage");
 //   measurementId: "G-XNVEH6N01X"
 // };
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDRwdkY2l9OmULGP8C23L28Et7wWpmnlIc",
+//   authDomain: "ssip-images.firebaseapp.com",
+//   projectId: "ssip-images",
+//   storageBucket: "ssip-images.appspot.com",
+//   messagingSenderId: "409595732088",
+//   appId: "1:409595732088:web:f4da99e011b43c24834d8d",
+//   measurementId: "G-11GC93B9E6"
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDRwdkY2l9OmULGP8C23L28Et7wWpmnlIc",
-  authDomain: "ssip-images.firebaseapp.com",
-  projectId: "ssip-images",
-  storageBucket: "ssip-images.appspot.com",
-  messagingSenderId: "409595732088",
-  appId: "1:409595732088:web:f4da99e011b43c24834d8d",
-  measurementId: "G-11GC93B9E6"
+  apiKey: "AIzaSyCoCOj9FZEAbYVRSQih-V5LS3I8OY2z5jQ",
+  authDomain: "finalpg-d703b.firebaseapp.com",
+  projectId: "finalpg-d703b",
+  storageBucket: "finalpg-d703b.appspot.com",
+  messagingSenderId: "657783689457",
+  appId: "1:657783689457:web:8f31ea763c8c00b74dd950",
+  measurementId: "G-EQ7QK2Y9PS"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
