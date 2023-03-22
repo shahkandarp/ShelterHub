@@ -332,7 +332,7 @@ const PgDetailScreen = () => {
             <FontAwesome
               style={{marginHorizontal: 3}}
               name={
-                i <= Math.floor(data?.ratings?.$numberDecimal)
+                i < Math.floor(data?.ratings?.$numberDecimal)
                   ? 'star'
                   : 'star-o'
               }

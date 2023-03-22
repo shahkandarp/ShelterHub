@@ -131,7 +131,7 @@ const FilterScreen = () => {
             style={{
               color: '#191919',
               fontFamily: 'Poppins-Medium',
-              fontSize: 15,
+              fontSize: 16,
               marginHorizontal: 5,
               marginTop: 3,
             }}>

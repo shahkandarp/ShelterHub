@@ -192,6 +192,7 @@ const SignUpScreen = () => {
             <FontAwesome5
               name={hidePass ? 'eye-slash' : 'eye'}
               size={15}
+              color={'black'}
               onPress={() => setHidePass(!hidePass)}
             />
           </View>

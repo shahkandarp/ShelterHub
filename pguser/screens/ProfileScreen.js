@@ -109,7 +109,7 @@ const ProfileScreen = () => {
         <Text
           style={{
             fontFamily: 'Poppins-Medium',
-            fontSize: 15,
+            fontSize: 16,
             color: '#191919',
             marginTop: 4,
             marginHorizontal: 5,
@@ -161,11 +161,7 @@ const ProfileScreen = () => {
             marginTop: 7,
           }}
           onPress={() => navigation.navigate('UpdateProfile')}>
-          <MaterialCommunityIcons
-            name="home-city-outline"
-            size={21}
-            color={PRIMARY_COLOR}
-          />
+          <FontAwesome5 name="user-edit" size={17} color={PRIMARY_COLOR} />
           <Text style={styles.textcolour}>Update Profile</Text>
         </Pressable>
         <Pressable
@@ -174,7 +170,7 @@ const ProfileScreen = () => {
             alignItems: 'center',
             marginTop: 7,
           }}>
-          <MaterialIcons name="book-online" size={21} color={PRIMARY_COLOR} />
+          <MaterialIcons name="privacy-tip" size={19} color={PRIMARY_COLOR} />
           <Text
             style={styles.textcolour}
             onPress={() => navigation.navigate('PrivacyPolicyScreen')}>
