@@ -3,6 +3,7 @@ const router = express.Router();
 const UserMiddleware = require("../middleware/authentication_user");
 
 const {
+  loginUserByPhone,
   getSpecificPgs,
   getPGDetails,
   getNearbyPgs,
@@ -20,7 +21,6 @@ const {
   verifyUserOTP,
   getCities,
   addRating,
-  deleteInterest
 } = require("../controllers/User");
 const authMiddleware = require("../middleware/authentication_user");
 
@@ -30,6 +30,7 @@ router.route("/login").post(loginUser);
 router.route("/forgotpassword").patch(forgotPasswordUser);
 router.route("/sendmobileotp").post(UserMiddleware, sendUserOTP);
 router.route("/verifymobileotp").post(UserMiddleware, verifyUserOTP);
+router.route("/loginphone").post(loginUserByPhone);
 
 //cities
 router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol] or get specific city req.body = {name:'kolkata'}
@@ -51,6 +52,5 @@ router.route("/:email/password").post(changeUserPassword); //change password [re
 //interest
 router.route("/:uid/interest").get(authMiddleware, getCurrentInterests); //pgs in which user is interested
 router.route("/:uid/interest").post(authMiddleware, createUserInterest); //call this api when the user clicks interested button [req.body={room:room_id}]
-router.route("/:uid/interest").delete(authMiddleware,deleteInterest);//delete interest [req.body = interestId:Id]
 
 module.exports = router;

@@ -18,6 +18,9 @@ import FilterResultScreen from '../screens/FilterScreen/FilterResultScreen';
 import UpdateProfile from '../screens/ProfileScreen/UpdateProfile';
 import AboutUsScreen from '../screens/ProfileScreen/AboutUsScreen';
 import PrivacyPolicyScreen from '../screens/ProfileScreen/PrivacyPolicyScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import SuggestionScreen from '../screens/SuggestionScreen/SuggestionScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const BottomTabNav = () => {
@@ -36,6 +39,7 @@ const BottomTabNav = () => {
           left: 7,
           borderRadius: 13,
           paddingBottom: 6,
+          // backgroundColor: PRIMARY_COLOR,
         },
       }}>
       <Tab.Screen
@@ -66,25 +70,25 @@ const BottomTabNav = () => {
       />
       <Tab.Screen
         component={HistoryStack}
-        name="History"
+        name="Shortlist"
         options={{
           unmountOnBlur: true,
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="history" size={16} color={color} />
+            <AntDesign name="heart" size={16} color={color} />
           ),
         }}
       />
       <Tab.Screen
         component={ProfileScreenStack}
-        name="Profile"
+        name="Suggestions"
         options={{
           unmountOnBlur: true,
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="user-alt" size={16} color={color} />
+            <Ionicons name="md-images-sharp" size={16} color={color} />
           ),
         }}
       />
@@ -97,7 +101,6 @@ export default BottomTabNav;
 const HistoryStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen component={MyEvents} name="MyEvents" /> */}
       <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
       <Stack.Screen
         component={HistoryDetailScreen}
@@ -111,22 +114,6 @@ const FilterStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}>
-      {/* <Stack.Screen component={ComboScreen} name="ComboScreen" />
-      <Stack.Screen component={StaticComboScreen} name="StaticComboScreen" />
-      <Stack.Screen component={DynamicComboScreen} name="DynamicComboScreen" />
-      <Stack.Screen
-        component={DynamicTechSelectScreen}
-        name="DynamicTechSelectScreen"
-      />
-      <Stack.Screen
-        component={DynamicNonTechSelectScreen}
-        name="DynamicNonTechSelectScreen"
-      />
-      <Stack.Screen
-        component={DynamicWorkshopSelectScreen}
-        name="DynamicWorkshopSelectScreen"
-      />
-      <Stack.Screen component={EventDetailScreen} name="EventDetailScreen" /> */}
       <Stack.Screen component={FilterScreen} name="FilterScreen" />
       <Stack.Screen component={FilterResultScreen} name="FilterResultScreen" />
       <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
@@ -136,6 +123,7 @@ const FilterStack = () => {
 const ProfileScreenStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen component={SuggestionScreen} name="SuggestionScreen" />
       <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
       <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
       <Stack.Screen component={UpdateProfile} name="UpdateProfile" />
@@ -155,17 +143,23 @@ const ProfileScreenStack = () => {
 const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* <Stack.Screen component={HomeScreen} name="HomeScreen" />
-      <Stack.Screen component={TechEvents} name="TechEvents" />
-      <Stack.Screen component={NonTechEvents} name="NonTechEvents" />
-      <Stack.Screen component={CulturalEvents} name="CulturalEvents" />
-      <Stack.Screen component={Workshop} name="Workshop" />
-  <Stack.Screen component={EventDetailScreen} name="EventDetailScreen" />*/}
       <Stack.Screen component={HomeScreen} name="HomeScreen" />
       <Stack.Screen component={SearchScreen} name="SearchScreen" />
       <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
       <Stack.Screen component={MapScreen} name="MapScreen" />
       <Stack.Screen component={FilteredPgScreen} name="FilteredPgScreen" />
+      <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
+      <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
+      <Stack.Screen component={UpdateProfile} name="UpdateProfile" />
+      <Stack.Screen
+        component={PrivacyPolicyScreen}
+        name="PrivacyPolicyScreen"
+      />
+      <Stack.Screen component={AboutUsScreen} name="AboutUsScreen" />
+      <Stack.Screen
+        component={HistoryDetailScreen}
+        name="HistoryDetailScreen"
+      />
     </Stack.Navigator>
   );
 };

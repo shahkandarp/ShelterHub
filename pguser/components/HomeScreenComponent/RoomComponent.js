@@ -23,7 +23,8 @@ import axios from 'axios';
 const RoomComponent = ({datas, data2, check}) => {
   const width = Dimensions.get('window').width;
   const {tokens, users} = useAuthContext();
-  // console.log(datas);
+  const [show, setShow] = useState(false);
+  // console.log(data2);
   const navigation = useNavigation();
   const onPress = () => {
     setModal(true);
@@ -37,8 +38,9 @@ const RoomComponent = ({datas, data2, check}) => {
       },
     );
     // console.log(response.data.data);
+    setShow(true);
     await showToastWithGravityAndOffset();
-    setModal(false);
+    // setModal(false);
     // setPgDetails(response.data.data);
   };
   const showToastWithGravityAndOffset = async () => {
@@ -72,9 +74,9 @@ const RoomComponent = ({datas, data2, check}) => {
           <Text
             style={{
               fontFamily: 'Poppins-Regular',
-              fontSize: 11,
-              color: 'grey',
-              marginTop: 2,
+              fontSize: 13,
+              color: '#454545',
+              marginTop: 4,
             }}>
             Rs. {datas?.price?.$numberDecimal}
           </Text>
@@ -82,7 +84,7 @@ const RoomComponent = ({datas, data2, check}) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              // marginTop: 5,
+              marginTop: 3,
             }}>
             {datas?.isAttatched && <FontAwesome5 name="toilet" size={9} />}
             {datas?.isAC && (
@@ -169,7 +171,7 @@ const RoomComponent = ({datas, data2, check}) => {
                 style={{
                   fontFamily: 'Poppins-Medium',
                   color: '#101010',
-                  fontSize: 15,
+                  fontSize: 16,
                   marginHorizontal: 13,
                 }}>
                 {datas?.title}
@@ -209,7 +211,7 @@ const RoomComponent = ({datas, data2, check}) => {
                 fontFamily: 'Poppins-Medium',
                 color: '#101010',
                 fontSize: 14,
-                marginTop: 5,
+                marginTop: 10,
               }}>
               Amenities
             </Text>
@@ -355,7 +357,51 @@ const RoomComponent = ({datas, data2, check}) => {
                 </Text>
               </View>
             )}
-            {!check && (
+            {show && (
+              <View style={{marginBottom: 30}}>
+                <Text
+                  style={{
+                    marginHorizontal: 13,
+                    fontFamily: 'Poppins-Medium',
+                    color: '#101010',
+                    fontSize: 14,
+                    marginTop: 13,
+                  }}>
+                  Owner Details
+                </Text>
+                <Text
+                  style={{
+                    marginHorizontal: 13,
+                    fontFamily: 'Poppins-Regular',
+                    color: '#101010',
+                    fontSize: 11,
+                    marginTop: 3,
+                  }}>
+                  Name: {data2.name}
+                </Text>
+                <Text
+                  style={{
+                    marginHorizontal: 13,
+                    fontFamily: 'Poppins-Regular',
+                    color: '#101010',
+                    fontSize: 11,
+                    marginTop: 3,
+                  }}>
+                  Email: {data2.email}
+                </Text>
+                <Text
+                  style={{
+                    marginHorizontal: 13,
+                    fontFamily: 'Poppins-Regular',
+                    color: '#101010',
+                    fontSize: 11,
+                    marginTop: 3,
+                  }}>
+                  Phone No: {data2.phoneno}
+                </Text>
+              </View>
+            )}
+            {!check && !show && (
               <TouchableOpacity
                 onPress={showInterest}
                 style={{
@@ -365,6 +411,7 @@ const RoomComponent = ({datas, data2, check}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginTop: 12,
+                  marginBottom: 10,
                   borderRadius: 12,
                   height: 42,
                 }}>
@@ -377,6 +424,19 @@ const RoomComponent = ({datas, data2, check}) => {
                   Show Interest
                 </Text>
               </TouchableOpacity>
+            )}
+            {!show && (
+              <Text
+                style={{
+                  marginHorizontal: 13,
+                  fontFamily: 'Poppins-Regular',
+                  color: '#101010',
+                  fontSize: 11,
+                  marginTop: 3,
+                  marginBottom: 30,
+                }}>
+                *Note: You have to Show Interest to get Owner details
+              </Text>
             )}
           </ScrollView>
         </View>

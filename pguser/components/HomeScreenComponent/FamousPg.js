@@ -24,13 +24,13 @@ const FamousPg = ({data}) => {
   //   console.log(response.data.data);
   // };
   return (
-    <View style={{marginTop: 5}}>
+    <View style={{marginTop: 8}}>
       {data.length > 0 && (
         <Text
           style={{
             fontFamily: 'Poppins-Medium',
             color: '#191919',
-            fontSize: 13,
+            fontSize: 14,
             marginHorizontal: 15,
           }}>
           Famous Hostels/PGs in your Area...

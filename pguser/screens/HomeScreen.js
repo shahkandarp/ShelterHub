@@ -27,6 +27,7 @@ import Geocoder from 'react-native-geocoding';
 // import NearByPgScreen from './HomeScreen/NearByPgScreen';
 import NearByPgComponent from '../components/HomeScreenComponent/NearByPgComponent';
 import AppLoader from '../components/AppLoader';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const HomeScreen = () => {
   const [location, setLocation] = useState(false);
   const navigation = useNavigation();
@@ -260,11 +261,13 @@ const HomeScreen = () => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity>
-            <Ionicons
-              name="ios-notifications-outline"
-              size={20}
-              color={'black'}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ProfileScreen')}>
+            <FontAwesome5
+              name="user-alt"
+              size={15}
+              color={PRIMARY_COLOR}
+              style={{marginRight: 5}}
             />
           </TouchableOpacity>
         </View>

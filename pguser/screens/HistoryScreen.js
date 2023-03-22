@@ -58,7 +58,7 @@ const HistoryScreen = () => {
             <Text
               style={{
                 fontFamily: 'Poppins-Medium',
-                fontSize: 15,
+                fontSize: 16,
                 color: '#191919',
                 marginHorizontal: 5,
                 marginTop: 3,

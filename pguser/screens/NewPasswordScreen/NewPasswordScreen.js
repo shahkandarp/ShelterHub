@@ -30,14 +30,18 @@ const NewPasswordScreen = () => {
   const onSubmitPressed = async data => {
     if (password.length >= 8) {
       try {
-        setLoading(true);
-        console.log(email);
+        // setLoading(true);
+        // console.log(email);
         const response = await axios.post(
           `http://${USER_IP}/api/v1/user/${email}/password`,
           {password: password},
         );
-        navigation.navigate('SignIn');
-        setLoading(false);
+        // console.log(response.data.res);
+        if (response.data.res) {
+          navigation.navigate('SignIn');
+        }
+        // navigation.navigate('SignIn');
+        // setLoading(false);
       } catch (e) {
         setLoading(false);
         Alert.alert('Oops', e.message);

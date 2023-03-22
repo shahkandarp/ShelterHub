@@ -13,7 +13,7 @@ const ImageCarouselComponent = ({famous}) => {
     <Pressable style={{marginLeft: 16, alignItems: 'center'}} onPress={onPress}>
       <Image
         source={{uri: famous?.image}}
-        style={{height: 55, width: 55, borderRadius: 27.5}}
+        style={{height: 60, width: 60, borderRadius: 30, marginTop: 8}}
       />
       <Text
         numberOfLines={1}
@@ -21,8 +21,10 @@ const ImageCarouselComponent = ({famous}) => {
           fontFamily: 'Poppins-Regular',
           fontSize: 11,
           color: '#191919',
-          marginTop: 8,
-          maxWidth: 70,
+          // marginTop: 8,
+          marginTop: 3,
+          width: 69,
+          textAlign: 'center',
         }}>
         {famous.name}
       </Text>
