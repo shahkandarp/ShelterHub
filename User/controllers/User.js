@@ -289,6 +289,7 @@ const getFilteredPgs = async (req, res) => {
   let room_obj = {}; //occupancy, attached bathrooms, price
 
   const {
+    areaname,
     isAttached,
     isAC,
     isHotWater,
@@ -337,6 +338,9 @@ const getFilteredPgs = async (req, res) => {
   }
 
   //pg
+  if(areaname){
+    pg_obj.areaname = areaname;
+  }
   if (isHotWater) {
     pg_obj.isHotWater = isHotWater;
   }
