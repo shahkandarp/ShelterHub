@@ -504,12 +504,22 @@ const deleteInterest = async(req,res)=>{
 //cities
 const getCities = async (req, res) => {
   const { search } = req.query;
-  var cities = await City.find({});
-  if (search) {
-    cities = await City.find({ name: { $regex: search, $options: "i" } });
+  const {name} = req.body;
+  if(name){
+    const city = await City.findOne({name:name});
+    res.status(StatusCodes.OK).json({res:"success",data:city})
+
   }
-  res.status(StatusCodes.OK).json({ res: "success", data: cities });
+  else{
+    var cities = await City.find({});
+    if (search) {
+      cities = await City.find({ name: { $regex: search, $options: "i" } });
+    }
+    res.status(StatusCodes.OK).json({ res: "success", data: cities });
+
+  }
 };
+
 module.exports = {
   getSpecificPgs,
   getPGDetails,

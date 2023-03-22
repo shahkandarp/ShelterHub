@@ -90,6 +90,10 @@ const OwnerSchema = new mongoose.Schema({
     type: String,
     default: "Kota",
   },
+  areaname:{
+    type:String,
+    default:""
+  },
   famousplacedistance: {
     type: [Object],
     default: [],
