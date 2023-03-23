@@ -116,7 +116,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   typeofpg: {
     type: String,
-    enum: ["PG", "FAMILYROOMS", "HOSTEL"],
+    enum: ["PG", "FAMILYROOMS", "HOSTEL","MESS"],
     default: "PG",
   },
   isWIFI: {

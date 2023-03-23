@@ -35,7 +35,8 @@ app.use(helmet());
 app.use(cors());
 
 // app.get("/populate", async (req, res) => {
-  
+//   const mess = await Owner.find({typeofpg:{$ne:'MESS'}}).select('typeofpg')
+//   console.log(mess)
 //   res.send("success");
 // });
 //routes user

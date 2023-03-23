@@ -35,10 +35,15 @@ router.route("/loginphone").post(loginUserByPhone);
 //cities
 router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol] or get specific city req.body = {name:'kolkata'}
 
-//pg
+//property ->pg,hostel,familyrooms, mess
 router.route("/pg/:pid").get(authMiddleware, getPGDetails); //get pg by it's id, this will also increase the view count [:pid = pg/owner id]
+
+//[if sorted mess then ?sort='ratings'&mess=true]
 router.route("/:uid/pg").get(authMiddleware, getSpecificPgs); //get specific and top rated pgs [?search=' '] [?sort=ratings]
+
+//[if mess then ?mess=true in every endpoint]⬇⬇⬇ so it will give only nearby messes
 router.route("/:uid/pg/nearby").get(authMiddleware, getNearbyPgs); //nearby pgs [:uid = user id]
+
 router.route("/pg/filter").post(authMiddleware, getFilteredPgs); //get pgs after applying the main filter [req.body={cityname:'Kota',isAC:True}]
 //for price or rating filters, priceFilters = price>2000&price<5000 , ratingFilers =ratings>3&ratings<5
 router.route("/:uid/pg/:pid/rating").post(authMiddleware, addRating); // req.body = {rating:3.5}
