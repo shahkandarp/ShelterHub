@@ -43,6 +43,14 @@ const RoomSchema = new mongoose.Schema({
   price:{
     type:mongoose.Decimal128,
     required:[true,'Please Enter Valid Price']
+  },
+  isCooler:{
+    type:Boolean,
+    default:false
+  },
+  singleordouble:{
+    type:String,
+    enum:['SINGLE','DOUBLE']
   }
 
 });

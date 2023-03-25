@@ -112,7 +112,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   typeofpg: {
     type: String,
-    enum: ["PG", "FAMILYROOMS", "HOSTEL"],
+    enum: ["PG", "FAMILYROOMS", "HOSTEL","MESS"],
     default: "PG",
   },
   isWIFI: {
@@ -148,6 +148,18 @@ const OwnerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  messmenuphoto:{
+    type: Object,
+    default: "",
+  },
+  price:{
+    type:Number,
+    default:0
+  },
+  isCleaning:{
+    type:Boolean,
+    default:false
+  }
 });
 
 OwnerSchema.pre("save", async function () {

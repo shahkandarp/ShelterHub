@@ -438,6 +438,52 @@ app.post('/api/v1/verify',async(req,res)=>{
   res.json({res:"Success",data:ans1})  
 })
 
+app.post(
+  "/api/v1/addmenuphoto",
+  OwnerMiddleware,
+  upload.single("pic"),
+  async (req, res) => {
+    const { ownerId } = req.user;
+    if (!ownerId) {
+      throw new BadRequestError("Please provide Owner ID");
+    }
+    const file = req.file;
+    const dateTime = new Date().getTime();
+    const imageRef = ref(storage, `${file.originalname}-${dateTime}`);
+    const metatype = {
+      contentType: file.mimetype,
+      name: `${file.originalname}-${dateTime}`,
+    };
+    const snapshot = await uploadBytes(imageRef, file.buffer, metatype);
+    var obj = {
+      name: snapshot.ref._location.path_,
+      uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
+    };
+    const owner = await Owner.findOneAndUpdate({ _id: ownerId }, {messmenuphoto:obj}, {
+      runValidators: true,
+      new: true,
+      setDefaultsOnInsert: true,
+    });
+    res.status(StatusCodes.OK).json({ res: "Success", data: owner });
+  }
+);
+
+app.delete("/api/v1/deletemenuphoto", OwnerMiddleware, async (req, res) => {
+  const { name } = req.body;
+  const { ownerId } = req.user;
+  if (!ownerId) {
+    throw new BadRequestError("Please provide Owner ID");
+  }
+  const deleteRef = ref(storage, name);
+  const resp = await deleteObject(deleteRef);
+  const ownerx = await Owner.findOneAndUpdate(
+    { _id: ownerId },
+    { messmenuphoto: {} },
+    { runValidators: true, new: true, setDefaultsOnInsert: true }
+  );
+  res.status(StatusCodes.OK).json({ res: "Success", data: ownerx });
+});
+
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -457,6 +503,8 @@ const start = async () => {
     console.log(error);
   }
 };
+
+
 
 //connecting to database
 start();
