@@ -54,7 +54,7 @@ const nearByPgs = async (lat, lng, pgs = null) => {
       }
     }
   } else {
-    const pg = await Owner.find({});
+    const pg = await Owner.find({typeofpg:{$ne:'MESS'}});
     for (let i = 0; i < pg.length; i++) {
       if (calculateDistance(pg[i].lat, lat, pg[i].lng, lng) <= 10) {
         pg_array.push(pg[i]);
@@ -256,7 +256,7 @@ const getPGDetails = async (req, res) => {
 };
 const getSpecificPgs = async (req, res) => {
   const { uid } = req.params;
-  const { search, sort } = req.query;
+  const { search, sort,mess } = req.query;
   const user = await User.findOne({ _id: uid });
   if (!user) {
     throw new NotFoundError("User does not exists!");
@@ -268,19 +268,35 @@ const getSpecificPgs = async (req, res) => {
       res.status(StatusCodes.OK).json({ res: "success", data: pgs });
     }
     if (sort) {
-      const pgs = await Owner.find({}).sort(sort);
-      let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
-      res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
+      if(mess){
+        const mess = await Owner.find({typeofpg:"MESS"}).sort(sort);
+        let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
+        res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
+      }
+      else{
+        const pgs = await Owner.find({typeofpg:{$ne:'MESS'}}).sort(sort);
+        let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
+        res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
+
+      }
     }
   }
 };
 const getNearbyPgs = async (req, res) => {
   const { uid } = req.params;
+  const {mess} = req.query;
   const user = await User.findOne({ _id: uid });
   if (!user) {
     throw new NotFoundError("User does not exists!");
   } else {
-    let nearby_pgs = await nearByPgs(user.lat, user.lng);
+    if(mess){
+      const mess = await Owner.find({typeofpg:'MESS'});
+      var nearby_pgs = await nearByPgs(user.lat, user.lng,mess);
+
+    }
+    else{
+      var nearby_pgs = await nearByPgs(user.lat, user.lng);
+    }
     res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
   }
 };
@@ -289,6 +305,7 @@ const getFilteredPgs = async (req, res) => {
   let room_obj = {}; //occupancy, attached bathrooms, price
 
   const {
+    areaname,
     isAttached,
     isAC,
     isHotWater,
@@ -337,6 +354,9 @@ const getFilteredPgs = async (req, res) => {
   }
 
   //pg
+  if(areaname){
+    pg_obj.areaname = areaname;
+  }
   if (isHotWater) {
     pg_obj.isHotWater = isHotWater;
   }
@@ -517,12 +537,22 @@ const createUserInterest = async (req, res) => {
 //cities
 const getCities = async (req, res) => {
   const { search } = req.query;
-  var cities = await City.find({});
-  if (search) {
-    cities = await City.find({ name: { $regex: search, $options: "i" } });
+  const {name} = req.body;
+  if(name){
+    const city = await City.findOne({name:name});
+    res.status(StatusCodes.OK).json({res:"success",data:city})
+
   }
-  res.status(StatusCodes.OK).json({ res: "success", data: cities });
+  else{
+    var cities = await City.find({});
+    if (search) {
+      cities = await City.find({ name: { $regex: search, $options: "i" } });
+    }
+    res.status(StatusCodes.OK).json({ res: "success", data: cities });
+
+  }
 };
+
 module.exports = {
   loginUserByPhone,
   getSpecificPgs,

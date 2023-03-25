@@ -10,7 +10,7 @@ const NearByPgComponent = ({data, check}) => {
           style={{
             fontFamily: 'Poppins-Medium',
             color: '#191919',
-            fontSize: 13,
+            fontSize: 14,
             marginHorizontal: 15,
           }}>
           PGs/Hostels near by you...

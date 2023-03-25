@@ -58,32 +58,36 @@ const UpdateProfile = () => {
   };
   const onUpdatePressed = async data => {
     {
-      try {
-        setLoadingPending(true);
-        const response = await axios.patch(
-          `http://${USER_IP}/api/v1/user/${users}`,
-          {
-            name: name,
-            email: email,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${tokens}`,
+      if (name && email) {
+        try {
+          setLoadingPending(true);
+          const response = await axios.patch(
+            `http://${USER_IP}/api/v1/user/${users}`,
+            {
+              name: name,
+              email: email,
             },
-          },
-        );
-        const obj = {
-          token: tokens,
-          userID: users,
-          name: name,
-        };
-        const jsonValue = JSON.stringify(obj);
-        await AsyncStorage.setItem('userDetail', jsonValue);
-        navigation.navigate('ProfileScreen');
-        setLoadingPending(false);
-      } catch (err) {
-        setLoadingPending(false);
-        Alert.alert(err);
+            {
+              headers: {
+                Authorization: `Bearer ${tokens}`,
+              },
+            },
+          );
+          const obj = {
+            token: tokens,
+            userID: users,
+            name: name,
+          };
+          const jsonValue = JSON.stringify(obj);
+          await AsyncStorage.setItem('userDetail', jsonValue);
+          navigation.navigate('ProfileScreen');
+          setLoadingPending(false);
+        } catch (err) {
+          setLoadingPending(false);
+          Alert.alert(err);
+        }
+      } else {
+        Alert.alert("Name/Email field can't be empty.");
       }
     }
   };

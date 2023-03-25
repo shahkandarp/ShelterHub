@@ -25,7 +25,7 @@ const ImageCarousel = ({featured}) => {
   const carouselRef = useRef(null);
   // console.log(featured);
   return (
-    <View style={{height: 130, marginTop: 3}}>
+    <View style={{height: 210, marginTop: 3}}>
       <View
         style={{
           flexDirection: 'row',
@@ -35,7 +35,7 @@ const ImageCarousel = ({featured}) => {
         <Text
           style={{
             color: '#191919',
-            fontSize: 13,
+            fontSize: 14,
             fontFamily: 'Poppins-Medium',
           }}>
           Cities we're present in...
@@ -106,7 +106,7 @@ const ImageCarousel = ({featured}) => {
           />
         </ScrollView>
       </View> */}
-      <FlatList
+      {/* <FlatList
         data={featured}
         horizontal
         style={{marginBottom: 20, marginTop: 5}}
@@ -114,7 +114,22 @@ const ImageCarousel = ({featured}) => {
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <ImageCarouselComponent famous={item} />}
         keyExtractor={item => item.name}
-      />
+      /> */}
+      <ScrollView
+        horizontal
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
+        <FlatList
+          data={featured}
+          contentContainerStyle={{alignSelf: 'flex-start'}}
+          numColumns={Math.ceil(5)}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          style={{marginTop: 3}}
+          renderItem={({item}) => <ImageCarouselComponent famous={item} />}
+          keyExtractor={item => item.name}
+        />
+      </ScrollView>
     </View>
   );
 };

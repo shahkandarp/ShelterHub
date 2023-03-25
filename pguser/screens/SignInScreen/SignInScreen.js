@@ -18,6 +18,7 @@ import {AUTH_IP} from '@env';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const SignInScreen = () => {
   const {setTokens, getData, setLoginPending, setName, setUserId} =
@@ -33,25 +34,35 @@ const SignInScreen = () => {
     if (!changeText || !password) {
       Alert.alert('Enter all required details.');
     } else {
-      let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-      if (reg.test(changeText) === false) {
-        setEmailWrong(true);
-      } else {
-        try {
-          setLoginPending(true);
-          const GitHubClient = axios.create({
-            baseURL: `http://${AUTH_IP}`,
-            timeout: 1000,
-            headers: {
-              Accept: 'application/vnd.GitHub.v3+json',
+      // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+      // if (reg.test(changeText) === false) {
+      //   setEmailWrong(true);
+      // } else {
+      try {
+        setLoginPending(true);
+        // const GitHubClient = axios.create({
+        //   baseURL: `http://${AUTH_IP}`,
+        //   timeout: 1000,
+        //   headers: {
+        //     Accept: 'application/vnd.GitHub.v3+json',
+        //   },
+        // });
+        // const response = await GitHubClient.post('/api/v1/user/login', {
+        //   email: changeText,
+        //   password: password,
+        // });
+        let obj;
+        if (!changeText.split('@')[1]) {
+          // console.log('Mobile Number Call');
+          // console.log(changeText, password);
+          const response = await axios.post(
+            `http://${AUTH_IP}/api/v1/user/loginphone`,
+            {
+              phoneno: changeText,
+              password: password,
             },
-          });
-          const response = await GitHubClient.post('/api/v1/user/login', {
-            email: changeText,
-            password: password,
-          });
-
-          const obj = {
+          );
+          obj = {
             token: response.data.token,
             userID: response.data.user.id,
             name: response.data.user.name,
@@ -63,11 +74,43 @@ const SignInScreen = () => {
           setUserId(response.data.user.id);
           await getData();
           setLoginPending(false);
-        } catch (err) {
-          Alert.alert('Email or password is wrong');
+          // console.log(response.dat
+        } else {
+          setChangeText(changeText.split(' ')[0]);
+          // console.log('Email Call');
+          const response = await axios.post(
+            `http://${AUTH_IP}/api/v1/user/login`,
+            {
+              email: changeText,
+              password: password,
+            },
+          );
+          obj = {
+            token: response.data.token,
+            userID: response.data.user.id,
+            name: response.data.user.name,
+          };
+          const jsonValue = JSON.stringify(obj);
+          await AsyncStorage.setItem('userDetail', jsonValue);
+          setTokens(response.data.token);
+          setName(response.data.user.name);
+          setUserId(response.data.user.id);
+          await getData();
           setLoginPending(false);
+          // console.log(response.data);
         }
+        // const response = await axios.post(
+        //   `http://${AUTH_IP}/api/v1/user/login`,
+        //   {
+        //     email: changeText,
+        //     password: password,
+        //   },
+        // );
+      } catch (err) {
+        Alert.alert('Email or password is wrong');
+        setLoginPending(false);
       }
+      // }
     }
   };
 
@@ -121,7 +164,7 @@ const SignInScreen = () => {
           <TextInput
             onChangeText={setChangeText}
             placeholderTextColor="grey"
-            placeholder="Email ID"
+            placeholder="Email ID or Phone No."
             value={changeText}
             style={{
               height: 40,
@@ -178,8 +221,15 @@ const SignInScreen = () => {
           <FontAwesome5
             name={hidePass ? 'eye-slash' : 'eye'}
             size={15}
+            color={'black'}
             onPress={() => setHidePass(!hidePass)}
           />
+          {/* <Entypo
+            name={hidePass ? 'eye-with-line' : 'eye'}
+            size={15}
+            color={'black'}
+            onPress={() => setHidePass(!hidePass)}
+          /> */}
         </View>
         <Pressable
           onPress={onForgotPasswordPressed}
@@ -208,7 +258,7 @@ const SignInScreen = () => {
               },
               shadowOpacity: 0.41,
               shadowRadius: 9.11,
-              elevation: 3,
+              elevation: 4,
               alignContent: 'center',
               alignSelf: 'center',
               marginTop: 20,
@@ -257,7 +307,7 @@ const SignInScreen = () => {
                 fontFamily: 'Poppins-Medium',
                 fontSize: 12,
               }}>
-              New to Nivaas?
+              New to ShelterHub?
             </Text>
             <Text
               style={{

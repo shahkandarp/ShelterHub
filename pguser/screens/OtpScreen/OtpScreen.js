@@ -179,7 +179,9 @@ const OtpScreen = () => {
             </Pressable>
           </View>
           <Pressable
-            onPress={onSignInPress}
+            onPress={() => {
+              navigation.goBack();
+            }}
             style={{
               alignContent: 'center',
               alignSelf: 'center',
@@ -191,7 +193,7 @@ const OtpScreen = () => {
                 fontFamily: 'Poppins-Medium',
                 fontSize: 12,
               }}>
-              Back to Sign in
+              Want to change Phone No.?
             </Text>
           </Pressable>
         </View>
