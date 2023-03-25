@@ -10,6 +10,7 @@ const Owner = require("../models/Owner");
 const Room = require("../models/Room");
 const Interest = require("../models/Interest");
 const User = require("../models/User");
+const Rating = require("../models/Rating");
 
 //authentication owner
 const registerOwner = async (req, res) => {
@@ -309,6 +310,51 @@ const deleteRoom = async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "Success" });
 };
 
+const showReview = async (req, res) => {
+  const { ownerId } = req.user;
+  const review = await Rating.find({ ownerId });
+  let arr = []
+  let i =0
+  review.forEach((rev) => {
+    const d = new Date();
+    const todayMonth = d.getMonth() + 1;
+    const todayYear = d.getFullYear();
+    var interestDate = new Date(rev.createdAt);
+    const interestMonth = interestDate.getMonth() + 1;
+    const interestYear = interestDate.getFullYear();
+    if (todayMonth == interestMonth && todayYear == interestYear) {
+      arr[i] = rev;
+      ++i;
+    }
+  });
+  let ans=[]
+  let j =0
+  for(let i=0;i<arr.length;++i){
+    let obj = {}
+    let user = await User.findOne({_id:arr[i].userId})
+    obj.username = user.name
+    obj.useremail = user.email
+    obj.phoneno = user.phoneno
+    obj.review = arr[i].review
+    ans[j] = obj
+    j++
+  }
+  res.status(StatusCodes.OK).json({res:"Success",data:ans})
+};
+
+const deleteReview = async (req,res) => {
+  const {ownerId} = req.user
+  const {rid} = req.params
+  if(!rid){
+    throw new BadRequestError("Please provide Rating ID");
+  }
+  const review = await Rating.deleteOne({_id:rid})
+  if(!review){
+    throw new BadRequestError("Please provide Valid Rating ID");
+  }
+  res.status(StatusCodes.OK).json({res:'Success'})
+}
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -326,4 +372,6 @@ module.exports = {
   mobileOTPVerify,
   getStatus,
   deleteRoom,
+  showReview,
+  deleteReview,
 };
