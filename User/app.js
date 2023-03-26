@@ -7,7 +7,7 @@ require("dotenv").config();
 require("express-async-errors");
 const { StatusCodes } = require("http-status-codes");
 const multer = require("multer");
-const { ref, uploadBytes, deleteObject ,listAll} = require("firebase/storage");
+const { ref, uploadBytes, deleteObject, listAll } = require("firebase/storage");
 const storage = require("./firebase");
 const memoStorage = multer.memoryStorage();
 const upload = multer({ memoStorage });
@@ -69,7 +69,7 @@ app.use(cors());
 //     noofraters: 0,
 //     cityname: "Silchar",
 //     famousplacedistance: [
-  
+
 //     ],
 //     isMale: false,
 //     isFemale: true,
@@ -90,9 +90,8 @@ app.use(cors());
 //     __v: 0,
 //   };
 
- 
 //   const ss = await Owner.findOneAndUpdate({_id:'64128e057536ec50a4635601'},data)
-  
+
 //   res.send("success");
 // });
 //routes user
@@ -420,23 +419,23 @@ app.delete("/api/v1/deleteaadharproof", OwnerMiddleware, async (req, res) => {
   res.status(StatusCodes.OK).json({ res: "Success", data: ownerx });
 });
 
-app.post('/api/v1/verify',async(req,res)=>{
-  const {name} = req.body
-  if(!name){
+app.post("/api/v1/verify", async (req, res) => {
+  const { name } = req.body;
+  if (!name) {
     throw new BadRequestError("Please provide Name");
   }
   const listRef = ref(storage);
   let ans1 = false;
-  const ans = await listAll(listRef)
+  const ans = await listAll(listRef);
 
-  for(let i=0;i<ans.items.length;++i){
-    if(ans.items[i]._location.path_ == name){
+  for (let i = 0; i < ans.items.length; ++i) {
+    if (ans.items[i]._location.path_ == name) {
       ans1 = true;
       break;
     }
   }
-  res.json({res:"Success",data:ans1})  
-})
+  res.json({ res: "Success", data: ans1 });
+});
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
