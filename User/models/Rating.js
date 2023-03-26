@@ -13,6 +13,10 @@ const RatingSchema = new mongoose.Schema({
   userId:{
     type:mongoose.Types.ObjectId,
     ref:"User"
+  },
+  review:{
+    type:String,
+    default:""
   }
 },{timestamps:true});
 

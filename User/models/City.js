@@ -10,6 +10,10 @@ const CitySchema = new mongoose.Schema({
     type:[Object],
     default:[]
   },
+  area:{
+    type:[Object],
+    default:[]
+  },
   image:{
     type:String,
     required:[true,"Please provide image url"],
