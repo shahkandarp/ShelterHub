@@ -28,6 +28,7 @@ import Geocoder from 'react-native-geocoding';
 import NearByPgComponent from '../components/HomeScreenComponent/NearByPgComponent';
 import AppLoader from '../components/AppLoader';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import NearByMessComponent from '../components/HomeScreenComponent/NearByMessComponent';
 const HomeScreen = () => {
   const [location, setLocation] = useState(false);
   const navigation = useNavigation();
@@ -39,6 +40,8 @@ const HomeScreen = () => {
   const [nearByPg, setNearByPgData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [nearByMess, setNearByMessData] = useState([]);
+
   Geocoder.init('AIzaSyATSR2CjwA97n3qJ72ELXN9LcY9_BXkLbk');
   useEffect(() => {
     getLocation();
@@ -51,6 +54,7 @@ const HomeScreen = () => {
       getFamousPg();
       getFeaturedPg();
       getNearByPg();
+      getNearByMess();
     }
     setTimeout(() => {
       setRefreshing(false);
@@ -63,6 +67,7 @@ const HomeScreen = () => {
       getFamousPg();
       getFeaturedPg();
       getNearByPg();
+      getNearByMess();
     }
   }, [location]);
   const onUpdatePressed = async data => {
@@ -176,7 +181,6 @@ const HomeScreen = () => {
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setData(response.data.data);
-    console.log(response.data.data);
     setLoading(false);
   };
   const getFeaturedPg = async () => {
@@ -184,7 +188,7 @@ const HomeScreen = () => {
     const response = await axios.get(`http://${USER_IP}/api/v1/user/city`, {
       headers: {Authorization: `Bearer ${tokens}`},
     });
-    setFeaturedData(response.data.data);
+    setFeaturedData(response.data.data[0].area);
     setLoading(false);
   };
   const getNearByPg = async () => {
@@ -194,6 +198,18 @@ const HomeScreen = () => {
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setNearByPgData(response.data.data);
+    // console.log(response.data.data);
+    setLoading(false);
+  };
+  const getNearByMess = async () => {
+    setLoading(true);
+    const response = await axios.post(
+      `http://${USER_IP}/api/v1/user/pg/filter`,
+      {typeofpg: 'MESS'},
+      {headers: {Authorization: `Bearer ${tokens}`}},
+    );
+    setNearByMessData(response.data.data);
+    // console.log(response.data.data);
     setLoading(false);
   };
   return (
@@ -329,10 +345,18 @@ const HomeScreen = () => {
             </View>
 
             {/* Top 10 PGs */}
-            <View>{/* <FamousPg data={data} /> */}</View>
+            <View>
+              <FamousPg data={data} />
+            </View>
+
+            <View>
+              <NearByMessComponent data={nearByMess} />
+            </View>
 
             {/* Nearby PGs */}
-            <View>{/* <NearByPgComponent data={nearByPg} /> */}</View>
+            <View>
+              <NearByPgComponent data={nearByPg} />
+            </View>
           </View>
         )}
         {!location && (

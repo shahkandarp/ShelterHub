@@ -3,20 +3,21 @@ import React from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
-const FamousPgComponent = ({famous}) => {
+const FamousMessComponent = ({famous}) => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('PgDetailScreen', {data: famous});
+    navigation.navigate('PgDetailScreen', {data: famous.pg, mess: true});
   };
+  //   console.log(famous.pg);
   return (
     <Pressable style={{marginLeft: 20, marginTop: 10}} onPress={onPress}>
       <View>
         <Image
-          source={{uri: famous.photos[0]?.uri}}
+          source={{uri: famous.pg.photos[0]?.uri}}
           style={{height: 125, width: 170, borderRadius: 7}}
         />
       </View>
-      <View
+      {/* <View
         style={{
           backgroundColor: '#0bc908',
           paddingHorizontal: 4,
@@ -26,7 +27,7 @@ const FamousPgComponent = ({famous}) => {
           top: '4%',
           right: '47.5%',
           alignItems: 'center',
-          opacity: famous.isAC ? 1 : 0,
+          opacity: famous.pg.isAC ? 1 : 0,
           // opacity: 0,
         }}>
         <Text
@@ -37,7 +38,7 @@ const FamousPgComponent = ({famous}) => {
           }}>
           AC Rooms Available
         </Text>
-      </View>
+      </View> */}
       <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginBottom: 3}}>
@@ -45,7 +46,7 @@ const FamousPgComponent = ({famous}) => {
             <FontAwesome
               style={{marginHorizontal: 0.5}}
               name={
-                i < Math.floor(famous.ratings.$numberDecimal)
+                i < Math.floor(famous.pg.ratings.$numberDecimal)
                   ? 'star'
                   : 'star-o'
               }
@@ -58,10 +59,10 @@ const FamousPgComponent = ({famous}) => {
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginLeft: 2}}>
           <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-            {famous.ratings.$numberDecimal}
+            {famous.pg.ratings.$numberDecimal}
           </Text>
           <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-            ({famous.noofraters})
+            ({famous.pg.noofraters})
           </Text>
         </View>
       </View>
@@ -73,7 +74,7 @@ const FamousPgComponent = ({famous}) => {
           fontSize: 12,
           maxWidth: 160,
         }}>
-        {famous.propertytitle}
+        {famous.pg.propertytitle}
       </Text>
       <View
         style={{
@@ -89,7 +90,7 @@ const FamousPgComponent = ({famous}) => {
             color: 'gray',
             fontSize: 11,
           }}>
-          {famous.cityname}
+          {famous.pg.cityname}
         </Text>
         <Text
           style={{
@@ -98,11 +99,11 @@ const FamousPgComponent = ({famous}) => {
             fontSize: 11,
             marginLeft: 15,
           }}>
-          {famous?.views} views
+          {famous?.pg.views} views
         </Text>
       </View>
     </Pressable>
   );
 };
 
-export default FamousPgComponent;
+export default FamousMessComponent;

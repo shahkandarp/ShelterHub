@@ -23,7 +23,7 @@ const {width: screenWidth} = Dimensions.get('window');
 const ImageCarousel = ({featured}) => {
   const [entries, setEntries] = useState([]);
   const carouselRef = useRef(null);
-  // console.log(featured);
+  // console.log(featured.area);
   return (
     <View style={{height: 210, marginTop: 3}}>
       <View
@@ -122,7 +122,7 @@ const ImageCarousel = ({featured}) => {
         <FlatList
           data={featured}
           contentContainerStyle={{alignSelf: 'flex-start'}}
-          numColumns={Math.ceil(5)}
+          numColumns={Math.ceil(4)}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           style={{marginTop: 3}}

@@ -6,6 +6,8 @@ import {
   Modal,
   Pressable,
   Alert,
+  TextInput,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -28,6 +30,7 @@ const HistoryComponent = ({data}) => {
   const [star3, setStar3] = useState(false);
   const [star4, setStar4] = useState(false);
   const [star5, setStar5] = useState(false);
+  const [comment, setComment] = useState('');
 
   const star1Pressed = () => {
     setStar1(true);
@@ -81,7 +84,7 @@ const HistoryComponent = ({data}) => {
       // console.log(users);
       const response = await axios.post(
         `http://${USER_IP}/api/v1/user/${users}/pg/${data.pg._id}/rating`,
-        {rating: star},
+        {rating: star, review: comment},
         {headers: {Authorization: `Bearer ${tokens}`}},
       );
       // console.log(response.data.res);
@@ -90,6 +93,7 @@ const HistoryComponent = ({data}) => {
         setModal(!modal);
       }
       setModal(!modal);
+      showToastWithGravityAndOffset();
     }
     setModal(!modal);
     setStar1(false);
@@ -98,6 +102,16 @@ const HistoryComponent = ({data}) => {
     setStar4(false);
     setStar5(false);
   };
+  const showToastWithGravityAndOffset = async () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Rating and Review submitted successfully!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -250,7 +264,7 @@ const HistoryComponent = ({data}) => {
             onPress={() => setModal(!modal)}></Pressable>
           <View
             style={{
-              height: '35%',
+              height: '70%',
               backgroundColor: 'rgba(0,0,0,0.3)',
             }}>
             <View
@@ -325,13 +339,35 @@ const HistoryComponent = ({data}) => {
                   />
                 </Pressable>
               </View>
+              <TextInput
+                onChangeText={setComment}
+                placeholderTextColor="grey"
+                placeholder="Comment"
+                value={comment}
+                style={{
+                  height: 40,
+                  width: 260,
+                  marginLeft: 4,
+                  // flex: 1,
+                  borderBottomWidth: 1,
+                  borderColor: '#d1cfcf',
+                  marginTop: 10,
+                  borderRadius: 8,
+                  paddingHorizontal: 10,
+                  paddingBottom: 9,
+                  fontSize: 13,
+                  fontFamily: 'Poppins-Medium',
+                  color: '#212121',
+                  marginBottom: 10,
+                }}
+              />
               <Pressable
                 onPress={onClick}
                 style={{
                   backgroundColor: PRIMARY_COLOR,
                   padding: 10,
                   borderRadius: 6,
-                  marginTop: 16,
+                  marginTop: 5,
                 }}>
                 <Text
                   style={{
