@@ -46,11 +46,12 @@ const RoomSchema = new mongoose.Schema({
   },
   isCooler:{
     type:Boolean,
-    default:false
+    default:true
   },
   singleordouble:{
     type:String,
-    enum:['SINGLE','DOUBLE']
+    enum:['SINGLE','DOUBLE'],
+    default:'SINGLE'
   }
 
 });
