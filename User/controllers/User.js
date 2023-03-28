@@ -419,7 +419,7 @@ const getFilteredPgs = async (req, res) => {
 };
 const addRating = async (req, res) => {
   let { uid, pid } = req.params;
-  let { rating } = req.body;
+  let { rating,review } = req.body;
   rating = Number(rating);
   const pg = await Owner.findOne({ _id: pid });
   let pg_rating = (
@@ -438,6 +438,7 @@ const addRating = async (req, res) => {
       userId: uid,
       ownerId: pid,
       rating: rating,
+      review:review
     });
     res.status(StatusCodes.OK).json({ res: "success", data: update_pg });
   } else {
@@ -446,6 +447,16 @@ const addRating = async (req, res) => {
       .json({ res: "failed", data: "user has already rated" });
   }
 };
+const getReviews = async(req,res)=>{
+  const {pid} = req.params;
+  var reviews = await Rating.find({ownerId:pid});
+  for(let i=0;i<reviews.length;i++)
+  {
+    const user = await User.findOne({_id:reviews[i].userId});
+    reviews[i].username = user.name;
+  }
+  res.status(StatusCodes.OK).json({res:"success",data:reviews})
+}
 
 //user
 const getUserDetails = async (req, res) => {
@@ -522,6 +533,9 @@ const createUserInterest = async (req, res) => {
   const { room } = req.body;
   const owner_room = await Room.findOne({ _id: room });
   const owner_id = owner_room.ownerId;
+  const owner = await Owner.findOne({_id:owner_id})
+  const update_owner = await Owner.findOneAndUpdate({_id:owner_id},{interestedusers:owner.interstedusers+1})
+
   const interest = await Interest.create({
     userId: uid,
     ownerId: owner_id,
@@ -529,6 +543,11 @@ const createUserInterest = async (req, res) => {
   });
   res.status(StatusCodes.OK).json({ res: "success", data: interest });
 };
+const deleteInterest = async(req,res)=>{
+  const {interest} = req.body;
+  const del_interest = await Interest.findOneAndDelete({_id:interest});
+  res.status(StatusCodes.OK).json({res:"success",data:del_interest})
+}
 
 //cities
 const getCities = async (req, res) => {
@@ -565,4 +584,6 @@ module.exports = {
   verifyUserOTP,
   getCities,
   addRating,
+  deleteInterest,
+  getReviews
 };
