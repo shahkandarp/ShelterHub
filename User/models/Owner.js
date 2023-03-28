@@ -163,6 +163,10 @@ const OwnerSchema = new mongoose.Schema({
   isCleaning:{
     type:Boolean,
     default:false
+  },
+  isWaterCooler:{
+    type:Boolean,
+    default:false
   }
 });
 
