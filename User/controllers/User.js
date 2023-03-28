@@ -14,6 +14,7 @@ const fast2sms = require("fast-two-sms");
 const bcrypt = require("bcryptjs");
 const City = require("../models/City");
 const Rating = require("../models/Rating");
+const Suggestion = require("../models/Suggestion");
 
 //utility
 function getCommonItems(array1, array2) {
@@ -572,6 +573,18 @@ const getCities = async (req, res) => {
   }
 };
 
+//suggestions
+const getSuggestions = async(req,res)=>{
+  const data = await Suggestion.find({});
+  var suggested_pgs = [];
+  for(let i=0;i<data.length;i++)
+  {
+    const temp = await Suggestion.findOne({_id:data[i]});
+    suggested_pgs.push(temp);
+  }
+  res.status(StatusCodes.OK).json({res:"success",data:suggested_pgs})
+}
+
 module.exports = {
   loginUserByPhone,
   getSpecificPgs,
@@ -592,5 +605,6 @@ module.exports = {
   getCities,
   addRating,
   deleteInterest,
-  getReviews
+  getReviews,
+  getSuggestions
 };

@@ -34,11 +34,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 
-// app.get("/populate", async (req, res) => {
-//   const mess = await Owner.find({typeofpg:{$ne:'MESS'}}).select('typeofpg')
-//   console.log(mess)
-//   res.send("success");
-// });
+
 //routes user
 app.use("/api/v1/user", userRouter);
 //routes owner
@@ -436,6 +432,7 @@ app.delete("/api/v1/deletemenuphoto", OwnerMiddleware, async (req, res) => {
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const City = require("./models/City");
+const Suggestion = require("./models/Suggestion");
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
