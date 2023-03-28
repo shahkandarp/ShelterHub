@@ -21,7 +21,7 @@ const FilteredPgScreen = () => {
     setLoading(true);
     const response = await axios.post(
       `http://${USER_IP}/api/v1/user/pg/filter`,
-      {cityname: city},
+      {areaname: city},
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     // console.log(response.data.data[0].pg);

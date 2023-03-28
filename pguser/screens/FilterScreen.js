@@ -49,6 +49,7 @@ const FilterScreen = () => {
   const [bool, setBool] = useState(false);
   const [familyrooms, setFamilyRooms] = useState(false);
   const [pg, setPg] = useState(false);
+  const [mess, setMess] = useState(false);
   const [hostel, setHostel] = useState(true);
   const [pgType, setPgType] = useState('HOSTEL');
   const [occupancy, setOccupancy] = useState('shared');
@@ -743,12 +744,12 @@ const FilterScreen = () => {
                 setTwoThousand(false);
                 setThreeThousand(false);
                 setFourThousand(false);
-                setPrice(1000);
+                setPrice(10000);
                 // console.log(rating);
               }
             }}
             style={{
-              width: oneThousand ? 80 : 60,
+              width: oneThousand ? 80 : 64,
               backgroundColor: oneThousand ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -764,7 +765,7 @@ const FilterScreen = () => {
                 marginTop: 3,
                 color: '#303030',
                 fontSize: 12,
-              }}>{`>= 1000`}</Text>
+              }}>{`>= 10000`}</Text>
           </Pressable>
           <Pressable
             onPress={() => {
@@ -772,19 +773,19 @@ const FilterScreen = () => {
                 setTwoThousand(false);
                 if (!oneThousand) {
                   setOneThousand(true);
-                  setPrice(1000);
+                  setPrice(10000);
                 }
               } else {
                 setTwoThousand(true);
                 setOneThousand(false);
                 setThreeThousand(false);
                 setFourThousand(false);
-                setPrice(2000);
+                setPrice(20000);
                 // console.log(rating);
               }
             }}
             style={{
-              width: twoThousand ? 80 : 60,
+              width: twoThousand ? 80 : 64,
               backgroundColor: twoThousand ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -800,7 +801,7 @@ const FilterScreen = () => {
                 marginTop: 3,
                 color: '#303030',
                 fontSize: 12,
-              }}>{`>= 2000`}</Text>
+              }}>{`>= 20000`}</Text>
           </Pressable>
           <Pressable
             onPress={() => {
@@ -808,19 +809,19 @@ const FilterScreen = () => {
                 setThreeThousand(false);
                 if (!oneThousand) {
                   setOneThousand(true);
-                  setPrice(1000);
+                  setPrice(10000);
                 }
               } else {
                 setThreeThousand(true);
                 setOneThousand(false);
                 setTwoThousand(false);
                 setFourThousand(false);
-                setPrice(3000);
+                setPrice(30000);
                 // console.log(rating);
               }
             }}
             style={{
-              width: threeThousand ? 80 : 60,
+              width: threeThousand ? 80 : 64,
               backgroundColor: threeThousand ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -836,7 +837,7 @@ const FilterScreen = () => {
                 marginTop: 3,
                 color: '#303030',
                 fontSize: 12,
-              }}>{`>= 3000`}</Text>
+              }}>{`>= 30000`}</Text>
           </Pressable>
           <Pressable
             onPress={() => {
@@ -844,18 +845,18 @@ const FilterScreen = () => {
                 setFourThousand(false);
                 if (!oneThousand) {
                   setOneThousand(true);
-                  setPrice(1000);
+                  setPrice(10000);
                 }
               } else {
                 setFourThousand(true);
                 setOneThousand(false);
                 setTwoThousand(false);
                 setThreeThousand(false);
-                setPrice(4000);
+                setPrice(40000);
               }
             }}
             style={{
-              width: fourThousand ? 80 : 60,
+              width: fourThousand ? 80 : 64,
               marginHorizontal: 8,
               backgroundColor: fourThousand ? '#cad7fa' : '#edeef0',
               height: 30,
@@ -871,7 +872,7 @@ const FilterScreen = () => {
                 marginTop: 3,
                 color: '#303030',
                 fontSize: 12,
-              }}>{`>= 4000`}</Text>
+              }}>{`>= 40000`}</Text>
           </Pressable>
         </View>
         <Text
@@ -896,7 +897,7 @@ const FilterScreen = () => {
           <Pressable
             style={{
               width: 65,
-              marginHorizontal: 8,
+              marginHorizontal: 6,
               backgroundColor: hostel ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -912,6 +913,7 @@ const FilterScreen = () => {
                 setHostel(true);
                 setPg(false);
                 setFamilyRooms(false);
+                setMess(false);
                 setPgType('HOSTEL');
               }
             }}>
@@ -937,13 +939,14 @@ const FilterScreen = () => {
               } else {
                 setPg(true);
                 setHostel(false);
+                setMess(false);
                 setFamilyRooms(false);
                 setPgType('PG');
               }
             }}
             style={{
               width: 65,
-              marginHorizontal: 8,
+              marginHorizontal: 6,
               backgroundColor: pg ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -964,23 +967,64 @@ const FilterScreen = () => {
           </Pressable>
           <Pressable
             onPress={() => {
+              if (mess) {
+                setMess(false);
+                if (!hostel) {
+                  setHostel(true);
+                  setFamilyRooms(false);
+                  setPg(false);
+                  setPgType('HOSTEL');
+                }
+              } else {
+                setMess(true);
+                setPg(false);
+                setHostel(false);
+                setFamilyRooms(false);
+                setPgType('MESS');
+              }
+            }}
+            style={{
+              width: 65,
+              marginHorizontal: 6,
+              backgroundColor: mess ? '#cad7fa' : '#edeef0',
+              height: 30,
+              alignItems: 'center',
+              borderRadius: 8,
+              justifyContent: 'center',
+              borderWidth: mess ? 0.5 : 0,
+              borderColor: mess ? '#286aed' : 'white',
+            }}>
+            <Text
+              style={{
+                color: '#191919',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginTop: 3,
+              }}>
+              Mess
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
               if (familyrooms) {
                 setFamilyRooms(false);
                 if (!hostel) {
                   setHostel(true);
                   setPg(false);
+                  setMess(false);
                   setPgType('HOSTEL');
                 }
               } else {
                 setFamilyRooms(true);
                 setHostel(false);
+                setMess(false);
                 setPg(false);
                 setPgType('FAMILYROOMS');
               }
             }}
             style={{
               width: 90,
-              marginHorizontal: 8,
+              marginHorizontal: 6,
               backgroundColor: familyrooms ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
