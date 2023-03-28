@@ -100,12 +100,12 @@ const ProfileScreen = () => {
       }
       style={{backgroundColor: 'white', flex: 1, padding: 13}}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <FontAwesome5
+        {/* <FontAwesome5
           name="user-alt"
           size={13}
           color={PRIMARY_COLOR}
           // style={{marginTop: 1}}
-        />
+        /> */}
         <Text
           style={{
             fontFamily: 'Poppins-Medium',
@@ -117,13 +117,24 @@ const ProfileScreen = () => {
           Your Profile
         </Text>
       </View>
-      <View>
+      <View style={{marginTop: 20, alignSelf: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            borderWidth: 3,
+            borderColor: PRIMARY_COLOR,
+            padding: 13,
+            borderRadius: 30,
+            alignSelf: 'center',
+            alignItems: 'center',
+          }}>
+          <FontAwesome5 name="user-alt" size={30} color={PRIMARY_COLOR} />
+        </View>
         <Text
           style={{
             fontFamily: 'Poppins-Medium',
-            fontSize: 17,
+            fontSize: 18,
             color: '#191919',
-            marginTop: 20,
+            marginTop: 6,
             marginHorizontal: 5,
           }}>
           {userDetail?.name}
@@ -135,7 +146,7 @@ const ProfileScreen = () => {
             color: 'grey',
             marginHorizontal: 5,
           }}>
-          {userDetail?.email}
+          {userDetail?.phoneno}
         </Text>
       </View>
       <View style={{marginHorizontal: 10, marginTop: 5}}>

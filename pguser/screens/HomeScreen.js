@@ -176,6 +176,7 @@ const HomeScreen = () => {
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setData(response.data.data);
+    console.log(response.data.data);
     setLoading(false);
   };
   const getFeaturedPg = async () => {
@@ -328,14 +329,10 @@ const HomeScreen = () => {
             </View>
 
             {/* Top 10 PGs */}
-            <View>
-              <FamousPg data={data} />
-            </View>
+            <View>{/* <FamousPg data={data} /> */}</View>
 
             {/* Nearby PGs */}
-            <View>
-              <NearByPgComponent data={nearByPg} />
-            </View>
+            <View>{/* <NearByPgComponent data={nearByPg} /> */}</View>
           </View>
         )}
         {!location && (

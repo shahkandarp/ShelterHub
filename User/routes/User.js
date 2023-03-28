@@ -21,6 +21,7 @@ const {
   verifyUserOTP,
   getCities,
   addRating,
+  deleteInterest
 } = require("../controllers/User");
 const authMiddleware = require("../middleware/authentication_user");
 
@@ -57,5 +58,5 @@ router.route("/:email/password").post(changeUserPassword); //change password [re
 //interest
 router.route("/:uid/interest").get(authMiddleware, getCurrentInterests); //pgs in which user is interested
 router.route("/:uid/interest").post(authMiddleware, createUserInterest); //call this api when the user clicks interested button [req.body={room:room_id}]
-
+router.route("/:uid/interest").delete(authMiddleware,deleteInterest);//[req.body = {interest:InterestId}]
 module.exports = router;

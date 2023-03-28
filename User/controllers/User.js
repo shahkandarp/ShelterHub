@@ -526,6 +526,7 @@ const createUserInterest = async (req, res) => {
   const { room } = req.body;
   const owner_room = await Room.findOne({ _id: room });
   const owner_id = owner_room.ownerId;
+
   const interest = await Interest.create({
     userId: uid,
     ownerId: owner_id,
@@ -533,6 +534,11 @@ const createUserInterest = async (req, res) => {
   });
   res.status(StatusCodes.OK).json({ res: "success", data: interest });
 };
+const deleteInterest = async(req,res)=>{
+  const {interest} = req.body;
+  const del_interest = await Interest.findOneAndDelete({_id:interest});
+  res.status(StatusCodes.OK).json({res:"success",data:del_interest})
+}
 
 //cities
 const getCities = async (req, res) => {
@@ -572,4 +578,5 @@ module.exports = {
   verifyUserOTP,
   getCities,
   addRating,
+  deleteInterest
 };

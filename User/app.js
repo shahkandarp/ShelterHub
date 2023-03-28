@@ -403,11 +403,15 @@ app.post(
       name: snapshot.ref._location.path_,
       uri: `https://firebasestorage.googleapis.com/v0/b/${snapshot.ref._location.bucket}/o/${snapshot.ref._location.path_}?alt=media`,
     };
-    const owner = await Owner.findOneAndUpdate({ _id: ownerId }, {messmenuphoto:obj}, {
-      runValidators: true,
-      new: true,
-      setDefaultsOnInsert: true,
-    });
+    const owner = await Owner.findOneAndUpdate(
+      { _id: ownerId },
+      { messmenuphoto: obj },
+      {
+        runValidators: true,
+        new: true,
+        setDefaultsOnInsert: true,
+      }
+    );
     res.status(StatusCodes.OK).json({ res: "Success", data: owner });
   }
 );
@@ -448,8 +452,6 @@ const start = async () => {
     console.log(error);
   }
 };
-
-
 
 //connecting to database
 start();
