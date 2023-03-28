@@ -572,7 +572,7 @@ const getSuggestions = async(req,res)=>{
   var suggested_pgs = [];
   for(let i=0;i<data.length;i++)
   {
-    const temp = await Suggestion.findOne({_id:data[i]});
+    const temp = await Owner.findOne({_id:data[i].ownerId});
     suggested_pgs.push(temp);
   }
   res.status(StatusCodes.OK).json({res:"success",data:suggested_pgs})
