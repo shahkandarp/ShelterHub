@@ -120,6 +120,18 @@ const ValidateEmailScreen = () => {
               }}
             />
           </View>
+          <Text
+            style={{
+              color: 'grey',
+              fontFamily: 'Fredoka-Regular',
+              fontSize: 12,
+              marginTop: 5,
+              marginHorizontal: 12,
+              // textAlign: 'left',
+              // opacity: check ? 1 : 0,
+            }}>
+            Don't start your phone no. with{'  '}+91{'  '}or{'  '}0.
+          </Text>
           <View style={{alignContent: 'flex-start'}}>
             <Text
               style={{

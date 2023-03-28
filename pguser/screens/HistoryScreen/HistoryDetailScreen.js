@@ -34,6 +34,8 @@ const HistoryDetailScreen = () => {
   const {width, height} = useWindowDimensions();
   const route = useRoute();
   const data = route?.params?.data;
+  const mess = route?.params?.mess;
+
   const mapRef = useRef();
   const navigation = useNavigation();
   const [pgDetails, setPgDetails] = useState([]);
@@ -45,7 +47,7 @@ const HistoryDetailScreen = () => {
       `http://${USER_IP}/api/v1/user/pg/${data.pg._id}`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
-    // console.log(response.data.data.rooms);
+    // console.log(response.data.data.pg.messmenuphoto.uri);
     setPgDetails(response.data.data);
   };
   const onPress = () => {
@@ -131,24 +133,28 @@ const HistoryDetailScreen = () => {
           {'\u25CF'} {data.pg?.noofraters} ratings
         </Text>
       </View>
-      <View
-        style={{
-          backgroundColor: '#e0e0ed',
-          height: 1,
-          marginHorizontal: 30,
-          marginTop: 10,
-        }}></View>
-      <Text
-        style={{
-          fontFamily: 'Poppins-Medium',
-          color: '#191919',
-          fontSize: 15,
-          marginTop: 15,
-          marginHorizontal: 12,
-        }}>
-        Amenities
-      </Text>
-      {data.pg?.isAC && (
+      {!mess && (
+        <View
+          style={{
+            backgroundColor: '#e0e0ed',
+            height: 1,
+            marginHorizontal: 30,
+            marginTop: 10,
+          }}></View>
+      )}
+      {!mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            marginTop: 15,
+            marginHorizontal: 12,
+          }}>
+          Amenities
+        </Text>
+      )}
+      {data.pg?.isAC && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -172,7 +178,7 @@ const HistoryDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.pg.isWIFI && (
+      {data.pg.isWIFI && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -196,7 +202,7 @@ const HistoryDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.pg.isHotWater && (
+      {data.pg.isHotWater && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -220,7 +226,7 @@ const HistoryDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.pg.isCooler && (
+      {data.pg.isCooler && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -244,39 +250,45 @@ const HistoryDetailScreen = () => {
           </Text>
         </View>
       )}
-      <View
-        style={{
-          backgroundColor: '#e0e0ed',
-          height: 1,
-          marginHorizontal: 30,
-          marginVertical: 20,
-        }}></View>
+      {!mess && (
+        <View
+          style={{
+            backgroundColor: '#e0e0ed',
+            height: 1,
+            marginHorizontal: 30,
+            marginVertical: 20,
+          }}></View>
+      )}
       {/* <Pressable onPress={() => navigation.navigate('MapScreen', {data: data})}>
         <Text style={{color: 'black'}}>View on map</Text>
       </Pressable> */}
       {/* <Text style={{}}>Rooms available</Text> */}
-      <Text
-        style={{
-          fontFamily: 'Poppins-Medium',
-          color: '#191919',
-          fontSize: 15,
-          // marginTop: 10,
-          marginHorizontal: 12,
-        }}>
-        You showed interest in this room,
-      </Text>
-      <FlatList
-        data={pgDetails.rooms}
-        style={{
-          marginBottom: 4,
-          marginHorizontal: 10,
-        }}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => (
-          <RoomComponent datas={item} data2={data.pg} check={true} />
-        )}
-        keyExtractor={item => item._id}
-      />
+      {!mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            // marginTop: 10,
+            marginHorizontal: 12,
+          }}>
+          You showed interest in this room,
+        </Text>
+      )}
+      {!mess && (
+        <FlatList
+          data={pgDetails.rooms}
+          style={{
+            marginBottom: 4,
+            marginHorizontal: 10,
+          }}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <RoomComponent datas={item} data2={data.pg} check={true} />
+          )}
+          keyExtractor={item => item._id}
+        />
+      )}
       {/* <View
         style={{
           backgroundColor: '#e0e0ed',
@@ -285,6 +297,26 @@ const HistoryDetailScreen = () => {
           marginTop: 10,
           marginBottom: 10,
         }}></View> */}
+      {mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            marginTop: 15,
+            marginHorizontal: 12,
+          }}>
+          Mess Menu
+        </Text>
+      )}
+      {/* <View style={{backgroundColor: 'blue', height: 300}}> */}
+      {mess && (
+        <Image
+          source={{uri: data?.pg.messmenuphoto.uri}}
+          style={{width: 300, height: 400, marginHorizontal: 30}}
+        />
+      )}
+      {/* </View> */}
       <View
         style={{
           backgroundColor: '#e0e0ed',
