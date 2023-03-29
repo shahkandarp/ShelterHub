@@ -127,6 +127,7 @@ const ProfileScreenStack = () => {
       <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
       <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
       <Stack.Screen component={UpdateProfile} name="UpdateProfile" />
+      <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
       <Stack.Screen
         component={PrivacyPolicyScreen}
         name="PrivacyPolicyScreen"

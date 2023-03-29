@@ -39,12 +39,15 @@ const PgDetailScreen = () => {
   const mapRef = useRef();
   const navigation = useNavigation();
   const [pgDetails, setPgDetails] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [show, setShow] = useState(false);
   const pgDetail = route?.params?.pgDetail;
   useEffect(() => {
     if (check) {
       // console.log(pgDetail);
     } else {
       getPgDetail();
+      getReviews();
       console.log(stars);
     }
   }, []);
@@ -54,6 +57,14 @@ const PgDetailScreen = () => {
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setPgDetails(response.data.data);
+  };
+  const getReviews = async () => {
+    const response = await axios.get(
+      `http://${USER_IP}/api/v1/user/pg/${data._id}/reviews`,
+      {headers: {Authorization: `Bearer ${tokens}`}},
+    );
+    console.log(response.data.data);
+    setReviews(response.data.data);
   };
   const stars = (
     data?.ratings?.$numberDecimal - Math.floor(data?.ratings?.$numberDecimal)
@@ -300,6 +311,25 @@ const PgDetailScreen = () => {
         </View>
       )}
       {/* {!mess && ( */}
+      {mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            marginTop: 15,
+            marginHorizontal: 12,
+          }}>
+          Mess Menu
+        </Text>
+      )}
+      {/* <View style={{backgroundColor: 'blue', height: 300}}> */}
+      {mess && (
+        <Image
+          source={{uri: data?.messmenuphoto.uri}}
+          style={{width: 300, height: 400, marginHorizontal: 30}}
+        />
+      )}
       <View
         style={{
           backgroundColor: '#e0e0ed',
@@ -376,6 +406,51 @@ const PgDetailScreen = () => {
           </Text>
           {/* </View> */}
         </View>
+      </View>
+      <View style={{marginHorizontal: 15}}>
+        <Text style={{fontFamily: 'Poppins-Regular', fontSize: 13}}>
+          {reviews[0]?.review}
+        </Text>
+        <Pressable
+          onPress={() => {
+            if (show) {
+              setShow(false);
+            } else {
+              setShow(true);
+            }
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              color: PRIMARY_COLOR,
+              fontSize: 13,
+            }}>
+            See all comments
+          </Text>
+        </Pressable>
+        {show && (
+          <View>
+            <FlatList
+              data={reviews}
+              style={{
+                marginBottom: 8,
+                marginHorizontal: 13,
+              }}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item}) => (
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 12,
+                    marginTop: 3,
+                  }}>
+                  {item.review}
+                </Text>
+              )}
+              keyExtractor={item => item._id}
+            />
+          </View>
+        )}
       </View>
       <View
         style={{

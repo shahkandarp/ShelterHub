@@ -147,7 +147,7 @@ const SearchScreen = () => {
           value={search}
           onChangeText={setSearch}
           onTextInput={onPress}
-          placeholder="Search for PGs, Hostels..."
+          placeholder="Search for PGs, Hostels, Messes..."
           placeholderTextColor={'grey'}
           underlineColorAndroid="transparent"
         />

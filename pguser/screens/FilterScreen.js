@@ -94,7 +94,7 @@ const FilterScreen = () => {
         isFemale: isFemale,
         isMale: isMale,
         ratingFilters: `ratings>=${rating}&ratings<5`,
-        priceFilters: `price>=${price}&price<50000`,
+        priceFilters: `price>=${price}&price<125000`,
       },
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
@@ -897,7 +897,7 @@ const FilterScreen = () => {
           <Pressable
             style={{
               width: 65,
-              marginHorizontal: 6,
+              marginHorizontal: 9,
               backgroundColor: hostel ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -946,7 +946,7 @@ const FilterScreen = () => {
             }}
             style={{
               width: 65,
-              marginHorizontal: 6,
+              marginHorizontal: 9,
               backgroundColor: pg ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',
@@ -965,7 +965,7 @@ const FilterScreen = () => {
               PG
             </Text>
           </Pressable>
-          <Pressable
+          {/* <Pressable
             onPress={() => {
               if (mess) {
                 setMess(false);
@@ -1003,7 +1003,7 @@ const FilterScreen = () => {
               }}>
               Mess
             </Text>
-          </Pressable>
+          </Pressable> */}
           <Pressable
             onPress={() => {
               if (familyrooms) {
@@ -1024,7 +1024,7 @@ const FilterScreen = () => {
             }}
             style={{
               width: 90,
-              marginHorizontal: 6,
+              marginHorizontal: 9,
               backgroundColor: familyrooms ? '#cad7fa' : '#edeef0',
               height: 30,
               alignItems: 'center',

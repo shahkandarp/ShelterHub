@@ -332,7 +332,7 @@ const HomeScreen = () => {
                 marginLeft: -5,
                 color: 'grey',
               }}>
-              Search for PGs , Hostels...
+              Search for PGs , Hostels , Messes...
             </Text>
           </View>
         </Pressable>
@@ -345,7 +345,7 @@ const HomeScreen = () => {
             </View>
 
             {/* Top 10 PGs */}
-            <View>
+            <View style={{marginTop: 10}}>
               <FamousPg data={data} />
             </View>
 

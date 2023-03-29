@@ -22,8 +22,13 @@ const HistoryComponent = ({data}) => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const {users, tokens} = useAuthContext();
+  console.log(data);
   const onPress = () => {
-    navigation.navigate('HistoryDetailScreen', {data: data});
+    if (data.pg.typeofpg == 'MESS') {
+      navigation.navigate('HistoryDetailScreen', {data: data, mess: true});
+    } else {
+      navigation.navigate('HistoryDetailScreen', {data: data});
+    }
   };
   const [star1, setStar1] = useState(false);
   const [star2, setStar2] = useState(false);
