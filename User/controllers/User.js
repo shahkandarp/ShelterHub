@@ -535,7 +535,7 @@ const createUserInterest = async (req, res) => {
   const owner_room = await Room.findOne({ _id: room });
   const owner_id = owner_room.ownerId;
   const owner = await Owner.findOne({_id:owner_id})
-  const update_owner = await Owner.findOneAndUpdate({_id:owner_id},{interestedusers:owner.interstedusers+1})
+  const update_owner = await Owner.findOneAndUpdate({_id:owner_id},{interestedusers:owner.interestedusers+1})
 
   const interest = await Interest.create({
     userId: uid,
