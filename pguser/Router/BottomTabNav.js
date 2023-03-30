@@ -51,7 +51,7 @@ const BottomTabNav = () => {
           // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <Entypo name="home" size={16} color={color} />
+            <Entypo name="home" size={18.5} color={color} />
           ),
         }}
       />
@@ -64,7 +64,7 @@ const BottomTabNav = () => {
           // keyboardHidesTabBar: true,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="filter" size={16} color={color} />
+            <FontAwesome5 name="filter" size={18} color={color} />
           ),
         }}
       />
@@ -76,7 +76,7 @@ const BottomTabNav = () => {
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <AntDesign name="heart" size={16} color={color} />
+            <AntDesign name="heart" size={18.5} color={color} />
           ),
         }}
       />
@@ -88,7 +88,7 @@ const BottomTabNav = () => {
           headerShown: false,
           tabBarLabelStyle: {marginTop: -8, marginBottom: 2, fontSize: 9},
           tabBarIcon: ({color}) => (
-            <Ionicons name="md-images-sharp" size={16} color={color} />
+            <Ionicons name="md-images-sharp" size={18.5} color={color} />
           ),
         }}
       />
@@ -127,6 +127,7 @@ const ProfileScreenStack = () => {
       <Stack.Screen component={ProfileScreen} name="ProfileScreen" />
       <Stack.Screen component={HistoryScreen} name="HistoryScreen" />
       <Stack.Screen component={UpdateProfile} name="UpdateProfile" />
+      <Stack.Screen component={PgDetailScreen} name="PgDetailScreen" />
       <Stack.Screen
         component={PrivacyPolicyScreen}
         name="PrivacyPolicyScreen"

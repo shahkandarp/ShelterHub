@@ -35,15 +35,19 @@ const PgDetailScreen = () => {
   const route = useRoute();
   const data = route?.params?.data;
   const check = route?.params?.check;
+  const mess = route?.params?.mess;
   const mapRef = useRef();
   const navigation = useNavigation();
   const [pgDetails, setPgDetails] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [show, setShow] = useState(false);
   const pgDetail = route?.params?.pgDetail;
   useEffect(() => {
     if (check) {
       // console.log(pgDetail);
     } else {
       getPgDetail();
+      getReviews();
       console.log(stars);
     }
   }, []);
@@ -53,6 +57,14 @@ const PgDetailScreen = () => {
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setPgDetails(response.data.data);
+  };
+  const getReviews = async () => {
+    const response = await axios.get(
+      `http://${USER_IP}/api/v1/user/pg/${data._id}/reviews`,
+      {headers: {Authorization: `Bearer ${tokens}`}},
+    );
+    console.log(response.data.data);
+    setReviews(response.data.data);
   };
   const stars = (
     data?.ratings?.$numberDecimal - Math.floor(data?.ratings?.$numberDecimal)
@@ -148,51 +160,61 @@ const PgDetailScreen = () => {
           {'\u25CF'} {data?.noofraters} ratings
         </Text>
       </View>
-      <View
-        style={{
-          backgroundColor: '#e0e0ed',
-          height: 1,
-          marginHorizontal: 30,
-          marginTop: 10,
-        }}></View>
-      <Text
-        style={{
-          fontFamily: 'Poppins-Medium',
-          color: '#191919',
-          fontSize: 15,
-          marginTop: 10,
-          marginHorizontal: 12,
-        }}>
-        Here's Our Room,
-      </Text>
-      <FlatList
-        data={check ? pgDetail : pgDetails.rooms}
-        style={{
-          marginBottom: 4,
-          marginHorizontal: 10,
-        }}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item}) => <RoomComponent datas={item} data2={data} />}
-        keyExtractor={item => item._id}
-      />
-      <View
-        style={{
-          backgroundColor: '#e0e0ed',
-          height: 1,
-          marginHorizontal: 30,
-          marginVertical: 15,
-        }}></View>
-      <Text
-        style={{
-          fontFamily: 'Poppins-Medium',
-          color: '#191919',
-          fontSize: 15,
-          marginTop: 15,
-          marginHorizontal: 12,
-        }}>
-        Amenities
-      </Text>
-      {data?.isAC && (
+      {!mess && (
+        <View
+          style={{
+            backgroundColor: '#e0e0ed',
+            height: 1,
+            marginHorizontal: 30,
+            marginTop: 10,
+          }}></View>
+      )}
+      {!mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            marginTop: 10,
+            marginHorizontal: 12,
+          }}>
+          Here's Our Room,
+        </Text>
+      )}
+      {!mess && (
+        <FlatList
+          data={check ? pgDetail : pgDetails.rooms}
+          style={{
+            marginBottom: 4,
+            marginHorizontal: 10,
+          }}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => <RoomComponent datas={item} data2={data} />}
+          keyExtractor={item => item._id}
+        />
+      )}
+      {!mess && (
+        <View
+          style={{
+            backgroundColor: '#e0e0ed',
+            height: 1,
+            marginHorizontal: 30,
+            marginVertical: 15,
+          }}></View>
+      )}
+      {!mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            marginTop: 15,
+            marginHorizontal: 12,
+          }}>
+          Amenities
+        </Text>
+      )}
+      {data?.isAC && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -216,7 +238,7 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.isWIFI && (
+      {data.isWIFI && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -240,7 +262,7 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.isHotWater && (
+      {data.isHotWater && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -264,7 +286,7 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
-      {data.isCooler && (
+      {data.isCooler && !mess && (
         <View
           style={{
             flexDirection: 'row',
@@ -288,6 +310,26 @@ const PgDetailScreen = () => {
           </Text>
         </View>
       )}
+      {/* {!mess && ( */}
+      {mess && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 15,
+            marginTop: 15,
+            marginHorizontal: 12,
+          }}>
+          Mess Menu
+        </Text>
+      )}
+      {/* <View style={{backgroundColor: 'blue', height: 300}}> */}
+      {mess && (
+        <Image
+          source={{uri: data?.messmenuphoto.uri}}
+          style={{width: 300, height: 400, marginHorizontal: 30}}
+        />
+      )}
       <View
         style={{
           backgroundColor: '#e0e0ed',
@@ -295,6 +337,7 @@ const PgDetailScreen = () => {
           marginHorizontal: 30,
           marginVertical: 20,
         }}></View>
+      {/* // )} */}
       {/* <Pressable onPress={() => navigation.navigate('MapScreen', {data: data})}>
         {/* <Pressable onPress={() => console.log(data.lat.$numberDecimal)}> */}
       {/* <Text style={{color: 'black'}}>View on map</Text> */}
@@ -314,7 +357,7 @@ const PgDetailScreen = () => {
           fontFamily: 'Poppins-Medium',
           color: '#191919',
           fontSize: 15,
-          marginTop: 5,
+          marginTop: 3,
           marginHorizontal: 12,
         }}>
         Ratings
@@ -328,7 +371,7 @@ const PgDetailScreen = () => {
           // marginTop: 8,
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {[0, 0, 0, 0, 0].map(i => (
+          {[0, 0, 0, 0, 0].map((el, i) => (
             <FontAwesome
               style={{marginHorizontal: 3}}
               name={
@@ -363,6 +406,51 @@ const PgDetailScreen = () => {
           </Text>
           {/* </View> */}
         </View>
+      </View>
+      <View style={{marginHorizontal: 15}}>
+        <Text style={{fontFamily: 'Poppins-Regular', fontSize: 13}}>
+          {reviews[0]?.review}
+        </Text>
+        <Pressable
+          onPress={() => {
+            if (show) {
+              setShow(false);
+            } else {
+              setShow(true);
+            }
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              color: PRIMARY_COLOR,
+              fontSize: 13,
+            }}>
+            See all comments
+          </Text>
+        </Pressable>
+        {show && (
+          <View>
+            <FlatList
+              data={reviews}
+              style={{
+                marginBottom: 8,
+                marginHorizontal: 13,
+              }}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item}) => (
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 12,
+                    marginTop: 3,
+                  }}>
+                  {item.review}
+                </Text>
+              )}
+              keyExtractor={item => item._id}
+            />
+          </View>
+        )}
       </View>
       <View
         style={{

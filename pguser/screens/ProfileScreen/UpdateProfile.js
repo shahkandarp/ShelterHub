@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
   TextInput,
   Pressable,
+  ToastAndroid,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 // import {useForm} from 'react-hook-form';
@@ -81,6 +82,7 @@ const UpdateProfile = () => {
           const jsonValue = JSON.stringify(obj);
           await AsyncStorage.setItem('userDetail', jsonValue);
           navigation.navigate('ProfileScreen');
+          await showToastWithGravityAndOffset();
           setLoadingPending(false);
         } catch (err) {
           setLoadingPending(false);
@@ -90,6 +92,15 @@ const UpdateProfile = () => {
         Alert.alert("Name/Email field can't be empty.");
       }
     }
+  };
+  const showToastWithGravityAndOffset = async () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Profile updated successfully!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
   };
   return (
     <>

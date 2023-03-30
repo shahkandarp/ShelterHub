@@ -1,8 +1,8 @@
 import {View, Text, FlatList, Image} from 'react-native';
 import React from 'react';
 import NearByPgComponents from './NearByPgComponents';
-const NearByPgComponent = ({data, check}) => {
-  // console.log('h:', data, check);
+const NearByPgComponent = ({data, check, suggestions}) => {
+  // console.log('h:', check);
   return (
     <View style={{}}>
       {!check && (
@@ -19,7 +19,7 @@ const NearByPgComponent = ({data, check}) => {
       {data.length > 0 && (
         <FlatList
           data={data}
-          style={{marginBottom: 60, marginTop: 5}}
+          style={{marginBottom: 60, marginTop: 0}}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => <NearByPgComponents data={item} />}
           keyExtractor={item => item.name}
