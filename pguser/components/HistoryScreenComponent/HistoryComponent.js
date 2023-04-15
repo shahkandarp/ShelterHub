@@ -22,7 +22,7 @@ const HistoryComponent = ({data}) => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const {users, tokens} = useAuthContext();
-  console.log(data);
+  // console.log(data);
   const onPress = () => {
     if (data.pg.typeofpg == 'MESS') {
       navigation.navigate('HistoryDetailScreen', {data: data, mess: true});
@@ -98,7 +98,7 @@ const HistoryComponent = ({data}) => {
         setModal(!modal);
       }
       setModal(!modal);
-      showToastWithGravityAndOffset();
+      await showToastWithGravityAndOffset();
     }
     setModal(!modal);
     setStar1(false);

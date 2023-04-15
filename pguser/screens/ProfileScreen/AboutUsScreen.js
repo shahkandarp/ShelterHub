@@ -35,10 +35,10 @@ const AboutUsScreen = () => {
           marginHorizontal: 7,
           fontFamily: 'Poppins-Regular',
         }}>
-        Welcome To Niwas {'\n'}
-        {'\n'}Niwas is a Professional rental solutions provider Platform. Here
-        we will provide you only interesting content, which you will like very
-        much. We're dedicated to providing you the best of rental solutions
+        Welcome To ShelterHub {'\n'}
+        {'\n'}ShelterHub is a Professional rental solutions provider Platform.
+        Here we will provide you only interesting content, which you will like
+        very much. We're dedicated to providing you the best of rental solutions
         provider, with a focus on dependability and Introducing our startup,
         which aims to provide a hassle-free solution to finding affordable and
         comfortable accommodations in different parts of the city. We understand
