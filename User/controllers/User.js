@@ -213,48 +213,35 @@ const getPGDetails = async (req, res) => {
   } else {
     const rooms = await Room.find({ ownerId: pid });
     const views = pg.views + 1;
-    if (pg.famousplacedistance.length == 0) {
-      let distance_array = [];
-      const city = await City.findOne({ name: pg.cityname });
-      const places = city.places;
-      for (let i = 0; i < places.length; i++) {
-        const obj = {};
-        const distance = calculateDistance(
-          places[i].lat,
-          pg.lat,
-          places[i].lng,
-          pg.lng
-        );
-        obj.name = places[i].name;
-        obj.distance = distance;
-        distance_array.push(obj);
-      }
-      let updated_pg = await Owner.findOneAndUpdate(
-        { _id: pid },
-        { views: views, famousplacedistance: distance_array },
-        {
-          new: true,
-          runValidators: true,
-        }
+    let distance_array = [];
+    const city = await City.findOne({ name: pg.cityname });
+    const places = city.places;
+    for (let i = 0; i < places.length; i++) {
+      const obj = {};
+      const distance = calculateDistance(
+        places[i].lat,
+        pg.lat,
+        places[i].lng,
+        pg.lng
       );
-      res
-        .status(StatusCodes.OK)
-        .json({ res: "success", data: { pg: updated_pg, rooms } });
-    } else {
-      let updated_pg = await Owner.findOneAndUpdate(
-        { _id: pid },
-        { views: views },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
-      res
-        .status(StatusCodes.OK)
-        .json({ res: "success", data: { pg: updated_pg, rooms } });
+      obj.name = places[i].name;
+      obj.distance = distance;
+      distance_array.push(obj);
     }
+    let updated_pg = await Owner.findOneAndUpdate(
+      { _id: pid },
+      { views: views, famousplacedistance: distance_array },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res
+      .status(StatusCodes.OK)
+      .json({ res: "success", data: { pg: updated_pg, rooms } });
   }
 };
+
 const getSpecificPgs = async (req, res) => {
   const { uid } = req.params;
   const { search, sort, mess } = req.query;
@@ -271,7 +258,7 @@ const getSpecificPgs = async (req, res) => {
     if (sort) {
       if (mess) {
         const mess = await Owner.find({ typeofpg: "MESS" }).sort(sort);
-        let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
+        let nearby_pgs = await nearByPgs(user.lat, user.lng, mess);
         res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
       } else {
         const pgs = await Owner.find({ typeofpg: { $ne: "MESS" } }).sort(sort);
@@ -420,7 +407,7 @@ const getFilteredPgs = async (req, res) => {
 };
 const addRating = async (req, res) => {
   let { uid, pid } = req.params;
-  let { rating,review } = req.body;
+  let { rating, review } = req.body;
   rating = Number(rating);
   const pg = await Owner.findOne({ _id: pid });
   let pg_rating = (
@@ -439,7 +426,7 @@ const addRating = async (req, res) => {
       userId: uid,
       ownerId: pid,
       rating: rating,
-      review:review
+      review: review,
     });
     res.status(StatusCodes.OK).json({ res: "success", data: update_pg });
   } else {
@@ -448,16 +435,23 @@ const addRating = async (req, res) => {
       .json({ res: "failed", data: "user has already rated" });
   }
 };
-const getReviews = async(req,res)=>{
-  const {pid} = req.params;
-  var reviews = await Rating.find({ownerId:pid});
-  for(let i=0;i<reviews.length;i++)
-  {
-    const user = await User.findOne({_id:reviews[i].userId});
-    reviews[i].username = user.name;
+const getReviews = async (req, res) => {
+  const { pid } = req.params;
+  var reviews = await Rating.find({ ownerId: pid });
+  var array = [];
+  for (let i = 0; i < reviews.length; i++) {
+    var obj = {};
+    const user = await User.findOne({ _id: reviews[i].userId });
+    obj.username = user.name;
+    obj.rating = reviews[i].rating;
+    obj.review = reviews[i].review;
+    obj.createdAt = reviews[i].createdAt;
+    obj.updatedAt = reviews[i].updatedAt;
+    array.push(obj);
   }
-  res.status(StatusCodes.OK).json({res:"success",data:reviews})
-}
+
+  res.status(StatusCodes.OK).json({ res: "success", data: array });
+};
 
 //user
 const getUserDetails = async (req, res) => {
@@ -533,22 +527,41 @@ const createUserInterest = async (req, res) => {
   const { uid } = req.params;
   const { room } = req.body;
   const owner_room = await Room.findOne({ _id: room });
-  const owner_id = owner_room.ownerId;
-  const owner = await Owner.findOne({_id:owner_id})
-  const update_owner = await Owner.findOneAndUpdate({_id:owner_id},{interestedusers:owner.interestedusers+1})
+  if (!owner_room) {
+    const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
+    const update_owner = await Owner.findOneAndUpdate(
+      {_id:room},
+      {interestedusers:mess.interestedusers+1}
+    )
 
-  const interest = await Interest.create({
-    userId: uid,
-    ownerId: owner_id,
-    roomId: room,
-  });
-  res.status(StatusCodes.OK).json({ res: "success", data: interest });
+    const interest = await Interest.create({
+      userId:uid,
+      ownerId:mess._id,
+      roomId:room
+    })
+    res.status(StatusCodes.OK).json({res:"success",data:interest});
+  } else {
+    const owner_id = owner_room.ownerId;
+    const owner = await Owner.findOne({ _id: owner_id });
+    const update_owner = await Owner.findOneAndUpdate(
+      { _id: owner_id },
+      { interestedusers: owner.interestedusers + 1 }
+    );
+
+    const interest = await Interest.create({
+      userId: uid,
+      ownerId: owner_id,
+      roomId: room,
+    });
+    res.status(StatusCodes.OK).json({ res: "success", data: interest });
+  }
+
 };
-const deleteInterest = async(req,res)=>{
-  const {interest} = req.body;
-  const del_interest = await Interest.findOneAndDelete({_id:interest});
-  res.status(StatusCodes.OK).json({res:"success",data:del_interest})
-}
+const deleteInterest = async (req, res) => {
+  const { interest } = req.body;
+  const del_interest = await Interest.findOneAndDelete({ _id: interest });
+  res.status(StatusCodes.OK).json({ res: "success", data: del_interest });
+};
 
 //cities
 const getCities = async (req, res) => {
@@ -567,16 +580,15 @@ const getCities = async (req, res) => {
 };
 
 //suggestions
-const getSuggestions = async(req,res)=>{
+const getSuggestions = async (req, res) => {
   const data = await Suggestion.find({});
   var suggested_pgs = [];
-  for(let i=0;i<data.length;i++)
-  {
-    const temp = await Owner.findOne({_id:data[i].ownerId});
+  for (let i = 0; i < data.length; i++) {
+    const temp = await Owner.findOne({ _id: data[i].ownerId });
     suggested_pgs.push(temp);
   }
-  res.status(StatusCodes.OK).json({res:"success",data:suggested_pgs})
-}
+  res.status(StatusCodes.OK).json({ res: "success", data: suggested_pgs });
+};
 
 module.exports = {
   loginUserByPhone,
@@ -599,5 +611,5 @@ module.exports = {
   addRating,
   deleteInterest,
   getReviews,
-  getSuggestions
+  getSuggestions,
 };
