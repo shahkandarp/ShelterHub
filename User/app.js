@@ -1,4 +1,5 @@
 const express = require("express");
+const City = require('./models/City')
 const app = express();
 const { BadRequestError, UnauthenticatedError } = require("./errors/index");
 
@@ -39,6 +40,11 @@ app.use(cors());
 app.use("/api/v1/user", userRouter);
 //routes owner
 app.use("/api/v1/owner", ownerRouter);
+
+app.use('/getkotadetails',async(req,res)=>{
+  const city = await City.findOne({name:'Kota'})
+  res.status(StatusCodes.OK).json({res:'Success',data:city.area})
+})
 
 //images/videos routes
 app.post(
@@ -431,7 +437,6 @@ app.delete("/api/v1/deletemenuphoto", OwnerMiddleware, async (req, res) => {
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const City = require("./models/City");
 const Suggestion = require("./models/Suggestion");
 
 app.use(notFoundMiddleware);
