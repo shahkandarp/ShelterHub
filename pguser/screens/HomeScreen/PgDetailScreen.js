@@ -8,6 +8,10 @@ import {
   FlatList,
   Modal,
   ScrollView,
+  TouchableOpacity,
+  ToastAndroid,
+  Platform,
+  Linking,
 } from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
@@ -27,6 +31,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {PRIMARY_COLOR} from '@env';
 import RulesComponent from '../../components/HomeScreenComponent/RulesComponent';
 import FamousPlaces from '../../components/HomeScreenComponent/FamousPlaces';
+// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const PgDetailScreen = () => {
   const {tokens, users} = useAuthContext();
   const [modal, setModal] = useState(false);
@@ -41,6 +46,7 @@ const PgDetailScreen = () => {
   const [pgDetails, setPgDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [show, setShow] = useState(false);
+  const [showOwnerDetails, setShowOwnerDetails] = useState(false);
   const pgDetail = route?.params?.pgDetail;
   useEffect(() => {
     if (check) {
@@ -51,6 +57,45 @@ const PgDetailScreen = () => {
       // console.log(stars);
     }
   }, []);
+  const openMap = async (latitude, longitude, label = 'MyLabel') => {
+    const tag = `${Platform.OS === 'ios' ? 'maps' : 'geo'}:0,0?q=`;
+    const link = Platform.select({
+      ios: `${tag}${label}@${data?.lat?.$numberDecimal},${data?.lng?.$numberDecimal}`,
+      android: `${tag}${data?.lat?.$numberDecimal},${data?.lng?.$numberDecimal}(${label})`,
+    });
+
+    try {
+      const supported = await Linking.canOpenURL(link);
+
+      if (supported) Linking.openURL(link);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const showInterest = async () => {
+    // console.log(data._id);
+    const response = await axios.post(
+      `http://${USER_IP}/api/v1/user/${users}/interest`,
+      {room: data._id},
+      {
+        headers: {Authorization: `Bearer ${tokens}`},
+      },
+    );
+    // console.log(response.data.data);
+    setShowOwnerDetails(true);
+    await showToastWithGravityAndOffset();
+    // setModal(false);
+    // setPgDetails(response.data.data);
+  };
+  const showToastWithGravityAndOffset = async () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Your interest sent to Owner!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
   const getPgDetail = async () => {
     const response = await axios.get(
       `http://${USER_IP}/api/v1/user/pg/${data._id}`,
@@ -76,6 +121,9 @@ const PgDetailScreen = () => {
   //    );
   //    setPgDetails(response.data.data);
   //  };
+  var arr = data.address;
+  var arr1 = arr.split('/');
+
   const onPress = () => {
     setModal(true);
     // console.log(stars);
@@ -121,6 +169,7 @@ const PgDetailScreen = () => {
           marginHorizontal: 12,
         }}>
         {data.propertytitle}
+        {/* {arr1[0]} */}
       </Text>
       <Text
         style={{
@@ -129,8 +178,31 @@ const PgDetailScreen = () => {
           fontSize: 11,
           marginHorizontal: 12,
         }}>
-        {data.address}
+        {/* {data.address} */}
+        {`${arr1[0]}`}
+        {', '}
+        {arr1[2]}
       </Text>
+      <Pressable
+        onPress={openMap}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginHorizontal: 10,
+          marginVertical: 8,
+        }}>
+        <MaterialIcons name="location-pin" size={19} color={'#3483eb'} />
+        <Text
+          style={{
+            marginLeft: 2,
+            fontFamily: 'Poppins-Regular',
+            color: '#3483eb',
+            fontSize: 12,
+            marginTop: 2,
+          }}>
+          View on Google Map
+        </Text>
+      </Pressable>
       <View
         style={{
           flexDirection: 'row',
@@ -337,6 +409,92 @@ const PgDetailScreen = () => {
           marginHorizontal: 30,
           marginVertical: 20,
         }}></View>
+      {showOwnerDetails && (
+        <View style={{marginBottom: 30}}>
+          <Text
+            style={{
+              marginHorizontal: 13,
+              fontFamily: 'Poppins-Medium',
+              color: '#101010',
+              fontSize: 14,
+              marginTop: 13,
+            }}>
+            Owner Details
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 13,
+              fontFamily: 'Poppins-Regular',
+              color: '#101010',
+              fontSize: 11,
+              marginTop: 3,
+            }}>
+            Name: {data.name}
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 13,
+              fontFamily: 'Poppins-Regular',
+              color: '#101010',
+              fontSize: 11,
+              marginTop: 3,
+            }}>
+            Email: {data.email}
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 13,
+              fontFamily: 'Poppins-Regular',
+              color: '#101010',
+              fontSize: 11,
+              marginTop: 3,
+            }}>
+            Phone No: {data.phoneno}
+          </Text>
+        </View>
+      )}
+      {mess && !showOwnerDetails && (
+        <View>
+          {/* {!check && !show && ( */}
+          <TouchableOpacity
+            onPress={showInterest}
+            style={{
+              width: width - 40,
+              backgroundColor: PRIMARY_COLOR,
+              alignSelf: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 12,
+              marginBottom: 10,
+              borderRadius: 12,
+              height: 42,
+            }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Medium',
+                fontSize: 13,
+                color: 'white',
+              }}>
+              Show Interest
+            </Text>
+          </TouchableOpacity>
+          {/* )} */}
+          {/* {!show && ( */}
+          <Text
+            style={{
+              marginHorizontal: 13,
+              fontFamily: 'Poppins-Regular',
+              color: '#101010',
+              fontSize: 11,
+              marginTop: 3,
+              marginBottom: 30,
+            }}>
+            *Note: You have to show interest, to get Owner details
+          </Text>
+          {/* )} */}
+        </View>
+      )}
+
       {/* // )} */}
       {/* <Pressable onPress={() => navigation.navigate('MapScreen', {data: data})}>
         {/* <Pressable onPress={() => console.log(data.lat.$numberDecimal)}> */}
@@ -425,7 +583,7 @@ const PgDetailScreen = () => {
               color: PRIMARY_COLOR,
               fontSize: 13,
             }}>
-            See all comments
+            {show ? `Show less` : `Show all Comments`}
           </Text>
         </Pressable>
         {show && (
@@ -434,18 +592,48 @@ const PgDetailScreen = () => {
               data={reviews}
               style={{
                 marginBottom: 8,
-                marginHorizontal: 13,
+                marginHorizontal: 5,
               }}
               showsVerticalScrollIndicator={false}
               renderItem={({item}) => (
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 12,
-                    marginTop: 3,
-                  }}>
-                  {item.review}
-                </Text>
+                <View style={{marginVertical: 4}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 13,
+                      marginTop: 3,
+                      color: 'black',
+                    }}>
+                    {item.username}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginVertical: 4,
+                    }}>
+                    {[0, 0, 0, 0, 0].map((el, i) => (
+                      <FontAwesome
+                        style={{marginRight: 3}}
+                        name={
+                          i < Math.floor(item?.rating?.$numberDecimal)
+                            ? 'star'
+                            : 'star-o'
+                        }
+                        size={15}
+                        color={'#fabe1b'}
+                      />
+                    ))}
+                  </View>
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 12,
+                      marginTop: 3,
+                    }}>
+                    {item.review}
+                  </Text>
+                </View>
               )}
               keyExtractor={item => item._id}
             />

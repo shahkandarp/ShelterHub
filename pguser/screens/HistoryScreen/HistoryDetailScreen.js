@@ -35,12 +35,16 @@ const HistoryDetailScreen = () => {
   const route = useRoute();
   const data = route?.params?.data;
   const mess = route?.params?.mess;
-
+  var arr = data.pg.address;
+  var arr1 = arr.split('/');
   const mapRef = useRef();
   const navigation = useNavigation();
   const [pgDetails, setPgDetails] = useState([]);
+  const [show, setShow] = useState(false);
+  const [reviews, setReviews] = useState([]);
   useEffect(() => {
     getPgDetail();
+    getReviews();
   }, []);
   const getPgDetail = async () => {
     const response = await axios.get(
@@ -49,6 +53,14 @@ const HistoryDetailScreen = () => {
     );
     // console.log(response.data.data.pg.messmenuphoto.uri);
     setPgDetails(response.data.data);
+  };
+  const getReviews = async () => {
+    const response = await axios.get(
+      `http://${USER_IP}/api/v1/user/pg/${data.pg._id}/reviews`,
+      {headers: {Authorization: `Bearer ${tokens}`}},
+    );
+    console.log(response.data.data);
+    setReviews(response.data.data);
   };
   const onPress = () => {
     setModal(true);
@@ -102,7 +114,9 @@ const HistoryDetailScreen = () => {
           fontSize: 11,
           marginHorizontal: 12,
         }}>
-        {data.pg.address}
+        {`${arr1[0]}`}
+        {', '}
+        {arr1[2]}
       </Text>
       <View
         style={{
@@ -379,6 +393,81 @@ const HistoryDetailScreen = () => {
           </Text>
           {/* </View> */}
         </View>
+      </View>
+      <View style={{marginHorizontal: 15}}>
+        <Text style={{fontFamily: 'Poppins-Regular', fontSize: 13}}>
+          {reviews[0]?.review}
+        </Text>
+        <Pressable
+          onPress={() => {
+            if (show) {
+              setShow(false);
+            } else {
+              setShow(true);
+            }
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              color: PRIMARY_COLOR,
+              fontSize: 13,
+            }}>
+            {show ? `Show less` : `Show all Comments`}
+          </Text>
+        </Pressable>
+        {show && (
+          <View>
+            <FlatList
+              data={reviews}
+              style={{
+                marginBottom: 8,
+                marginHorizontal: 5,
+              }}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item}) => (
+                <View style={{marginVertical: 4}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 13,
+                      marginTop: 3,
+                      color: 'black',
+                    }}>
+                    {item.username}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginVertical: 4,
+                    }}>
+                    {[0, 0, 0, 0, 0].map((el, i) => (
+                      <FontAwesome
+                        style={{marginRight: 3}}
+                        name={
+                          i < Math.floor(item?.rating?.$numberDecimal)
+                            ? 'star'
+                            : 'star-o'
+                        }
+                        size={15}
+                        color={'#fabe1b'}
+                      />
+                    ))}
+                  </View>
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 12,
+                      marginTop: 3,
+                    }}>
+                    {item.review}
+                  </Text>
+                </View>
+              )}
+              keyExtractor={item => item._id}
+            />
+          </View>
+        )}
       </View>
       <View
         style={{

@@ -19,6 +19,8 @@ const FilterComponent = ({data}) => {
       navigation.navigate('PgDetailScreen', {data: data.pg});
     }
   };
+  var arr = data.pg.address;
+  var arr1 = arr.split('/');
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -92,7 +94,10 @@ const FilterComponent = ({data}) => {
               color: 'gray',
               fontSize: 10,
             }}>
-            {data.pg.address}
+            {/* {data.pg.address} */}
+            {`${arr1[0]}`}
+            {', '}
+            {arr1[2]}
           </Text>
           {/* <Text
             style={{

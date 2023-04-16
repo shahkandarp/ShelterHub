@@ -9,6 +9,7 @@ import {
   Image,
   useWindowDimensions,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PRIMARY_COLOR} from '@env';
@@ -36,7 +37,7 @@ const FilterScreen = () => {
   const [twentyk, setTwentyk] = useState(false);
   const [thirtyk, setThirtyk] = useState(false);
   const [fortyk, setFortyk] = useState(false);
-  const [price, setPrice] = useState(1000);
+  const [price, setPrice] = useState(2000);
   const [rating, setRating] = useState(1);
   const [male, setMale] = useState(true);
   const [female, setFemale] = useState(false);
@@ -167,7 +168,7 @@ const FilterScreen = () => {
             onFocus={() => setBool(true)}
             onChangeText={setSearch}
             onTextInput={onPress}
-            placeholder="Search for cities..."
+            placeholder="Search for localities/areas..."
             placeholderTextColor={'grey'}
             underlineColorAndroid="transparent"
           />
@@ -220,6 +221,176 @@ const FilterScreen = () => {
           />
         )}
         {/* <Text>city</Text> */}
+        <Text
+          style={{
+            color: '#191919',
+            fontFamily: 'Poppins-Regular',
+            fontSize: 12,
+            marginHorizontal: 13,
+            marginTop: 15,
+            marginBottom: 5,
+          }}>
+          What you're looking for,
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginHorizontal: 15,
+            marginTop: 5,
+            marginBottom: 8,
+          }}>
+          <Pressable
+            style={{
+              width: 65,
+              marginHorizontal: 6,
+              backgroundColor: hostel ? '#cad7fa' : '#edeef0',
+              height: 30,
+              alignItems: 'center',
+              borderRadius: 8,
+              justifyContent: 'center',
+              borderWidth: hostel ? 0.5 : 0,
+              borderColor: hostel ? '#286aed' : 'white',
+            }}
+            onPress={() => {
+              if (hostel) {
+                // setHostel(false);
+              } else {
+                setHostel(true);
+                setPg(false);
+                setFamilyRooms(false);
+                setMess(false);
+                setPgType('HOSTEL');
+              }
+            }}>
+            <Text
+              style={{
+                color: '#191919',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginTop: 3,
+              }}>
+              Hostel
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              if (pg) {
+                setPg(false);
+                if (!hostel) {
+                  setHostel(true);
+                  setFamilyRooms(false);
+                  setPgType('HOSTEL');
+                }
+              } else {
+                setPg(true);
+                setHostel(false);
+                setMess(false);
+                setFamilyRooms(false);
+                setPgType('PG');
+              }
+            }}
+            style={{
+              width: 65,
+              marginHorizontal: 6,
+              backgroundColor: pg ? '#cad7fa' : '#edeef0',
+              height: 30,
+              alignItems: 'center',
+              borderRadius: 8,
+              justifyContent: 'center',
+              borderWidth: pg ? 0.5 : 0,
+              borderColor: pg ? '#286aed' : 'white',
+            }}>
+            <Text
+              style={{
+                color: '#191919',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginTop: 3,
+              }}>
+              PG
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              if (familyrooms) {
+                setFamilyRooms(false);
+                if (!hostel) {
+                  setHostel(true);
+                  setPg(false);
+                  setMess(false);
+                  setPgType('HOSTEL');
+                }
+              } else {
+                setFamilyRooms(true);
+                setHostel(false);
+                setMess(false);
+                setPg(false);
+                setPgType('FAMILYROOMS');
+              }
+            }}
+            style={{
+              width: 90,
+              marginHorizontal: 6,
+              backgroundColor: familyrooms ? '#cad7fa' : '#edeef0',
+              height: 30,
+              alignItems: 'center',
+              borderRadius: 8,
+              justifyContent: 'center',
+              borderWidth: familyrooms ? 0.5 : 0,
+              borderColor: familyrooms ? '#286aed' : 'white',
+              // marginBottom: 40,
+            }}>
+            <Text
+              style={{
+                color: '#191919',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginTop: 3,
+              }}>
+              Family Room
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              if (mess) {
+                setMess(false);
+                if (!hostel) {
+                  setHostel(true);
+                  setFamilyRooms(false);
+                  setPg(false);
+                  setPgType('HOSTEL');
+                }
+              } else {
+                setMess(true);
+                setPg(false);
+                setHostel(false);
+                setFamilyRooms(false);
+                setPgType('MESS');
+              }
+            }}
+            style={{
+              width: 65,
+              marginHorizontal: 6,
+              backgroundColor: mess ? '#cad7fa' : '#edeef0',
+              height: 30,
+              alignItems: 'center',
+              borderRadius: 8,
+              justifyContent: 'center',
+              borderWidth: mess ? 0.5 : 0,
+              borderColor: mess ? '#286aed' : 'white',
+            }}>
+            <Text
+              style={{
+                color: '#191919',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginTop: 3,
+              }}>
+              Mess
+            </Text>
+          </Pressable>
+        </View>
         <Text
           style={{
             color: '#191919',
@@ -382,345 +553,359 @@ const FilterScreen = () => {
             borderRadius: 8,
           }}></Pressable> */}
         </View>
-        <Text
-          style={{
-            color: '#191919',
-            fontFamily: 'Poppins-Regular',
-            fontSize: 12,
-            marginHorizontal: 13,
-            marginTop: 15,
-            marginBottom: 5,
-          }}>
-          Gender:
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 15,
-            marginTop: 2,
-          }}>
-          <Pressable
+        {!mess && (
+          <Text
             style={{
-              width: 65,
-              marginHorizontal: 8,
-              backgroundColor: male ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: male ? 0.5 : 0,
-              borderColor: male ? '#286aed' : 'white',
-            }}
-            onPress={() => {
-              if (male) {
-                setMale(false);
-                setIsMale(false);
-              } else {
-                setMale(true);
-                // setFemale(false);
-                setIsMale(true);
-              }
+              color: '#191919',
+              fontFamily: 'Poppins-Regular',
+              fontSize: 12,
+              marginHorizontal: 13,
+              marginTop: 15,
+              marginBottom: 5,
             }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Male
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (female) {
-                setFemale(false);
-                setIsFemale(false);
-              } else {
-                setFemale(true);
-                setIsFemale(true);
-              }
-            }}
+            Gender:
+          </Text>
+        )}
+        {!mess && (
+          <View
             style={{
-              width: 65,
-              marginHorizontal: 8,
-              backgroundColor: female ? '#cad7fa' : '#edeef0',
-              height: 30,
+              flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: female ? 0.5 : 0,
-              borderColor: female ? '#286aed' : 'white',
+              marginHorizontal: 15,
+              marginTop: 2,
             }}>
-            <Text
+            <Pressable
               style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
+                width: 65,
+                marginHorizontal: 8,
+                backgroundColor: male ? '#cad7fa' : '#edeef0',
+                height: 30,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: male ? 0.5 : 0,
+                borderColor: male ? '#286aed' : 'white',
+              }}
+              onPress={() => {
+                if (male) {
+                  setMale(false);
+                  setIsMale(false);
+                } else {
+                  setMale(true);
+                  // setFemale(false);
+                  setIsMale(true);
+                }
               }}>
-              Female
-            </Text>
-          </Pressable>
-        </View>
-        <Text
-          style={{
-            color: '#191919',
-            fontFamily: 'Poppins-Regular',
-            fontSize: 12,
-            marginHorizontal: 13,
-            marginTop: 15,
-            marginBottom: 5,
-          }}>
-          Amenities:
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 5,
-            marginHorizontal: 13,
-          }}>
-          <Pressable
-            onPress={() => {
-              if (isHotWater) {
-                setIsHotWater(false);
-              } else {
-                setIsHotWater(true);
-              }
-            }}
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Male
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (female) {
+                  setFemale(false);
+                  setIsFemale(false);
+                } else {
+                  setFemale(true);
+                  setIsFemale(true);
+                }
+              }}
+              style={{
+                width: 65,
+                marginHorizontal: 8,
+                backgroundColor: female ? '#cad7fa' : '#edeef0',
+                height: 30,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: female ? 0.5 : 0,
+                borderColor: female ? '#286aed' : 'white',
+              }}>
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Female
+              </Text>
+            </Pressable>
+          </View>
+        )}
+        {!mess && (
+          <Text
             style={{
-              width: 80,
-              marginHorizontal: 8,
-              backgroundColor: isHotWater ? '#cad7fa' : '#edeef0',
-              height: 33,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: isHotWater ? 0.5 : 0,
-              borderColor: isHotWater ? '#286aed' : 'white',
+              color: '#191919',
+              fontFamily: 'Poppins-Regular',
+              fontSize: 12,
+              marginHorizontal: 13,
+              marginTop: 15,
+              marginBottom: 5,
             }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Hot water
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (isAC) {
-                setIsAC(false);
-              } else {
-                setIsAC(true);
-              }
-            }}
+            Amenities:
+          </Text>
+        )}
+        {!mess && (
+          <View
             style={{
-              width: 80,
-              marginHorizontal: 8,
-              backgroundColor: isAC ? '#cad7fa' : '#edeef0',
-              height: 33,
+              flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: isAC ? 0.5 : 0,
-              borderColor: isAC ? '#286aed' : 'white',
+              marginTop: 5,
+              marginHorizontal: 13,
             }}>
-            <Text
+            <Pressable
+              onPress={() => {
+                if (isHotWater) {
+                  setIsHotWater(false);
+                } else {
+                  setIsHotWater(true);
+                }
+              }}
               style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
+                width: 80,
+                marginHorizontal: 8,
+                backgroundColor: isHotWater ? '#cad7fa' : '#edeef0',
+                height: 33,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: isHotWater ? 0.5 : 0,
+                borderColor: isHotWater ? '#286aed' : 'white',
               }}>
-              AC room
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (isCooler) {
-                setIsCooler(false);
-              } else {
-                setIsCooler(true);
-              }
-            }}
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Hot water
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (isAC) {
+                  setIsAC(false);
+                } else {
+                  setIsAC(true);
+                }
+              }}
+              style={{
+                width: 80,
+                marginHorizontal: 8,
+                backgroundColor: isAC ? '#cad7fa' : '#edeef0',
+                height: 33,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: isAC ? 0.5 : 0,
+                borderColor: isAC ? '#286aed' : 'white',
+              }}>
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                AC room
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (isCooler) {
+                  setIsCooler(false);
+                } else {
+                  setIsCooler(true);
+                }
+              }}
+              style={{
+                width: 80,
+                marginHorizontal: 8,
+                backgroundColor: isCooler ? '#cad7fa' : '#edeef0',
+                height: 33,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: isCooler ? 0.5 : 0,
+                borderColor: isCooler ? '#286aed' : 'white',
+              }}>
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Cooler
+              </Text>
+            </Pressable>
+          </View>
+        )}
+        {!mess && (
+          <View
             style={{
-              width: 80,
-              marginHorizontal: 8,
-              backgroundColor: isCooler ? '#cad7fa' : '#edeef0',
-              height: 33,
+              flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: isCooler ? 0.5 : 0,
-              borderColor: isCooler ? '#286aed' : 'white',
+              marginTop: 17,
+              marginHorizontal: 13,
             }}>
-            <Text
+            <Pressable
+              onPress={() => {
+                if (isAttached) {
+                  setIsAttached(false);
+                } else {
+                  setIsAttached(true);
+                }
+              }}
               style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
+                width: 177,
+                marginHorizontal: 8,
+                backgroundColor: isAttached ? '#cad7fa' : '#edeef0',
+                height: 33,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: isAttached ? 0.5 : 0,
+                borderColor: isAttached ? '#286aed' : 'white',
               }}>
-              Cooler
-            </Text>
-          </Pressable>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 17,
-            marginHorizontal: 13,
-          }}>
-          <Pressable
-            onPress={() => {
-              if (isAttached) {
-                setIsAttached(false);
-              } else {
-                setIsAttached(true);
-              }
-            }}
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Attached Bathroom
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (isWIFI) {
+                  setIsWIFI(false);
+                } else {
+                  setIsWIFI(true);
+                }
+              }}
+              style={{
+                width: 80,
+                marginHorizontal: 8,
+                backgroundColor: isWIFI ? '#cad7fa' : '#edeef0',
+                height: 33,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: isWIFI ? 0.5 : 0,
+                borderColor: isWIFI ? '#286aed' : 'white',
+              }}>
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                WiFi
+              </Text>
+            </Pressable>
+          </View>
+        )}
+        {!mess && (
+          <Text
             style={{
-              width: 177,
-              marginHorizontal: 8,
-              backgroundColor: isAttached ? '#cad7fa' : '#edeef0',
-              height: 33,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: isAttached ? 0.5 : 0,
-              borderColor: isAttached ? '#286aed' : 'white',
+              color: '#191919',
+              fontFamily: 'Poppins-Regular',
+              fontSize: 12,
+              marginHorizontal: 13,
+              marginTop: 15,
+              marginBottom: 5,
             }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Attached Bathroom
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (isWIFI) {
-                setIsWIFI(false);
-              } else {
-                setIsWIFI(true);
-              }
-            }}
+            Type of Occupancy:
+          </Text>
+        )}
+        {!mess && (
+          <View
             style={{
-              width: 80,
-              marginHorizontal: 8,
-              backgroundColor: isWIFI ? '#cad7fa' : '#edeef0',
-              height: 33,
+              flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: isWIFI ? 0.5 : 0,
-              borderColor: isWIFI ? '#286aed' : 'white',
+              marginHorizontal: 15,
+              marginTop: 8,
             }}>
-            <Text
+            <Pressable
               style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
+                width: 65,
+                marginHorizontal: 8,
+                backgroundColor: shared ? '#cad7fa' : '#edeef0',
+                height: 30,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: shared ? 0.5 : 0,
+                borderColor: shared ? '#286aed' : 'white',
+              }}
+              onPress={() => {
+                if (shared) {
+                  setShared(false);
+                  setSingle(true);
+                  setOccupancy('single');
+                } else {
+                  setShared(true);
+                  setSingle(false);
+                  setOccupancy('shared');
+                }
               }}>
-              WiFi
-            </Text>
-          </Pressable>
-        </View>
-        <Text
-          style={{
-            color: '#191919',
-            fontFamily: 'Poppins-Regular',
-            fontSize: 12,
-            marginHorizontal: 13,
-            marginTop: 15,
-            marginBottom: 5,
-          }}>
-          Type of Occupancy:
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 15,
-            marginTop: 8,
-          }}>
-          <Pressable
-            style={{
-              width: 65,
-              marginHorizontal: 8,
-              backgroundColor: shared ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: shared ? 0.5 : 0,
-              borderColor: shared ? '#286aed' : 'white',
-            }}
-            onPress={() => {
-              if (shared) {
-                setShared(false);
-                setSingle(true);
-                setOccupancy('single');
-              } else {
-                setShared(true);
-                setSingle(false);
-                setOccupancy('shared');
-              }
-            }}>
-            <Text
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Shared
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (single) {
+                  setSingle(false);
+                  setShared(true);
+                  setOccupancy('shared');
+                } else {
+                  setSingle(true);
+                  setShared(false);
+                  setOccupancy('single');
+                }
+              }}
               style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
+                width: 65,
+                marginHorizontal: 8,
+                backgroundColor: single ? '#cad7fa' : '#edeef0',
+                height: 30,
+                alignItems: 'center',
+                borderRadius: 8,
+                justifyContent: 'center',
+                borderWidth: single ? 0.5 : 0,
+                borderColor: single ? '#286aed' : 'white',
               }}>
-              Shared
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (single) {
-                setSingle(false);
-                setShared(true);
-                setOccupancy('shared');
-              } else {
-                setSingle(true);
-                setShared(false);
-                setOccupancy('single');
-              }
-            }}
-            style={{
-              width: 65,
-              marginHorizontal: 8,
-              backgroundColor: single ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: single ? 0.5 : 0,
-              borderColor: single ? '#286aed' : 'white',
-            }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Single
-            </Text>
-          </Pressable>
-        </View>
+              <Text
+                style={{
+                  color: '#191919',
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  marginTop: 3,
+                }}>
+                Single
+              </Text>
+            </Pressable>
+          </View>
+        )}
         <Text
           style={{
             color: '#191919',
@@ -732,7 +917,7 @@ const FilterScreen = () => {
           }}>
           Price (monthly):
         </Text>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -1058,177 +1243,32 @@ const FilterScreen = () => {
                 fontSize: 12,
               }}>{`< 40000`}</Text>
           </Pressable>
-        </View>
+        </View> */}
         <Text
           style={{
-            color: '#191919',
             fontFamily: 'Poppins-Regular',
-            fontSize: 12,
-            marginHorizontal: 13,
-            marginTop: 15,
-            marginBottom: 5,
-          }}>
-          Type of PG:
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            color: '#191919',
             marginHorizontal: 15,
-            marginTop: 8,
-            // marginBottom: 80,
+            fontSize: 13,
           }}>
-          <Pressable
-            style={{
-              width: 65,
-              marginHorizontal: 9,
-              backgroundColor: hostel ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: hostel ? 0.5 : 0,
-              borderColor: hostel ? '#286aed' : 'white',
-            }}
-            onPress={() => {
-              if (hostel) {
-                // setHostel(false);
-              } else {
-                setHostel(true);
-                setPg(false);
-                setFamilyRooms(false);
-                setMess(false);
-                setPgType('HOSTEL');
-              }
-            }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Hostel
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (pg) {
-                setPg(false);
-                if (!hostel) {
-                  setHostel(true);
-                  setFamilyRooms(false);
-                  setPgType('HOSTEL');
-                }
-              } else {
-                setPg(true);
-                setHostel(false);
-                setMess(false);
-                setFamilyRooms(false);
-                setPgType('PG');
-              }
-            }}
-            style={{
-              width: 65,
-              marginHorizontal: 9,
-              backgroundColor: pg ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: pg ? 0.5 : 0,
-              borderColor: pg ? '#286aed' : 'white',
-            }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              PG
-            </Text>
-          </Pressable>
-          {/* <Pressable
-            onPress={() => {
-              if (mess) {
-                setMess(false);
-                if (!hostel) {
-                  setHostel(true);
-                  setFamilyRooms(false);
-                  setPg(false);
-                  setPgType('HOSTEL');
-                }
-              } else {
-                setMess(true);
-                setPg(false);
-                setHostel(false);
-                setFamilyRooms(false);
-                setPgType('MESS');
-              }
-            }}
-            style={{
-              width: 65,
-              marginHorizontal: 6,
-              backgroundColor: mess ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: mess ? 0.5 : 0,
-              borderColor: mess ? '#286aed' : 'white',
-            }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Mess
-            </Text>
-          </Pressable> */}
-          <Pressable
-            onPress={() => {
-              if (familyrooms) {
-                setFamilyRooms(false);
-                if (!hostel) {
-                  setHostel(true);
-                  setPg(false);
-                  setMess(false);
-                  setPgType('HOSTEL');
-                }
-              } else {
-                setFamilyRooms(true);
-                setHostel(false);
-                setMess(false);
-                setPg(false);
-                setPgType('FAMILYROOMS');
-              }
-            }}
-            style={{
-              width: 90,
-              marginHorizontal: 9,
-              backgroundColor: familyrooms ? '#cad7fa' : '#edeef0',
-              height: 30,
-              alignItems: 'center',
-              borderRadius: 8,
-              justifyContent: 'center',
-              borderWidth: familyrooms ? 0.5 : 0,
-              borderColor: familyrooms ? '#286aed' : 'white',
-              // marginBottom: 40,
-            }}>
-            <Text
-              style={{
-                color: '#191919',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 12,
-                marginTop: 3,
-              }}>
-              Family Room
-            </Text>
-          </Pressable>
-        </View>
+          Rs.{price}
+        </Text>
+        <Slider
+          style={{
+            width: width - 50,
+            height: 30,
+            marginHorizontal: 15,
+            // pointerEvents: 'box-only',
+          }}
+          minimumValue={0}
+          maximumValue={30000}
+          minimumTrackTintColor={PRIMARY_COLOR}
+          maximumTrackTintColor={'#6186e8'}
+          value={2000}
+          step={500}
+          onValueChange={setPrice}
+          thumbTintColor={PRIMARY_COLOR}
+        />
         <Pressable
           onPress={onApplyFilters}
           style={{

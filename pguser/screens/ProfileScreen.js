@@ -52,6 +52,11 @@ const ProfileScreen = () => {
   //     console.log(err);
   //   }
   // };
+  const onRate = () => {
+    Linking.openURL(
+      'https://play.google.com/store/apps/details?id=com.ssip.governmentsachivalay',
+    );
+  };
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -98,7 +103,8 @@ const ProfileScreen = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
-      style={{backgroundColor: 'white', flex: 1, padding: 13}}>
+      style={{backgroundColor: 'white', flex: 1, padding: 13}}
+      showsVerticalScrollIndicator={false}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {/* <FontAwesome5
           name="user-alt"
@@ -117,24 +123,24 @@ const ProfileScreen = () => {
           Your Profile
         </Text>
       </View>
-      <View style={{marginTop: 20, alignSelf: 'center', alignItems: 'center'}}>
+      <View style={{marginTop: 25, alignSelf: 'center', alignItems: 'center'}}>
         <View
           style={{
             borderWidth: 3,
             borderColor: PRIMARY_COLOR,
             padding: 13,
-            borderRadius: 30,
+            borderRadius: 34,
             alignSelf: 'center',
             alignItems: 'center',
           }}>
-          <FontAwesome5 name="user-alt" size={30} color={PRIMARY_COLOR} />
+          <FontAwesome5 name="user-alt" size={34} color={PRIMARY_COLOR} />
         </View>
         <Text
           style={{
             fontFamily: 'Poppins-Medium',
             fontSize: 18,
             color: '#191919',
-            marginTop: 6,
+            marginTop: 10,
             marginHorizontal: 5,
           }}>
           {userDetail?.name}
@@ -142,19 +148,19 @@ const ProfileScreen = () => {
         <Text
           style={{
             fontFamily: 'Poppins-Regular',
-            fontSize: 13,
+            fontSize: 14,
             color: 'grey',
             marginHorizontal: 5,
           }}>
           {userDetail?.phoneno}
         </Text>
       </View>
-      <View style={{marginHorizontal: 10, marginTop: 5}}>
+      <View style={{marginHorizontal: 10, marginTop: 12}}>
         <Pressable
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 7,
+            marginTop: 9,
           }}
           onPress={() => navigation.navigate('HistoryScreen')}>
           <Foundation
@@ -169,7 +175,7 @@ const ProfileScreen = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 7,
+            marginTop: 9,
           }}
           onPress={() => navigation.navigate('UpdateProfile')}>
           <FontAwesome5 name="user-edit" size={17} color={PRIMARY_COLOR} />
@@ -179,7 +185,7 @@ const ProfileScreen = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 7,
+            marginTop: 9,
           }}>
           <MaterialIcons name="privacy-tip" size={19} color={PRIMARY_COLOR} />
           <Text
@@ -193,7 +199,7 @@ const ProfileScreen = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 7,
+            marginTop: 9,
           }}>
           <Ionicons
             name="information-circle-outline"
@@ -208,13 +214,13 @@ const ProfileScreen = () => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: 6,
+          marginTop: 9,
           marginHorizontal: 13,
         }}>
         <FontAwesome name="share" size={17} color={PRIMARY_COLOR} />
         <Text style={styles.textcolour}>Share/Refer App to your friends</Text>
       </Pressable>
-      <Text
+      {/* <Text
         style={styles.textcolour}
         onPress={() =>
           Linking.openURL(
@@ -222,7 +228,18 @@ const ProfileScreen = () => {
           )
         }>
         Rate Us On PlayStore
-      </Text>
+      </Text> */}
+      <Pressable
+        onPress={onRate}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: 9,
+          marginHorizontal: 13,
+        }}>
+        <FontAwesome name="star" size={17} color={PRIMARY_COLOR} />
+        <Text style={styles.textcolour}>Rate us on PlayStore</Text>
+      </Pressable>
       <Pressable
         onPress={logout}
         style={{
@@ -236,7 +253,7 @@ const ProfileScreen = () => {
           elevation: 3,
           alignContent: 'center',
           alignSelf: 'center',
-          marginTop: 20,
+          marginTop: 40,
           backgroundColor: '#19347d',
           paddingVertical: 9,
           borderRadius: 13,
@@ -272,7 +289,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   textcolour: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#4d4d4d',
     marginBottom: 7,
     marginTop: 8,

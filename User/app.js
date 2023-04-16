@@ -1,5 +1,5 @@
 const express = require("express");
-const City = require('./models/City')
+const City = require("./models/City");
 const app = express();
 const { BadRequestError, UnauthenticatedError } = require("./errors/index");
 
@@ -35,16 +35,15 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 
-
 //routes user
 app.use("/api/v1/user", userRouter);
 //routes owner
 app.use("/api/v1/owner", ownerRouter);
 
-app.get('/getkotadetails',async(req,res)=>{
-  const city = await City.findOne({name:'Kota'})
-  res.status(StatusCodes.OK).json({res:'Success',data:city.area})
-})
+app.get("/getkotadetails", async (req, res) => {
+  const city = await City.findOne({ name: "Kota" });
+  res.status(StatusCodes.OK).json({ res: "Success", data: city.area });
+});
 
 //images/videos routes
 app.post(

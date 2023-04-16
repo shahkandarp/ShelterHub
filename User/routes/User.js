@@ -23,7 +23,7 @@ const {
   addRating,
   deleteInterest,
   getReviews,
-  getSuggestions
+  getSuggestions,
 } = require("../controllers/User");
 const authMiddleware = require("../middleware/authentication_user");
 
@@ -35,9 +35,8 @@ router.route("/sendmobileotp").post(UserMiddleware, sendUserOTP);
 router.route("/verifymobileotp").post(UserMiddleware, verifyUserOTP);
 router.route("/loginphone").post(loginUserByPhone);
 
-
 //suggestion
-router.route('/suggestion').get(authMiddleware,getSuggestions);//get all the suggested pgs...
+router.route("/suggestion").get(authMiddleware, getSuggestions); //get all the suggested pgs...
 
 //cities
 router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol] or get specific city req.body = {name:'kolkata'}
@@ -52,12 +51,11 @@ router.route("/:uid/pg").get(authMiddleware, getSpecificPgs); //get specific and
 router.route("/:uid/pg/nearby").get(authMiddleware, getNearbyPgs); //nearby pgs [:uid = user id]
 
 //reviews and ratings
-router.route("/pg/:pid/reviews").get(authMiddleware,getReviews)
+router.route("/pg/:pid/reviews").get(authMiddleware, getReviews);
 router.route("/:uid/pg/:pid/rating").post(authMiddleware, addRating); // req.body = {rating:3.5}
 
 router.route("/pg/filter").post(authMiddleware, getFilteredPgs); //get pgs after applying the main filter [req.body={cityname:'Kota',isAC:True}]
 //for price or rating filters, priceFilters = price>2000&price<5000 , ratingFilers =ratings>3&ratings<5
-
 
 //user
 router.route("/:uid").get(authMiddleware, getUserDetails); //get user by it's id [:uid = user id]
@@ -65,10 +63,8 @@ router.route("/:uid").patch(authMiddleware, updateUserDetails); //update user de
 router.route("/:email/validateOTP").post(validateOtp); //validate otp [req.body = {otp:1234}]
 router.route("/:email/password").post(changeUserPassword); //change password [req.body = {password:' '}]
 
-
-
 //interest
 router.route("/:uid/interest").get(authMiddleware, getCurrentInterests); //pgs in which user is interested
 router.route("/:uid/interest").post(authMiddleware, createUserInterest); //call this api when the user clicks interested button [req.body={room:room_id}]
-router.route("/:uid/interest").delete(authMiddleware,deleteInterest);//[req.body = {interest:InterestId}]
+router.route("/:uid/interest").delete(authMiddleware, deleteInterest); //[req.body = {interest:InterestId}]
 module.exports = router;

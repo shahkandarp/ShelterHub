@@ -32,6 +32,8 @@ const UpdateProfile = () => {
   const [loadingPending, setLoadingPending] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneno, setPhoneno] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     getUserData();
@@ -48,8 +50,10 @@ const UpdateProfile = () => {
             },
           },
         );
+        // console.log(response.data.data);
         setName(response.data.data.name);
         setEmail(response.data.data.email);
+        setPhoneno(response.data.data.phoneno);
         setLoadingPending(false);
       } catch (err) {
         setLoadingPending(false);
@@ -67,6 +71,7 @@ const UpdateProfile = () => {
             {
               name: name,
               email: email,
+              phoneno: phoneno,
             },
             {
               headers: {
@@ -168,6 +173,31 @@ const UpdateProfile = () => {
           <TextInput
             onChangeText={setEmail}
             value={email}
+            style={{
+              height: 42,
+              borderWidth: 0.5,
+              borderColor: '#d1cfcf',
+              marginTop: 5,
+              borderRadius: 8,
+              paddingHorizontal: 10,
+              fontSize: 13,
+              fontFamily: 'Poppins-Regular',
+              color: 'black',
+              marginBottom: 10,
+            }}
+          />
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 13,
+              fontFamily: 'Poppins-Regular',
+            }}>
+            Phone Number:
+          </Text>
+          <TextInput
+            onChangeText={setPhoneno}
+            keyboardType="phone-pad"
+            value={phoneno}
             style={{
               height: 42,
               borderWidth: 0.5,

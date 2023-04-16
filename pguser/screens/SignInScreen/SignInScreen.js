@@ -81,7 +81,7 @@ const SignInScreen = () => {
           const response = await axios.post(
             `http://${AUTH_IP}/api/v1/user/login`,
             {
-              email: changeText,
+              email: changeText.toLowerCase(),
               password: password,
             },
           );

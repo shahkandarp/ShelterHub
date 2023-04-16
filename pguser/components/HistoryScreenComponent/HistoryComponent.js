@@ -30,6 +30,8 @@ const HistoryComponent = ({data}) => {
       navigation.navigate('HistoryDetailScreen', {data: data});
     }
   };
+  var arr = data.pg.address;
+  var arr1 = arr.split('/');
   const [star1, setStar1] = useState(false);
   const [star2, setStar2] = useState(false);
   const [star3, setStar3] = useState(false);
@@ -85,7 +87,7 @@ const HistoryComponent = ({data}) => {
     } else if (star1) {
       star = 1;
     }
-    if (star >= 1) {
+    if (star >= 1 && comment != '') {
       // console.log(users);
       const response = await axios.post(
         `http://${USER_IP}/api/v1/user/${users}/pg/${data.pg._id}/rating`,
@@ -99,6 +101,8 @@ const HistoryComponent = ({data}) => {
       }
       setModal(!modal);
       await showToastWithGravityAndOffset();
+    } else {
+      Alert.alert('Please rate and comment');
     }
     setModal(!modal);
     setStar1(false);
@@ -168,7 +172,9 @@ const HistoryComponent = ({data}) => {
               color: 'gray',
               fontSize: 10,
             }}>
-            {data.pg.address}
+            {`${arr1[0]}`}
+            {', '}
+            {arr1[2]}
           </Text>
         </View>
         <View
