@@ -38,7 +38,7 @@ const ImageCarousel = ({featured}) => {
             fontSize: 14,
             fontFamily: 'Poppins-Medium',
           }}>
-          Popular areas, we're present in...
+          Areas in Kota...
         </Text>
       </View>
       {/* <View style={styles.container}>

@@ -279,12 +279,20 @@ const HomeScreen = () => {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ProfileScreen')}>
+            onPress={() => navigation.navigate('ProfileScreen')}
+            style={{
+              // padding: 5,
+              height: 40,
+              width: 40,
+              backgroundColor: 'white',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <FontAwesome5
               name="user-alt"
-              size={15}
+              size={17}
               color={PRIMARY_COLOR}
-              style={{marginRight: 5}}
+              style={{marginLeft: 8, marginBottom: 8}}
             />
           </TouchableOpacity>
         </View>
