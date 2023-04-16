@@ -41,7 +41,7 @@ app.use("/api/v1/user", userRouter);
 //routes owner
 app.use("/api/v1/owner", ownerRouter);
 
-app.use('/getkotadetails',async(req,res)=>{
+app.get('/getkotadetails',async(req,res)=>{
   const city = await City.findOne({name:'Kota'})
   res.status(StatusCodes.OK).json({res:'Success',data:city.area})
 })
