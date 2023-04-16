@@ -48,7 +48,7 @@ const PgDetailScreen = () => {
     } else {
       getPgDetail();
       getReviews();
-      console.log(stars);
+      // console.log(stars);
     }
   }, []);
   const getPgDetail = async () => {
