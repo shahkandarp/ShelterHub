@@ -23,7 +23,8 @@ const {
   addRating,
   deleteInterest,
   getReviews,
-  getSuggestions
+  getSuggestions,
+  getAreanames
 } = require("../controllers/User");
 const authMiddleware = require("../middleware/authentication_user");
 
@@ -40,6 +41,7 @@ router.route("/loginphone").post(loginUserByPhone);
 router.route('/suggestion').get(authMiddleware,getSuggestions);//get all the suggested pgs...
 
 //cities
+router.route("/area").get(authMiddleware,getAreanames);//search area name [?search=]
 router.route("/city").get(authMiddleware, getCities); //get all the cities [?search=kol] or get specific city req.body = {name:'kolkata'}
 
 //property ->pg,hostel,familyrooms, mess

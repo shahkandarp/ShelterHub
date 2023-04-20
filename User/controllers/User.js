@@ -258,12 +258,12 @@ const getSpecificPgs = async (req, res) => {
     if (sort) {
       if (mess) {
         const mess = await Owner.find({ typeofpg: "MESS" }).sort(sort);
-        let nearby_pgs = await nearByPgs(user.lat, user.lng, mess);
-        res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
+        // let nearby_pgs = await nearByPgs(user.lat, user.lng, mess);
+        res.status(StatusCodes.OK).json({ res: "success", data: mess });
       } else {
         const pgs = await Owner.find({ typeofpg: { $ne: "MESS" } }).sort(sort);
-        let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
-        res.status(StatusCodes.OK).json({ res: "success", data: nearby_pgs });
+        // let nearby_pgs = await nearByPgs(user.lat, user.lng, pgs);
+        res.status(StatusCodes.OK).json({ res: "success", data: pgs });
       }
     }
   }
@@ -578,6 +578,20 @@ const getCities = async (req, res) => {
     res.status(StatusCodes.OK).json({ res: "success", data: cities });
   }
 };
+//areaname
+const getAreanames = async(req,res)=>{
+  const {search} = req.query;
+  const areas = await City.findOne({name:"Kota"}).select("area");
+  const regex = new RegExp(`${search}`,'i');
+  var result = []
+  for(let i=0;i<areas.area.length;i++){
+    let name = areas.area[i].name
+    if(regex.test(name)){
+      result.push(name)
+    }
+  }
+  res.status(StatusCodes.OK).json({res:"success",data:result})
+}
 
 //suggestions
 const getSuggestions = async (req, res) => {
@@ -612,4 +626,5 @@ module.exports = {
   deleteInterest,
   getReviews,
   getSuggestions,
+  getAreanames
 };
