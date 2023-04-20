@@ -9,11 +9,15 @@ const FilterResultComponent = ({data}) => {
   const navigation = useNavigation();
   const onPress = () => {
     // console.log(data.pg);
-    navigation.navigate('PgDetailScreen', {
-      data: data.pg,
-      check: true,
-      pgDetail: data.rooms,
-    });
+    if (data.pg.typeofpg == 'MESS') {
+      navigation.navigate('PgDetailScreen', {data: data.pg, mess: true});
+    } else {
+      navigation.navigate('PgDetailScreen', {
+        data: data.pg,
+        check: true,
+        pgDetail: data.rooms,
+      });
+    }
   };
   return (
     <TouchableOpacity

@@ -435,7 +435,7 @@ const RoomComponent = ({datas, data2, check}) => {
                   marginTop: 3,
                   marginBottom: 30,
                 }}>
-                *Note: You have to Show Interest to get Owner details
+                *Note: You have to Show Interest, to get Owner details
               </Text>
             )}
           </ScrollView>

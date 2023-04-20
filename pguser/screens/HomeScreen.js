@@ -279,12 +279,20 @@ const HomeScreen = () => {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ProfileScreen')}>
+            onPress={() => navigation.navigate('ProfileScreen')}
+            style={{
+              // padding: 5,
+              height: 40,
+              width: 40,
+              backgroundColor: 'white',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <FontAwesome5
               name="user-alt"
-              size={15}
+              size={17}
               color={PRIMARY_COLOR}
-              style={{marginRight: 5}}
+              style={{marginLeft: 8, marginBottom: 8}}
             />
           </TouchableOpacity>
         </View>
@@ -337,26 +345,18 @@ const HomeScreen = () => {
           </View>
         </Pressable>
 
+        {/* Top 10 PGs */}
+        <ImageCarousel featured={featuredData} />
+        <View style={{marginTop: 10}}>
+          <FamousPg data={data} />
+        </View>
+        <View>
+          <NearByMessComponent data={nearByMess} />
+        </View>
+
         {location && (
           <View>
-            {/* Featured Carousel */}
-            <View>
-              <ImageCarousel featured={featuredData} />
-            </View>
-
-            {/* Top 10 PGs */}
-            <View style={{marginTop: 10}}>
-              <FamousPg data={data} />
-            </View>
-
-            <View>
-              <NearByMessComponent data={nearByMess} />
-            </View>
-
-            {/* Nearby PGs */}
-            <View>
-              <NearByPgComponent data={nearByPg} />
-            </View>
+            <NearByPgComponent data={nearByPg} />
           </View>
         )}
         {!location && (
@@ -365,10 +365,11 @@ const HomeScreen = () => {
               style={{
                 fontFamily: 'Poppins-Medium',
                 color: '#252525',
-                fontSize: 16,
+                fontSize: 15,
                 textAlign: 'center',
+                marginHorizontal: 8,
               }}>
-              Please provide your location...
+              Please provide your location to get Near by PGs/Hostels/Messes...
             </Text>
             {/* <Pressable onPress={getLocation}>
             <Text>Provide Location</Text>

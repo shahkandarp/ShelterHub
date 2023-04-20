@@ -52,7 +52,7 @@ const SignUpScreen = () => {
               `http://${AUTH_IP}/api/v1/user/register`,
               {
                 name: name,
-                email: email,
+                email: email.toLowerCase(),
                 password: password,
               },
             );

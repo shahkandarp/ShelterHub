@@ -58,12 +58,12 @@ const HistoryScreen = () => {
             <Text
               style={{
                 fontFamily: 'Poppins-Medium',
-                fontSize: 15,
+                fontSize: 14,
                 color: '#191919',
                 marginHorizontal: 5,
                 marginTop: 8,
               }}>
-              You shown interest in those PGs/Hostels,
+              You shown interest in those PG/Hostel/Mess,
             </Text>
           </View>
         )}

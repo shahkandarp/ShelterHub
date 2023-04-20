@@ -42,7 +42,7 @@ const ValidateEmailScreen = () => {
           },
         },
       );
-      console.log('hello');
+      // console.log('hello');
       navigation.navigate('OtpScreen', {
         token: token,
         userID: userID,
