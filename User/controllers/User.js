@@ -109,13 +109,13 @@ const forgotPasswordUser = async (req, res) => {
       ciphers: "SSLv3",
     },
     auth: {
-      user: "hetpatel5542@gmail.com",
-      pass: "xivslyvrfcrgewtb",
+      user: "shelterhub.in@gmail.com",
+      pass: "xyfgkbpcqayyexto",
     },
   });
 
   const mailOptions = {
-    from: '"Nivaas " <hetpatel5542@gmail.com>', // sender address (who sends)
+    from: '"Nivaas " <shelterhub.in@gmail.com>', // sender address (who sends)
     to: `${email}`, // list of receivers (who receives)
     subject: "OTP for Reseting Your User App Password ", // Subject line
     text: `Your OTP for reseting the password for User app is ${otp}, please enter this OTP in your User app to reset your password.
