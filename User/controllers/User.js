@@ -587,7 +587,7 @@ const getAreanames = async(req,res)=>{
   for(let i=0;i<areas.area.length;i++){
     let name = areas.area[i].name
     if(regex.test(name)){
-      result.push(name)
+      result.push(areas.area[i])
     }
   }
   res.status(StatusCodes.OK).json({res:"success",data:result})
