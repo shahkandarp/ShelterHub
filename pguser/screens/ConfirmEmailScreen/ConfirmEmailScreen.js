@@ -178,6 +178,15 @@ const ConfirmEmailScreen = () => {
               Back to Sign in
             </Text>
           </Pressable>
+          <Text
+            style={{
+              fontSize: 10,
+              fontFamily: 'Poppins-Medium',
+              color: 'grey',
+              marginTop: 20,
+            }}>
+            *Note: Please check OTP on your spams also.
+          </Text>
         </View>
       </ScrollView>
       {loading ? <AppLoader /> : null}
