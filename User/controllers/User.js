@@ -442,12 +442,14 @@ const getReviews = async (req, res) => {
   for (let i = 0; i < reviews.length; i++) {
     var obj = {};
     const user = await User.findOne({ _id: reviews[i].userId });
-    obj.username = user.name;
-    obj.rating = reviews[i].rating;
-    obj.review = reviews[i].review;
-    obj.createdAt = reviews[i].createdAt;
-    obj.updatedAt = reviews[i].updatedAt;
-    array.push(obj);
+    if (user) {
+      obj.username = user.name;
+      obj.rating = reviews[i].rating;
+      obj.review = reviews[i].review;
+      obj.createdAt = reviews[i].createdAt;
+      obj.updatedAt = reviews[i].updatedAt;
+      array.push(obj);
+    }
   }
 
   res.status(StatusCodes.OK).json({ res: "success", data: array });
@@ -530,16 +532,16 @@ const createUserInterest = async (req, res) => {
   if (!owner_room) {
     const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
     const update_owner = await Owner.findOneAndUpdate(
-      {_id:room},
-      {interestedusers:mess.interestedusers+1}
-    )
+      { _id: room },
+      { interestedusers: mess.interestedusers + 1 }
+    );
 
     const interest = await Interest.create({
-      userId:uid,
-      ownerId:mess._id,
-      roomId:room
-    })
-    res.status(StatusCodes.OK).json({res:"success",data:interest});
+      userId: uid,
+      ownerId: mess._id,
+      roomId: room,
+    });
+    res.status(StatusCodes.OK).json({ res: "success", data: interest });
   } else {
     const owner_id = owner_room.ownerId;
     const owner = await Owner.findOne({ _id: owner_id });
@@ -555,7 +557,6 @@ const createUserInterest = async (req, res) => {
     });
     res.status(StatusCodes.OK).json({ res: "success", data: interest });
   }
-
 };
 const deleteInterest = async (req, res) => {
   const { interest } = req.body;
@@ -579,19 +580,19 @@ const getCities = async (req, res) => {
   }
 };
 //areaname
-const getAreanames = async(req,res)=>{
-  const {search} = req.query;
-  const areas = await City.findOne({name:"Kota"}).select("area");
-  const regex = new RegExp(`${search}`,'i');
-  var result = []
-  for(let i=0;i<areas.area.length;i++){
-    let name = areas.area[i].name
-    if(regex.test(name)){
-      result.push(areas.area[i])
+const getAreanames = async (req, res) => {
+  const { search } = req.query;
+  const areas = await City.findOne({ name: "Kota" }).select("area");
+  const regex = new RegExp(`${search}`, "i");
+  var result = [];
+  for (let i = 0; i < areas.area.length; i++) {
+    let name = areas.area[i].name;
+    if (regex.test(name)) {
+      result.push(areas.area[i]);
     }
   }
-  res.status(StatusCodes.OK).json({res:"success",data:result})
-}
+  res.status(StatusCodes.OK).json({ res: "success", data: result });
+};
 
 //suggestions
 const getSuggestions = async (req, res) => {
@@ -626,5 +627,5 @@ module.exports = {
   deleteInterest,
   getReviews,
   getSuggestions,
-  getAreanames
+  getAreanames,
 };
