@@ -30,9 +30,10 @@ const SearchScreen = () => {
   const onPress = async () => {
     if (search?.length >= 2) {
       const response = await axios.get(
-        `http://${USER_IP}/api/v1/user/${users}/pg?search=${search}`,
+        `http://${USER_IP}/api/v1/user/area?search=${search}`,
         {headers: {Authorization: `Bearer ${tokens}`}},
       );
+      // console.log(response.data.data);
       setSearchResult(response.data.data);
     } else {
       setSearchResult(null);
@@ -147,7 +148,7 @@ const SearchScreen = () => {
           value={search}
           onChangeText={setSearch}
           onTextInput={onPress}
-          placeholder="Search for PGs, Hostels, Messes..."
+          placeholder="Search for localities/areas..."
           placeholderTextColor={'grey'}
           underlineColorAndroid="transparent"
         />

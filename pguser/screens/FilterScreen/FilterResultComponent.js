@@ -7,6 +7,8 @@ import {useNavigation} from '@react-navigation/native';
 const FilterResultComponent = ({data}) => {
   //   console.log(data);
   const navigation = useNavigation();
+  var arr = data.pg.address;
+  var arr1 = arr.split('/');
   const onPress = () => {
     // console.log(data.pg);
     if (data.pg.typeofpg == 'MESS') {
@@ -92,7 +94,10 @@ const FilterResultComponent = ({data}) => {
               color: 'gray',
               fontSize: 10,
             }}>
-            {data.pg.address}
+            {/* {data.pg.address} */}
+            {`${arr1[0]}`}
+            {', '}
+            {arr1[2]}
           </Text>
           {/* <Text
             style={{

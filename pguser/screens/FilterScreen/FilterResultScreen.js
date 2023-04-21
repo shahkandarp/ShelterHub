@@ -8,6 +8,8 @@ import {PRIMARY_COLOR} from '@env';
 const FilterResultScreen = () => {
   const route = useRoute();
   const data = route?.params.data;
+  // var arr = data.pg.address;
+  // var arr1 = arr.split('/');
   //   console.log('data:', data['pg']);
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>

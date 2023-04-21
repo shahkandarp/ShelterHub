@@ -4,19 +4,23 @@ import {useNavigation} from '@react-navigation/native';
 
 const SearchComponent = ({searchResult}) => {
   const navigation = useNavigation();
-  const onPress = () => {
-    // console.log(searchResult);
-    // navigation.navigate('PgDetailScreen', {data: searchResult});
-    if (searchResult.typeofpg == 'MESS') {
-      navigation.navigate('PgDetailScreen', {
-        data: searchResult,
-        mess: true,
-      });
-    } else {
-      navigation.navigate('PgDetailScreen', {data: searchResult});
-    }
-  };
+  // const onPress = () => {
+  //   // console.log(searchResult);
+  //   // navigation.navigate('PgDetailScreen', {data: searchResult});
+  //   if (searchResult.typeofpg == 'MESS') {
+  //     navigation.navigate('PgDetailScreen', {
+  //       data: searchResult,
+  //       mess: true,
+  //     });
+  //   } else {
+  //     navigation.navigate('PgDetailScreen', {data: searchResult});
+  //   }
+  // };
   // console.log(searchResult);
+  const onPress = () => {
+    // console.log(famous.name);
+    navigation.navigate('FilteredPgScreen', {city: searchResult.name});
+  };
   return (
     <Pressable
       onPress={onPress}
@@ -31,7 +35,7 @@ const SearchComponent = ({searchResult}) => {
       }}>
       <View>
         <Image
-          source={{uri: searchResult.photos[0].uri}}
+          source={{uri: searchResult.image}}
           style={{height: 48, width: 48, borderRadius: 22.5}}
         />
       </View>
@@ -43,9 +47,9 @@ const SearchComponent = ({searchResult}) => {
             fontSize: 13,
             marginHorizontal: 8,
           }}>
-          {searchResult.propertytitle}
+          {searchResult.name}
         </Text>
-        <Text
+        {/* <Text
           numberOfLines={1}
           style={{
             color: 'grey',
@@ -55,8 +59,8 @@ const SearchComponent = ({searchResult}) => {
             maxWidth: 250,
           }}>
           {searchResult.address}
-        </Text>
-        <Text
+        </Text> */}
+        {/* <Text
           style={{
             color: 'grey',
             fontFamily: 'Poppins-Regular',
@@ -65,7 +69,7 @@ const SearchComponent = ({searchResult}) => {
             maxWidth: 250,
           }}>
           {searchResult.typeofpg}
-        </Text>
+        </Text> */}
       </View>
       {/* <Image
         source={{uri: dish.imageUrl}}

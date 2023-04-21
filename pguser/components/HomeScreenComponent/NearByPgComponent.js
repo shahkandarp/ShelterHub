@@ -1,11 +1,11 @@
 import {View, Text, FlatList, Image} from 'react-native';
 import React from 'react';
 import NearByPgComponents from './NearByPgComponents';
-const NearByPgComponent = ({data, check, suggestions}) => {
+const NearByPgComponent = ({data, check, suggestions, yes}) => {
   // console.log('h:', check);
   return (
     <View style={{}}>
-      {!check && (
+      {!check && !yes && (
         <Text
           style={{
             fontFamily: 'Poppins-Medium',
@@ -16,13 +16,25 @@ const NearByPgComponent = ({data, check, suggestions}) => {
           PGs/Hostels near by you...
         </Text>
       )}
+      {yes && (
+        <Text
+          style={{
+            fontFamily: 'Poppins-Medium',
+            color: '#191919',
+            fontSize: 14,
+            marginHorizontal: 15,
+            marginTop: 13,
+          }}>
+          Famous PGs/Hostels...
+        </Text>
+      )}
       {data.length > 0 && (
         <FlatList
           data={data}
           style={{marginBottom: 60, marginTop: 0}}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => <NearByPgComponents data={item} />}
-          keyExtractor={item => item.name}
+          keyExtractor={item => item._id}
         />
       )}
       {data.length == 0 && (

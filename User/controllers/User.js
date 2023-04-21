@@ -115,12 +115,12 @@ const forgotPasswordUser = async (req, res) => {
   });
 
   const mailOptions = {
-    from: '"Nivaas " <shelterhub.in@gmail.com>', // sender address (who sends)
+    from: '"ShelterHub " <shelterhub.in@gmail.com>', // sender address (who sends)
     to: `${email}`, // list of receivers (who receives)
     subject: "OTP for Reseting Your User App Password ", // Subject line
     text: `Your OTP for reseting the password for User app is ${otp}, please enter this OTP in your User app to reset your password.
 -Thanks,
-Team Nivaas  `, // plaintext body
+Team ShelterHub  `, // plaintext body
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
