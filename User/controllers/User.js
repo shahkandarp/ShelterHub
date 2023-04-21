@@ -115,12 +115,12 @@ const forgotPasswordUser = async (req, res) => {
   });
 
   const mailOptions = {
-    from: '"Nivaas " <shelterhub.in@gmail.com>', // sender address (who sends)
+    from: '"ShelterHub " <shelterhub.in@gmail.com>', // sender address (who sends)
     to: `${email}`, // list of receivers (who receives)
     subject: "OTP for Reseting Your User App Password ", // Subject line
     text: `Your OTP for reseting the password for User app is ${otp}, please enter this OTP in your User app to reset your password.
 -Thanks,
-Team Nivaas  `, // plaintext body
+Team ShelterHub  `, // plaintext body
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -530,16 +530,16 @@ const createUserInterest = async (req, res) => {
   if (!owner_room) {
     const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
     const update_owner = await Owner.findOneAndUpdate(
-      {_id:room},
-      {interestedusers:mess.interestedusers+1}
-    )
+      { _id: room },
+      { interestedusers: mess.interestedusers + 1 }
+    );
 
     const interest = await Interest.create({
-      userId:uid,
-      ownerId:mess._id,
-      roomId:room
-    })
-    res.status(StatusCodes.OK).json({res:"success",data:interest});
+      userId: uid,
+      ownerId: mess._id,
+      roomId: room,
+    });
+    res.status(StatusCodes.OK).json({ res: "success", data: interest });
   } else {
     const owner_id = owner_room.ownerId;
     const owner = await Owner.findOne({ _id: owner_id });
@@ -555,7 +555,6 @@ const createUserInterest = async (req, res) => {
     });
     res.status(StatusCodes.OK).json({ res: "success", data: interest });
   }
-
 };
 const deleteInterest = async (req, res) => {
   const { interest } = req.body;
@@ -579,19 +578,19 @@ const getCities = async (req, res) => {
   }
 };
 //areaname
-const getAreanames = async(req,res)=>{
-  const {search} = req.query;
-  const areas = await City.findOne({name:"Kota"}).select("area");
-  const regex = new RegExp(`${search}`,'i');
-  var result = []
-  for(let i=0;i<areas.area.length;i++){
-    let name = areas.area[i].name
-    if(regex.test(name)){
-      result.push(areas.area[i])
+const getAreanames = async (req, res) => {
+  const { search } = req.query;
+  const areas = await City.findOne({ name: "Kota" }).select("area");
+  const regex = new RegExp(`${search}`, "i");
+  var result = [];
+  for (let i = 0; i < areas.area.length; i++) {
+    let name = areas.area[i].name;
+    if (regex.test(name)) {
+      result.push(areas.area[i]);
     }
   }
-  res.status(StatusCodes.OK).json({res:"success",data:result})
-}
+  res.status(StatusCodes.OK).json({ res: "success", data: result });
+};
 
 //suggestions
 const getSuggestions = async (req, res) => {
@@ -626,5 +625,5 @@ module.exports = {
   deleteInterest,
   getReviews,
   getSuggestions,
-  getAreanames
+  getAreanames,
 };
