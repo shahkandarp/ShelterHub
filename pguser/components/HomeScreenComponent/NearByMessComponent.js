@@ -30,7 +30,7 @@ const NearByMessComponent = ({data}) => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => <FamousMessComponent famous={item} />}
-          keyExtractor={item => item.name}
+          keyExtractor={item => item._id}
         />
       )}
     </View>

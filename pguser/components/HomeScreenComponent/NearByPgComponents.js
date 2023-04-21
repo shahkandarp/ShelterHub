@@ -11,6 +11,8 @@ const NearByPgComponents = ({data}) => {
   const onPress = () => {
     navigation.navigate('PgDetailScreen', {data: data});
   };
+  var arr = data.address;
+  var arr1 = arr.split('/');
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -84,7 +86,10 @@ const NearByPgComponents = ({data}) => {
               color: 'gray',
               fontSize: 10,
             }}>
-            {data.address}
+            {/* {data.address} */}
+            {`${arr1[0]}`}
+            {', '}
+            {arr1[2]}
           </Text>
           {/* <Text
             style={{

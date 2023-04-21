@@ -85,21 +85,23 @@ const FilterScreen = () => {
     //   priceFilters: `price>=${price}&price<50000`,
     // });
     setLoading(true);
+    console.log(search);
     const response = await axios.post(
       `http://${USER_IP}/api/v1/user/pg/filter`,
       {
-        occupancy: occupancy,
-        isAttached: isAttached,
-        cityname: city,
-        isAC: isAC,
-        isCooler: isCooler,
-        isHotWater: isHotWater,
-        isWIFI: isWIFI,
+        occupancy: mess ? null : occupancy,
+        isAttached: mess ? null : isAttached,
+        cityname: 'Kota',
+        isAC: mess ? null : isAC,
+        isCooler: mess ? null : isCooler,
+        isHotWater: mess ? null : isHotWater,
+        isWIFI: mess ? null : isWIFI,
         typeofpg: pgType,
-        isFemale: isFemale,
-        isMale: isMale,
+        isFemale: mess ? null : isFemale,
+        isMale: mess ? null : isMale,
         ratingFilters: `ratings>=${rating}&ratings<5`,
         priceFilters: `price<=${price}&price>0`,
+        areaname: search,
       },
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
@@ -112,9 +114,10 @@ const FilterScreen = () => {
   const onPress = async () => {
     if (search?.length >= 2) {
       const response = await axios.get(
-        `http://${USER_IP}/api/v1/user/city?search=${search}`,
+        `http://${USER_IP}/api/v1/user/area?search=${search}`,
         {headers: {Authorization: `Bearer ${tokens}`}},
       );
+      console.log(response.data.data);
       setSearchResult(response.data.data);
     } else {
       setSearchResult(null);

@@ -42,7 +42,7 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [nearByMess, setNearByMessData] = useState([]);
 
-  Geocoder.init('AIzaSyATSR2CjwA97n3qJ72ELXN9LcY9_BXkLbk');
+  Geocoder.init('AIzaSyBQyTyla6AB6u9n1-LSvV0iX_S3BjQFr0g');
   useEffect(() => {
     getLocation();
   }, []);
@@ -203,11 +203,16 @@ const HomeScreen = () => {
   };
   const getNearByMess = async () => {
     setLoading(true);
-    const response = await axios.post(
-      `http://${USER_IP}/api/v1/user/pg/filter`,
-      {typeofpg: 'MESS'},
+    // const response = await axios.post(
+    //   `http://${USER_IP}/api/v1/user/pg/filter`,
+    //   {typeofpg: 'MESS'},
+    //   {headers: {Authorization: `Bearer ${tokens}`}},
+    // );
+    const response = await axios.get(
+      `http://${USER_IP}/api/v1/user/${users}/pg/nearby?mess=true`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
+    console.log(response.data.data);
     setNearByMessData(response.data.data);
     // console.log(response.data.data);
     setLoading(false);
@@ -340,23 +345,32 @@ const HomeScreen = () => {
                 marginLeft: -5,
                 color: 'grey',
               }}>
-              Search for PGs , Hostels , Messes...
+              Search for localities/areas...
             </Text>
           </View>
         </Pressable>
 
         {/* Top 10 PGs */}
-        <ImageCarousel featured={featuredData} />
-        <View style={{marginTop: 10}}>
-          <FamousPg data={data} />
-        </View>
-        <View>
-          <NearByMessComponent data={nearByMess} />
-        </View>
+        {location && <ImageCarousel featured={featuredData} />}
+        {location && (
+          <View style={{marginTop: 10}}>
+            <FamousPg data={data} />
+          </View>
+        )}
+        {location && (
+          <View>
+            <NearByMessComponent data={nearByMess} />
+          </View>
+        )}
 
         {location && (
           <View>
             <NearByPgComponent data={nearByPg} />
+          </View>
+        )}
+        {!location && (
+          <View>
+            <NearByPgComponent data={data} yes={true} />
           </View>
         )}
         {!location && (

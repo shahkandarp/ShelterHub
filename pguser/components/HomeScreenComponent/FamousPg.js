@@ -33,7 +33,7 @@ const FamousPg = ({data}) => {
             fontSize: 14,
             marginHorizontal: 15,
           }}>
-          Famous Hostels/PGs in your Area...
+          Famous Hostels/PGs...
         </Text>
       )}
       {data.length > 0 && (
@@ -44,7 +44,7 @@ const FamousPg = ({data}) => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => <FamousPgComponent famous={item} />}
-          keyExtractor={item => item.name}
+          keyExtractor={item => item._id}
         />
       )}
     </View>

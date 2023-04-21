@@ -6,14 +6,14 @@ import {useNavigation} from '@react-navigation/native';
 const FamousMessComponent = ({famous}) => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('PgDetailScreen', {data: famous.pg, mess: true});
+    navigation.navigate('PgDetailScreen', {data: famous, mess: true});
   };
   //   console.log(famous.pg);
   return (
     <Pressable style={{marginLeft: 20, marginTop: 10}} onPress={onPress}>
       <View>
         <Image
-          source={{uri: famous.pg.photos[0]?.uri}}
+          source={{uri: famous.photos[0]?.uri}}
           style={{height: 125, width: 170, borderRadius: 7}}
         />
       </View>
@@ -46,7 +46,7 @@ const FamousMessComponent = ({famous}) => {
             <FontAwesome
               style={{marginHorizontal: 0.5}}
               name={
-                i < Math.floor(famous.pg.ratings.$numberDecimal)
+                i < Math.floor(famous.ratings.$numberDecimal)
                   ? 'star'
                   : 'star-o'
               }
@@ -59,10 +59,10 @@ const FamousMessComponent = ({famous}) => {
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginLeft: 2}}>
           <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-            {famous.pg.ratings.$numberDecimal}
+            {famous.ratings.$numberDecimal}
           </Text>
           <Text style={{fontFamily: 'Poppins-Regular', fontSize: 10}}>
-            ({famous.pg.noofraters})
+            ({famous.noofraters})
           </Text>
         </View>
       </View>
@@ -74,7 +74,7 @@ const FamousMessComponent = ({famous}) => {
           fontSize: 12,
           maxWidth: 160,
         }}>
-        {famous.pg.propertytitle}
+        {famous.propertytitle}
       </Text>
       <View
         style={{
@@ -90,7 +90,7 @@ const FamousMessComponent = ({famous}) => {
             color: 'gray',
             fontSize: 11,
           }}>
-          {famous.pg.cityname}
+          {famous.cityname}
         </Text>
         <Text
           style={{
@@ -99,7 +99,7 @@ const FamousMessComponent = ({famous}) => {
             fontSize: 11,
             marginLeft: 15,
           }}>
-          {famous?.pg.views} views
+          {famous.views} views
         </Text>
       </View>
     </Pressable>
