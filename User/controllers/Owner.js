@@ -357,6 +357,19 @@ const deleteReview = async (req,res) => {
   res.status(StatusCodes.OK).json({res:'Success'})
 }
 
+const deleteOwner = async(req,res) => {
+  const {email} = req.body
+  if(!email){
+    throw new BadRequestError("Please provide Email ID");
+  }
+  const own = await Owner.findOne({email})
+  if(!own){
+    throw new BadRequestError("Please provide valid email");
+  }
+  await Owner.findOneAndDelete({email})
+  res.status(StatusCodes.OK).json({res:'Success'})
+}
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -376,4 +389,5 @@ module.exports = {
   deleteRoom,
   showReview,
   deleteReview,
+  deleteOwner
 };
