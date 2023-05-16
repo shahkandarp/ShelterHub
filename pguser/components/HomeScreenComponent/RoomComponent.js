@@ -167,24 +167,28 @@ const RoomComponent = ({datas, data2, check}) => {
                 justifyContent: 'space-between',
                 marginTop: 8,
               }}>
-              <Text
-                style={{
-                  fontFamily: 'Poppins-Medium',
-                  color: '#101010',
-                  fontSize: 16,
-                  marginHorizontal: 13,
-                }}>
-                {datas?.title}
-              </Text>
-              <Text
-                style={{
-                  marginHorizontal: 24,
-                  fontFamily: 'Poppins-Medium',
-                  color: PRIMARY_COLOR,
-                  fontSize: 13,
-                }}>
-                Rs.{datas?.price?.$numberDecimal}
-              </Text>
+              <View style={{flex: 3}}>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Medium',
+                    color: '#101010',
+                    fontSize: 16,
+                    marginHorizontal: 13,
+                  }}>
+                  {datas?.title}
+                </Text>
+              </View>
+              <View style={{flex: 1}}>
+                <Text
+                  style={{
+                    // marginHorizontal: 24,
+                    fontFamily: 'Poppins-Medium',
+                    color: PRIMARY_COLOR,
+                    fontSize: 13,
+                  }}>
+                  Rs.{datas?.price?.$numberDecimal}
+                </Text>
+              </View>
             </View>
             <Text
               style={{

@@ -104,11 +104,12 @@ const PgDetailScreen = () => {
     setPgDetails(response.data.data);
   };
   const getReviews = async () => {
+    console.log(data._id);
     const response = await axios.get(
       `http://${USER_IP}/api/v1/user/pg/${data._id}/reviews`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
-    console.log(response.data.data);
+    // console.log(response.data.data);
     setReviews(response.data.data);
   };
   const stars = (
