@@ -143,6 +143,20 @@ const changePassword = async (req, res) => {
 
 const updateOwner = async (req, res) => {
   const { ownerId } = req.user;
+  const own = await Owner.findOne({_id:ownerId})
+  if(own.typeofpg != 'MESS' && req.user.typeofpg == 'MESS'){
+    const room = await Room.find({ownerId})
+    for(var i=0;i<room[i].length;++i){
+      const interest = await Interest.find({roomId:room[i]._id})
+      req.user.interestedusers -= interest.length
+      await Interest.deleteMany({roomId:room[i]._id})
+      await Room.findOneAndDelete({_id:room[i]._id})
+    }
+  }
+  else if(own.typeofpg == 'MESS' && req.user.typeofpg !='MESS'){
+    req.user.interestedusers = 0
+    await Interest.deleteMany({ownerId})
+  }
   const owner = await Owner.findOneAndUpdate({ _id: ownerId }, req.body, {
     runValidators: true,
     new: true,
@@ -208,6 +222,7 @@ const updateRoom = async (req, res) => {
 
 const showInterests = async (req, res) => {
   const { ownerId } = req.user;
+  const owner = await Owner.findOne({_id:ownerId})
   const interests = await Interest.find({ ownerId });
   const arr = [];
   var i = 0;
@@ -225,20 +240,33 @@ const showInterests = async (req, res) => {
   });
   const arr1 = [];
   var j = 0;
-  for (i = 0; i < arr.length; ++i) {
-    var obj = {};
-    const user = await User.findOne({ _id: arr[i].userId });
-    obj.username = user.name;
-    obj.userphoneno = user.phoneno;
-    obj.useremail = user.email;
-    const room = await Room.findOne({ _id: arr[i].roomId });
-    if (!room) {
-      continue;
+  if(owner.typeofpg == 'MESS'){
+    for (i = 0; i < arr.length; ++i) {
+      var obj = {};
+      const user = await User.findOne({ _id: arr[i].userId });
+      obj.username = user.name;
+      obj.userphoneno = user.phoneno;
+      obj.useremail = user.email;
+      arr1[j] = obj;
+      ++j;
     }
-    obj.roomtitle = room.title;
-    obj.createdAt = arr[i].createdAt;
-    arr1[j] = obj;
-    ++j;
+  }
+  else{
+    for (i = 0; i < arr.length; ++i) {
+      var obj = {};
+      const user = await User.findOne({ _id: arr[i].userId });
+      obj.username = user.name;
+      obj.userphoneno = user.phoneno;
+      obj.useremail = user.email;
+      const room = await Room.findOne({ _id: arr[i].roomId });
+      if (!room) {
+        continue;
+      }
+      obj.roomtitle = room.title;
+      obj.createdAt = arr[i].createdAt;
+      arr1[j] = obj;
+      ++j;
+    }
   }
   res.status(StatusCodes.OK).json({ res: "Success", data: arr1 });
 };
@@ -291,6 +319,7 @@ const getStatus = async (req, res) => {
     phoneVerified: owner.phoneVerified,
     detailsEntered: owner.detailsEntered,
     roomFilled: owner.roomFilled,
+    typeofpg: owner.typeofpg
   };
   res.status(StatusCodes.OK).json({ res: "Success", data: obj });
 };
