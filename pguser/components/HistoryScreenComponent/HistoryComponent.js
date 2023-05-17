@@ -96,13 +96,15 @@ const HistoryComponent = ({data}) => {
       );
       // console.log(response.data.res);
       if (response.data.res == 'failed') {
-        Alert.alert('User has already rated in this Property.');
+        // Alert.alert('User has already rated in this Property.');
+        await showToast();
         setModal(!modal);
       }
       setModal(!modal);
       await showToastWithGravityAndOffset();
     } else {
-      Alert.alert('Please rate and comment');
+      // Alert.alert('Please rate and comment');
+      await warning();
     }
     setModal(!modal);
     setStar1(false);
@@ -114,6 +116,24 @@ const HistoryComponent = ({data}) => {
   const showToastWithGravityAndOffset = async () => {
     ToastAndroid.showWithGravityAndOffset(
       'Rating and Review submitted successfully!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+  const showToast = async () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'You have already rated!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+  const warning = async () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Please rate and comment',
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
       25,
