@@ -61,7 +61,7 @@ const forgotPasswordOwner = async (req, res) => {
   });
 
   const mailOptions = {
-    from: '"Nivaas " <shelterhub.in@gmail.com>', // sender address (who sends)
+    from: '"ShelterHub Business " <shelterhub.in@gmail.com>', // sender address (who sends)
     to: `${email}`, // list of receivers (who receives)
     subject: "OTP for Reseting Your User App Password ", // Subject line
     text: `Your OTP for reseting the password for Owner app is ${otp}, please enter this OTP in your User app to reset your password.
@@ -247,6 +247,7 @@ const showInterests = async (req, res) => {
       obj.username = user.name;
       obj.userphoneno = user.phoneno;
       obj.useremail = user.email;
+      obj.createdAt = arr[i].createdAt;
       arr1[j] = obj;
       ++j;
     }
@@ -399,6 +400,75 @@ const deleteOwner = async(req,res) => {
   res.status(StatusCodes.OK).json({res:'Success'})
 }
 
+const updateEmail = async(req,res)=>{
+  const {ownerId} = req.user
+  const {email} = req.body
+  if(!email){
+    throw new BadRequestError("Please provide Email ID");
+  }
+  const owner = await Owner.findOne({email})
+  if(owner){
+    throw new BadRequestError("This email is already in use");
+  }
+  const otp = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
+  console.log(otp);
+  const user = await Owner.findOneAndUpdate(
+    { _id:ownerId },
+    { mailotp: otp },
+    { new: true, runValidators: true }
+  );
+  if (!user) {
+    throw new BadRequestError("Please provide valid email");
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+      ciphers: "SSLv3",
+    },
+    auth: {
+      user: "shelterhub.in@gmail.com",
+      pass: "xyfgkbpcqayyexto",
+    },
+  });
+
+  const mailOptions = {
+    from: '"ShelterHub Business " <shelterhub.in@gmail.com>', // sender address (who sends)
+    to: `${email}`, // list of receivers (who receives)
+    subject: "OTP for Reseting Your User App Password ", // Subject line
+    text: `Your OTP for verifying your new email for Owner app is ${otp}, please enter this OTP in your Owner app to verify your email.
+-Thanks,
+Team ShelterHub  `, // plaintext body
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return console.log(error);
+    }
+
+    res.status(StatusCodes.OK).json({ otpsent: true });
+  });
+}
+
+const verifynewemail = async(req,res) => {
+  const {ownerId} = req.user
+  const {otp,email} = req.body
+  if(!otp || !email){
+    throw new BadRequestError("Please provide Neccesary Credentials");
+  }
+  const owner = await Owner.findOne({_id:ownerId})
+  if(owner.mailotp!==otp){
+    throw new BadRequestError("OTP does not match");
+  }
+  const user = await Owner.findOneAndUpdate(
+    { _id:ownerId },
+    { email },
+    { new: true, runValidators: true }
+  );
+  res.status(StatusCodes.OK).json({res:'Success',data:user})
+}
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -418,5 +488,7 @@ module.exports = {
   deleteRoom,
   showReview,
   deleteReview,
-  deleteOwner
+  deleteOwner,
+  updateEmail,
+  verifynewemail
 };
