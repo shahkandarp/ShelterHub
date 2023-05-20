@@ -418,7 +418,7 @@ const updateEmail = async(req,res)=>{
     { new: true, runValidators: true }
   );
   if (!user) {
-    throw new BadRequestError("Please provide valid email");
+    throw new BadRequestError("This account does not exists");
   }
 
   const transporter = nodemailer.createTransport({
