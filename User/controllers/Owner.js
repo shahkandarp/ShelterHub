@@ -44,7 +44,7 @@ const forgotPasswordOwner = async (req, res) => {
     { new: true, runValidators: true }
   );
   if (!owner) {
-    throw new BadRequestError("Please provide valid email");
+    throw new BadRequestError("Email does not exists");
   }
 
   const transporter = nodemailer.createTransport({
