@@ -66,7 +66,7 @@ const forgotPasswordOwner = async (req, res) => {
     subject: "OTP for Reseting Your User App Password ", // Subject line
     text: `Your OTP for reseting the password for Owner app is ${otp}, please enter this OTP in your User app to reset your password.
   -Thanks,
-  Team Nivaas  `, // plaintext body
+  Team ShelterHub  `, // plaintext body
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -287,7 +287,7 @@ const mobileOTPSend = async (req, res) => {
   );
   var options = {
     authorization: process.env.API_KEY,
-    message: `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.`,
+    message: `${otp} is your verification code for ShelterHub Business, valid for 15 min. Please do not share with others.`,
     numbers: [`${phoneno}`],
   };
   const response = await fast2sms.sendMessage(options);

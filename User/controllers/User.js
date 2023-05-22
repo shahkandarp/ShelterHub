@@ -184,7 +184,7 @@ const sendUserOTP = async (req, res) => {
   );
   var options = {
     authorization: process.env.API_KEY,
-    message: `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.`,
+    message: `${otp} is your verification code for ShelterHub, valid for 15 min. Please do not share with others.`,
     numbers: [`${phoneno}`],
   };
   const response = await fast2sms.sendMessage(options);
