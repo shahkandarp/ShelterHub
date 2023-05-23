@@ -32,7 +32,15 @@ import NearByMessComponent from '../components/HomeScreenComponent/NearByMessCom
 const HomeScreen = () => {
   const [location, setLocation] = useState(false);
   const navigation = useNavigation();
-  const {users, setLoginPending, loginPending, tokens, name} = useAuthContext();
+  const {
+    users,
+    setLoginPending,
+    loginPending,
+    name,
+    setTokens,
+    setUsers,
+    tokens,
+  } = useAuthContext();
   const [names, setNames] = useState(null);
   const [region, setRegion] = useState(null);
   const [data, setData] = useState([]);
@@ -43,8 +51,20 @@ const HomeScreen = () => {
   const [nearByMess, setNearByMessData] = useState([]);
 
   Geocoder.init('AIzaSyBQyTyla6AB6u9n1-LSvV0iX_S3BjQFr0g');
+  let jsonValue;
+  const getDatas = async () => {
+    const value = await AsyncStorage.getItem('userDetail');
+    jsonValue = JSON.parse(value);
+    setUsers(jsonValue.userID);
+    setTokens(jsonValue.token);
+  };
   useEffect(() => {
-    getLocation();
+    getDatas();
+    setTimeout(() => getLocation(), 100);
+  }, []);
+  useEffect(() => {
+    getDatas();
+    setTimeout(() => getFamousPg(), 100);
   }, []);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -63,8 +83,8 @@ const HomeScreen = () => {
   useEffect(() => {
     if (location) {
       onUpdatePressed();
-      getData();
       getFamousPg();
+      getData();
       getFeaturedPg();
       getNearByPg();
       getNearByMess();
@@ -177,8 +197,8 @@ const HomeScreen = () => {
   const getFamousPg = async () => {
     setLoading(true);
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/${users}/pg?sort=ratings`,
-      {headers: {Authorization: `Bearer ${tokens}`}},
+      `http://${USER_IP}/api/v1/user/${jsonValue.userID}/pg?sort=ratings`,
+      {headers: {Authorization: `Bearer ${jsonValue.token}`}},
     );
     setData(response.data.data);
     setLoading(false);
@@ -212,7 +232,7 @@ const HomeScreen = () => {
       `http://${USER_IP}/api/v1/user/${users}/pg/nearby?mess=true`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
-    console.log(response.data.data);
+    // console.log(response.data.data);
     setNearByMessData(response.data.data);
     // console.log(response.data.data);
     setLoading(false);

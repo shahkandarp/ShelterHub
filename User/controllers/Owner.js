@@ -44,7 +44,7 @@ const forgotPasswordOwner = async (req, res) => {
     { new: true, runValidators: true }
   );
   if (!owner) {
-    throw new BadRequestError("Please provide valid email");
+    throw new BadRequestError("Email does not exists");
   }
 
   const transporter = nodemailer.createTransport({
@@ -61,12 +61,12 @@ const forgotPasswordOwner = async (req, res) => {
   });
 
   const mailOptions = {
-    from: '"Nivaas " <shelterhub.in@gmail.com>', // sender address (who sends)
+    from: '"ShelterHub Business " <shelterhub.in@gmail.com>', // sender address (who sends)
     to: `${email}`, // list of receivers (who receives)
     subject: "OTP for Reseting Your User App Password ", // Subject line
     text: `Your OTP for reseting the password for Owner app is ${otp}, please enter this OTP in your User app to reset your password.
   -Thanks,
-  Team Nivaas  `, // plaintext body
+  Team ShelterHub  `, // plaintext body
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -143,6 +143,20 @@ const changePassword = async (req, res) => {
 
 const updateOwner = async (req, res) => {
   const { ownerId } = req.user;
+  const own = await Owner.findOne({_id:ownerId})
+  if(own.typeofpg != 'MESS' && req.user.typeofpg == 'MESS'){
+    const room = await Room.find({ownerId})
+    for(var i=0;i<room[i].length;++i){
+      const interest = await Interest.find({roomId:room[i]._id})
+      req.user.interestedusers -= interest.length
+      await Interest.deleteMany({roomId:room[i]._id})
+      await Room.findOneAndDelete({_id:room[i]._id})
+    }
+  }
+  else if(own.typeofpg == 'MESS' && req.user.typeofpg !='MESS'){
+    req.user.interestedusers = 0
+    await Interest.deleteMany({ownerId})
+  }
   const owner = await Owner.findOneAndUpdate({ _id: ownerId }, req.body, {
     runValidators: true,
     new: true,
@@ -208,6 +222,7 @@ const updateRoom = async (req, res) => {
 
 const showInterests = async (req, res) => {
   const { ownerId } = req.user;
+  const owner = await Owner.findOne({_id:ownerId})
   const interests = await Interest.find({ ownerId });
   const arr = [];
   var i = 0;
@@ -225,20 +240,34 @@ const showInterests = async (req, res) => {
   });
   const arr1 = [];
   var j = 0;
-  for (i = 0; i < arr.length; ++i) {
-    var obj = {};
-    const user = await User.findOne({ _id: arr[i].userId });
-    obj.username = user.name;
-    obj.userphoneno = user.phoneno;
-    obj.useremail = user.email;
-    const room = await Room.findOne({ _id: arr[i].roomId });
-    if (!room) {
-      continue;
+  if(owner.typeofpg == 'MESS'){
+    for (i = 0; i < arr.length; ++i) {
+      var obj = {};
+      const user = await User.findOne({ _id: arr[i].userId });
+      obj.username = user.name;
+      obj.userphoneno = user.phoneno;
+      obj.useremail = user.email;
+      obj.createdAt = arr[i].createdAt;
+      arr1[j] = obj;
+      ++j;
     }
-    obj.roomtitle = room.title;
-    obj.createdAt = arr[i].createdAt;
-    arr1[j] = obj;
-    ++j;
+  }
+  else{
+    for (i = 0; i < arr.length; ++i) {
+      var obj = {};
+      const user = await User.findOne({ _id: arr[i].userId });
+      obj.username = user.name;
+      obj.userphoneno = user.phoneno;
+      obj.useremail = user.email;
+      const room = await Room.findOne({ _id: arr[i].roomId });
+      if (!room) {
+        continue;
+      }
+      obj.roomtitle = room.title;
+      obj.createdAt = arr[i].createdAt;
+      arr1[j] = obj;
+      ++j;
+    }
   }
   res.status(StatusCodes.OK).json({ res: "Success", data: arr1 });
 };
@@ -258,7 +287,7 @@ const mobileOTPSend = async (req, res) => {
   );
   var options = {
     authorization: process.env.API_KEY,
-    message: `${otp} is your verification code for Nivaas, valid for 15 min. Please do not share with others.`,
+    message: `${otp} is your verification code for ShelterHub Business, valid for 15 min. Please do not share with others.`,
     numbers: [`${phoneno}`],
   };
   const response = await fast2sms.sendMessage(options);
@@ -291,6 +320,7 @@ const getStatus = async (req, res) => {
     phoneVerified: owner.phoneVerified,
     detailsEntered: owner.detailsEntered,
     roomFilled: owner.roomFilled,
+    typeofpg: owner.typeofpg
   };
   res.status(StatusCodes.OK).json({ res: "Success", data: obj });
 };
@@ -357,6 +387,88 @@ const deleteReview = async (req,res) => {
   res.status(StatusCodes.OK).json({res:'Success'})
 }
 
+const deleteOwner = async(req,res) => {
+  const {email} = req.body
+  if(!email){
+    throw new BadRequestError("Please provide Email ID");
+  }
+  const own = await Owner.findOne({email})
+  if(!own){
+    throw new BadRequestError("Please provide valid email");
+  }
+  await Owner.findOneAndDelete({email})
+  res.status(StatusCodes.OK).json({res:'Success'})
+}
+
+const updateEmail = async(req,res)=>{
+  const {ownerId} = req.user
+  const {email} = req.body
+  if(!email){
+    throw new BadRequestError("Please provide Email ID");
+  }
+  const owner = await Owner.findOne({email})
+  if(owner){
+    throw new BadRequestError("This email is already in use");
+  }
+  const otp = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
+  console.log(otp);
+  const user = await Owner.findOneAndUpdate(
+    { _id:ownerId },
+    { mailotp: otp },
+    { new: true, runValidators: true }
+  );
+  if (!user) {
+    throw new BadRequestError("This account does not exists");
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+      ciphers: "SSLv3",
+    },
+    auth: {
+      user: "shelterhub.in@gmail.com",
+      pass: "xyfgkbpcqayyexto",
+    },
+  });
+
+  const mailOptions = {
+    from: '"ShelterHub Business " <shelterhub.in@gmail.com>', // sender address (who sends)
+    to: `${email}`, // list of receivers (who receives)
+    subject: "OTP for Reseting Your User App Password ", // Subject line
+    text: `Your OTP for verifying your new email for Owner app is ${otp}, please enter this OTP in your Owner app to verify your email.
+-Thanks,
+Team ShelterHub  `, // plaintext body
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      return console.log(error);
+    }
+
+    res.status(StatusCodes.OK).json({ otpsent: true });
+  });
+}
+
+const verifynewemail = async(req,res) => {
+  const {ownerId} = req.user
+  const {otp,email} = req.body
+  if(!otp || !email){
+    throw new BadRequestError("Please provide Neccesary Credentials");
+  }
+  const owner = await Owner.findOne({_id:ownerId})
+  if(owner.mailotp!==otp){
+    throw new BadRequestError("OTP does not match");
+  }
+  const user = await Owner.findOneAndUpdate(
+    { _id:ownerId },
+    { email },
+    { new: true, runValidators: true }
+  );
+  res.status(StatusCodes.OK).json({res:'Success',data:user})
+}
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -376,4 +488,7 @@ module.exports = {
   deleteRoom,
   showReview,
   deleteReview,
+  deleteOwner,
+  updateEmail,
+  verifynewemail
 };

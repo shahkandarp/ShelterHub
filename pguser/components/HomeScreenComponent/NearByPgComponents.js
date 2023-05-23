@@ -8,8 +8,19 @@ import {useNavigation} from '@react-navigation/native';
 const NearByPgComponents = ({data}) => {
   // console.log(data);
   const navigation = useNavigation();
+  // const onPress = () => {
+  //   navigation.navigate('PgDetailScreen', {data: data});
+  // };
   const onPress = () => {
-    navigation.navigate('PgDetailScreen', {data: data});
+    // navigation.navigate('PgDetailScreen', {data: data.pg});
+    if (data.typeofpg == 'MESS') {
+      navigation.navigate('PgDetailScreen', {
+        data: data,
+        mess: true,
+      });
+    } else {
+      navigation.navigate('PgDetailScreen', {data: data});
+    }
   };
   var arr = data.address;
   var arr1 = arr.split('/');

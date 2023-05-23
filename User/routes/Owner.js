@@ -30,7 +30,10 @@ const {
   getStatus,
   deleteRoom,
   showReview,
-  deleteReview
+  deleteReview,
+  deleteOwner,
+  updateEmail,
+  verifynewemail
 } = require("../controllers/Owner");
 
 router.route("/verifyotp").post(ownerVerifyOTP);
@@ -48,5 +51,8 @@ router.route("/getstatus").get(OwnerMiddleware, getStatus);
 router.route('/deleteroom/:rid').delete(OwnerMiddleware,deleteRoom)
 router.route('/showreview').get(OwnerMiddleware,showReview)
 router.route('/deletereview/:rid').delete(OwnerMiddleware,deleteReview)
+router.route('/deleteowner').post(deleteOwner)
+router.route('/updateemail').post(OwnerMiddleware,updateEmail)
+router.route('/verifynewemail').post(OwnerMiddleware,verifynewemail)
 
 module.exports = router;

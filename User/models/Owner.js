@@ -92,7 +92,7 @@ const OwnerSchema = new mongoose.Schema({
   },
   areaname:{
     type:String,
-    default:""
+    enum:['Indraprastha','Vigyan Nagar','Talwandi','Indra Vihar','Rajeev Gandhi Nagar','Jawahar Nagar','Kunhari','Mahaveer Nagar','None']
   },
   famousplacedistance: {
     type: [Object],
