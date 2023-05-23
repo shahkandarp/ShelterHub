@@ -22,10 +22,7 @@ const registerUser = async (req, res) => {
   if (req.body.password.length < 8) {
     throw new BadRequestError("Minimum size of password should be 8");
   }
-  // const customer = await stripe.customers.create({
-  //   email:email,name:name
-  // });
-  // req.body.customerId = customer.id;
+
   const user = await User.create(req.body);
   const token = user.createJWT();
   res
