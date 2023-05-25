@@ -46,18 +46,18 @@ const calculateDistance = (lat1, lat2, lon1, lon2) => {
   const d = R * c; // in metres
   return d / 1000; //in kms
 };
-const nearByPgs = async (lat, lng, pgs = null) => {
+const nearByPgs = async (lat, lng, pgs = null,distance=10) => {
   var pg_array = [];
   if (pgs) {
     for (let i = 0; i < pgs.length; i++) {
-      if (calculateDistance(pgs[i].lat, lat, pgs[i].lng, lng) <= 10) {
+      if (calculateDistance(pgs[i].lat, lat, pgs[i].lng, lng) <= distance) {
         pg_array.push(pgs[i]);
       }
     }
   } else {
     const pg = await Owner.find({ typeofpg: { $ne: "MESS" } });
     for (let i = 0; i < pg.length; i++) {
-      if (calculateDistance(pg[i].lat, lat, pg[i].lng, lng) <= 10) {
+      if (calculateDistance(pg[i].lat, lat, pg[i].lng, lng) <= distance) {
         pg_array.push(pg[i]);
       }
     }
@@ -581,17 +581,24 @@ const getCities = async (req, res) => {
 };
 //areaname
 const getAreanames = async (req, res) => {
-  const { search } = req.query;
-  const areas = await City.findOne({ name: "Kota" }).select("area");
-  const regex = new RegExp(`${search}`, "i");
-  var result = [];
-  for (let i = 0; i < areas.area.length; i++) {
-    let name = areas.area[i].name;
-    if (regex.test(name)) {
-      result.push(areas.area[i]);
+  const { search,different } = req.query;
+  if(!different){
+    const areas = await City.findOne({ name: "Kota" }).select("area");
+    const regex = new RegExp(`${search}`, "i");
+    var result = [];
+    for (let i = 0; i < areas.area.length; i++) {
+      let name = areas.area[i].name;
+      if (regex.test(name)) {
+        result.push(areas.area[i]);
+      }
     }
+    res.status(StatusCodes.OK).json({ res: "success", data: result });
   }
-  res.status(StatusCodes.OK).json({ res: "success", data: result });
+  else{
+    const {lat,lng} = req.body;
+    const pgs = await nearByPgs(lat,lng,distance=3)
+    res.status(StatusCodes.OK).json({res:"success",data:pgs})
+  }
 };
 
 //suggestions
