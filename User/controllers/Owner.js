@@ -11,6 +11,7 @@ const Room = require("../models/Room");
 const Interest = require("../models/Interest");
 const User = require("../models/User");
 const Rating = require("../models/Rating");
+const Suggestion = require('../models/Suggestion')
 
 //authentication owner
 const registerOwner = async (req, res) => {
@@ -63,8 +64,8 @@ const forgotPasswordOwner = async (req, res) => {
   const mailOptions = {
     from: '"ShelterHub Business " <shelterhub.in@gmail.com>', // sender address (who sends)
     to: `${email}`, // list of receivers (who receives)
-    subject: "OTP for Reseting Your User App Password ", // Subject line
-    text: `Your OTP for reseting the password for Owner app is ${otp}, please enter this OTP in your User app to reset your password.
+    subject: "OTP for Reseting Your Owner App Password ", // Subject line
+    text: `Your OTP for reseting the password for Owner app is ${otp}, please enter this OTP in your Owner app to reset your password.
   -Thanks,
   Team ShelterHub  `, // plaintext body
   };
@@ -287,7 +288,7 @@ const mobileOTPSend = async (req, res) => {
   );
   var options = {
     authorization: process.env.API_KEY,
-    message: `${otp} is your verification code for ShelterHub Business, valid for 15 min. Please do not share with others.`,
+    message: `${otp} is your OTP for ShelterHub Business app.`,
     numbers: [`${phoneno}`],
   };
   const response = await fast2sms.sendMessage(options);
@@ -380,10 +381,14 @@ const deleteReview = async (req,res) => {
   if(!rid){
     throw new BadRequestError("Please provide Rating ID");
   }
-  const review = await Rating.deleteOne({_id:rid})
+  const owner = await Owner.findOne({_id:ownerId})
+  const review = await Rating.findOne({_id:rid})
   if(!review){
     throw new BadRequestError("Please provide Valid Rating ID");
   }
+  owner.rating = (owner.rating*owner.noofraters - review.rating)/(owner.noofraters - 1)
+  const uowner = await Owner.findOneAndUpdate({_id:ownerId},owner,{ runValidators: true, new: true, setDefaultsOnInsert: true })
+  const dreview = await Rating.deleteOne({_id:rid})
   res.status(StatusCodes.OK).json({res:'Success'})
 }
 
@@ -392,10 +397,14 @@ const deleteOwner = async(req,res) => {
   if(!email){
     throw new BadRequestError("Please provide Email ID");
   }
-  const own = await Owner.findOne({email})
-  if(!own){
+  const owner = await Owner.findOne({email})
+  if(!owner){
     throw new BadRequestError("Please provide valid email");
   }
+  await Room.deleteMany({ownerId:owner._id})
+  await Interest.deleteMany({ownerId:owner._id})
+  await Rating.deleteMany({ownerId:owner._id})
+  await Suggestion.deleteMany({ownerId:owner._id})
   await Owner.findOneAndDelete({email})
   res.status(StatusCodes.OK).json({res:'Success'})
 }
