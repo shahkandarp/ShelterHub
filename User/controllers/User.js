@@ -522,8 +522,13 @@ const getCurrentInterests = async (req, res) => {
     let obj = {};
     const owner = await Owner.findOne({ _id: interests[i].ownerId });
     const room = await Room.findOne({ _id: interests[i].roomId });
-    obj.pg = owner;
-    obj.room = room;
+    if(room){
+      obj.pg = owner;
+      obj.room = room;
+    }
+    else{
+      obj.pg = owner;
+    }
     response_array.push(obj);
   }
   res.status(StatusCodes.OK).json({ res: "success", data: response_array });
@@ -533,7 +538,7 @@ const createUserInterest = async (req, res) => {
   const { room } = req.body;
   const owner_room = await Room.findOne({ _id: room });
   if (!owner_room) {
-    const check_interest = await Interest.findOne({ room });
+    const check_interest = await Interest.findOne({ roomId:room });
     if (!check_interest) {
       const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
       const update_owner = await Owner.findOneAndUpdate(
