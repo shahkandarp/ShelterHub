@@ -512,8 +512,12 @@ const changeUserPassword = async (req, res) => {
 
 //interests
 const getCurrentInterests = async (req, res) => {
+
   const { uid } = req.params;
-  const interests = await Interest.find({ userId: uid });
+  const interests = await Interest.find({ userId: uid }).sort({_id:-1});
+  if(!interests){
+    throw new BadRequestError("User id does not exists")
+  }
   let response_array = [];
   for (let i = 0; i < interests.length; i++) {
     let obj = {};
