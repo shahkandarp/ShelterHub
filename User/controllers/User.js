@@ -46,7 +46,7 @@ const calculateDistance = (lat1, lat2, lon1, lon2) => {
   const d = R * c; // in metres
   return d / 1000; //in kms
 };
-const nearByPgs = async (lat, lng, pgs = null,distance=10) => {
+const nearByPgs = async (lat, lng, pgs = null, distance = 10) => {
   var pg_array = [];
   if (pgs) {
     for (let i = 0; i < pgs.length; i++) {
@@ -512,11 +512,10 @@ const changeUserPassword = async (req, res) => {
 
 //interests
 const getCurrentInterests = async (req, res) => {
-
   const { uid } = req.params;
-  const interests = await Interest.find({ userId: uid }).sort({_id:-1});
-  if(!interests){
-    throw new BadRequestError("User id does not exists")
+  const interests = await Interest.find({ userId: uid }).sort({ _id: -1 });
+  if (!interests) {
+    throw new BadRequestError("User id does not exists");
   }
   let response_array = [];
   for (let i = 0; i < interests.length; i++) {
@@ -534,32 +533,46 @@ const createUserInterest = async (req, res) => {
   const { room } = req.body;
   const owner_room = await Room.findOne({ _id: room });
   if (!owner_room) {
-    const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
-    const update_owner = await Owner.findOneAndUpdate(
-      { _id: room },
-      { interestedusers: mess.interestedusers + 1 }
-    );
-
-    const interest = await Interest.create({
-      userId: uid,
-      ownerId: mess._id,
-      roomId: room,
-    });
-    res.status(StatusCodes.OK).json({ res: "success", data: interest });
+    const check_interest = await Interest.findOne({ room });
+    if (!check_interest) {
+      const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
+      const update_owner = await Owner.findOneAndUpdate(
+        { _id: room },
+        { interestedusers: mess.interestedusers + 1 }
+      );
+      const interest = await Interest.create({
+        userId: uid,
+        ownerId: mess._id,
+        roomId: room,
+      });
+      res.status(StatusCodes.OK).json({ res: "success", data: interest });
+    } else {
+      res
+        .status(StatusCodes.OK)
+        .json({ res: "failed", data: "You have already shown interest" });
+    }
   } else {
-    const owner_id = owner_room.ownerId;
-    const owner = await Owner.findOne({ _id: owner_id });
-    const update_owner = await Owner.findOneAndUpdate(
-      { _id: owner_id },
-      { interestedusers: owner.interestedusers + 1 }
-    );
+    const check_interest = await Interest.findOne({ roomId:room });
+    if(!check_interest){
+      const owner_id = owner_room.ownerId;
+      const owner = await Owner.findOne({ _id: owner_id });
+      const update_owner = await Owner.findOneAndUpdate(
+        { _id: owner_id },
+        { interestedusers: owner.interestedusers + 1 }
+      );
+  
+      const interest = await Interest.create({
+        userId: uid,
+        ownerId: owner_id,
+        roomId: room,
+      });
+      res.status(StatusCodes.OK).json({ res: "success", data: interest });
 
-    const interest = await Interest.create({
-      userId: uid,
-      ownerId: owner_id,
-      roomId: room,
-    });
-    res.status(StatusCodes.OK).json({ res: "success", data: interest });
+    }
+    else{
+      res.status(StatusCodes.OK).json({ res: "failed", data: "you have already shown interest" });
+
+    }
   }
 };
 const deleteInterest = async (req, res) => {
@@ -585,8 +598,8 @@ const getCities = async (req, res) => {
 };
 //areaname
 const getAreanames = async (req, res) => {
-  const { search,different } = req.query;
-  if(!different){
+  const { search, different } = req.query;
+  if (!different) {
     const areas = await City.findOne({ name: "Kota" }).select("area");
     const regex = new RegExp(`${search}`, "i");
     var result = [];
@@ -597,11 +610,10 @@ const getAreanames = async (req, res) => {
       }
     }
     res.status(StatusCodes.OK).json({ res: "success", data: result });
-  }
-  else{
-    const {lat,lng} = req.body;
-    const pgs = await nearByPgs(lat,lng,distance=3)
-    res.status(StatusCodes.OK).json({res:"success",data:pgs})
+  } else {
+    const { lat, lng } = req.body;
+    const pgs = await nearByPgs(lat, lng, (distance = 3));
+    res.status(StatusCodes.OK).json({ res: "success", data: pgs });
   }
 };
 
