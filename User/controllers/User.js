@@ -538,7 +538,7 @@ const createUserInterest = async (req, res) => {
   const { room } = req.body;
   const owner_room = await Room.findOne({ _id: room });
   if (!owner_room) {
-    const check_interest = await Interest.findOne({ roomId:room });
+    const check_interest = await Interest.findOne({ userId:uid,roomId:room });
     if (!check_interest) {
       const mess = await Owner.findOne({ _id: room, typeofpg: "MESS" });
       const update_owner = await Owner.findOneAndUpdate(
@@ -557,7 +557,7 @@ const createUserInterest = async (req, res) => {
         .json({ res: "failed", data: "You have already shown interest" });
     }
   } else {
-    const check_interest = await Interest.findOne({ roomId:room });
+    const check_interest = await Interest.findOne({userId:uid, roomId:room });
     if(!check_interest){
       const owner_id = owner_room.ownerId;
       const owner = await Owner.findOne({ _id: owner_id });
