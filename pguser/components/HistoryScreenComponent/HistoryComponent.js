@@ -87,7 +87,7 @@ const HistoryComponent = ({data}) => {
     } else if (star1) {
       star = 1;
     }
-    if (star >= 1 && comment != '') {
+    if (star >= 1) {
       // console.log(users);
       const response = await axios.post(
         `http://${USER_IP}/api/v1/user/${users}/pg/${data.pg._id}/rating`,
@@ -99,9 +99,10 @@ const HistoryComponent = ({data}) => {
         // Alert.alert('User has already rated in this Property.');
         await showToast();
         setModal(!modal);
+      } else {
+        setModal(!modal);
+        await showToastWithGravityAndOffset();
       }
-      setModal(!modal);
-      await showToastWithGravityAndOffset();
     } else {
       // Alert.alert('Please rate and comment');
       await warning();

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ToastAndroid,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -38,8 +39,14 @@ const RoomComponent = ({datas, data2, check}) => {
       },
     );
     // console.log(response.data.data);
-    setShow(true);
-    await showToastWithGravityAndOffset();
+    if (response.data.data == 'you have already shown interest') {
+      Alert.alert(
+        'You have already shown interest, check in your shortlist tab',
+      );
+    } else {
+      await showToastWithGravityAndOffset();
+      setShow(true);
+    }
     // setModal(false);
     // setPgDetails(response.data.data);
   };

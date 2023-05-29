@@ -51,6 +51,9 @@ const SuggestionScreen = () => {
         </View>
       </ScrollView>
       {loading ? <AppLoader /> : null}
+      {/* <View>
+        <Text>hii</Text>
+      </View> */}
     </>
   );
 };

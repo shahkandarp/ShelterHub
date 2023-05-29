@@ -303,14 +303,15 @@ const HistoryDetailScreen = () => {
           keyExtractor={item => item._id}
         />
       )}
-      {/* <View
-        style={{
-          backgroundColor: '#e0e0ed',
-          height: 1,
-          marginHorizontal: 30,
-          marginTop: 10,
-          marginBottom: 10,
-        }}></View> */}
+      {!mess && (
+        <View
+          style={{
+            backgroundColor: '#e0e0ed',
+            height: 1,
+            marginHorizontal: 30,
+            marginVertical: 20,
+          }}></View>
+      )}
       {mess && (
         <Text
           style={{
@@ -319,6 +320,7 @@ const HistoryDetailScreen = () => {
             fontSize: 15,
             marginTop: 15,
             marginHorizontal: 12,
+            marginBottom: 10,
           }}>
           Mess Menu
         </Text>
@@ -330,6 +332,91 @@ const HistoryDetailScreen = () => {
           style={{width: 300, height: 400, marginHorizontal: 30}}
         />
       )}
+      {mess && (
+        <View
+          style={{
+            backgroundColor: '#e0e0ed',
+            height: 1,
+            marginHorizontal: 30,
+            marginVertical: 20,
+          }}></View>
+      )}
+      {
+        <View
+          style={
+            {
+              // backgroundColor: '#e0e0ed',
+              // height: 1,
+              // marginHorizontal: 30,
+              // marginVertical: 20,
+            }
+          }>
+          {!mess && (
+            <View>
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Medium',
+                  color: '#191919',
+                  fontSize: 15,
+                  marginHorizontal: 12,
+                  marginBottom: 7,
+                }}>
+                PG Owner Details
+              </Text>
+            </View>
+          )}
+          {mess && (
+            <View>
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Medium',
+                  color: '#191919',
+                  fontSize: 15,
+                  marginHorizontal: 12,
+                  marginBottom: 7,
+                }}>
+                Mess Owner Details
+              </Text>
+            </View>
+          )}
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              color: '#404040',
+              fontSize: 13,
+              marginHorizontal: 12,
+            }}>
+            Name: {data.pg.name}
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              color: '#404040',
+              fontSize: 13,
+              marginHorizontal: 12,
+            }}>
+            Email: {data.pg.email}
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              color: '#404040',
+              fontSize: 13,
+              marginHorizontal: 12,
+            }}>
+            Phone No.: {data.pg.phoneno}
+          </Text>
+        </View>
+      }
+      {/* <View
+        style={{
+          backgroundColor: '#e0e0ed',
+          height: 1,
+          marginHorizontal: 30,
+          marginTop: 10,
+          marginBottom: 10,
+        }}></View> */}
+
       {/* </View> */}
       <View
         style={{

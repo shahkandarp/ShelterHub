@@ -35,6 +35,7 @@ const HistoryScreen = () => {
       `http://${USER_IP}/api/v1/user/${users}/interest`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
+    console.log(response.data.data);
     setData(response.data.data);
     setLoading(false);
   };
@@ -97,6 +98,9 @@ const HistoryScreen = () => {
         )}
       </ScrollView>
       {loading ? <SearchLoader /> : null}
+      {/* <View>
+        <Text>hii</Text>
+      </View> */}
     </>
   );
 };

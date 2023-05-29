@@ -12,6 +12,7 @@ import {
   ToastAndroid,
   Platform,
   Linking,
+  Alert,
 } from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
@@ -82,8 +83,17 @@ const PgDetailScreen = () => {
       },
     );
     // console.log(response.data.data);
-    setShowOwnerDetails(true);
-    await showToastWithGravityAndOffset();
+    if (response.data.data == 'You have already shown interest') {
+      Alert.alert(
+        'You have already shown interest, check in your shortlist tab',
+      );
+    } else {
+      await showToastWithGravityAndOffset();
+      setShowOwnerDetails(true);
+      // setShow(true);
+    }
+    // console.log(response.data.data);
+    // await showToastWithGravityAndOffset();
     // setModal(false);
     // setPgDetails(response.data.data);
   };
@@ -392,6 +402,7 @@ const PgDetailScreen = () => {
             fontSize: 15,
             marginTop: 15,
             marginHorizontal: 12,
+            marginBottom: 10,
           }}>
           Mess Menu
         </Text>
