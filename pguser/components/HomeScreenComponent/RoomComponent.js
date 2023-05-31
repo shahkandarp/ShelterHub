@@ -32,7 +32,7 @@ const RoomComponent = ({datas, data2, check}) => {
   };
   const showInterest = async () => {
     const response = await axios.post(
-      `http://${USER_IP}/api/v1/user/${users}/interest`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}/interest`,
       {room: datas._id},
       {
         headers: {Authorization: `Bearer ${tokens}`},

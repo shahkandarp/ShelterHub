@@ -17,10 +17,10 @@ const SuggestionScreen = () => {
   const getNearByPg = async () => {
     setLoading(true);
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/suggestion`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/suggestion`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
-    // console.log(response.data.data);
+    console.log(response.data.data);
     setSuggestions(response.data.data);
     setLoading(false);
   };

@@ -53,10 +53,10 @@ const SignInScreen = () => {
         // });
         let obj;
         if (!changeText.split('@')[1]) {
-          // console.log('Mobile Number Call');
+          console.log('Mobile Number Call');
           // console.log(changeText, password);
           const response = await axios.post(
-            `http://${AUTH_IP}/api/v1/user/loginphone`,
+            `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/loginphone`,
             {
               phoneno: changeText,
               password: password,
@@ -79,7 +79,7 @@ const SignInScreen = () => {
           setChangeText(changeText.split(' ')[0]);
           // console.log('Email Call');
           const response = await axios.post(
-            `http://${AUTH_IP}/api/v1/user/login`,
+            `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/login`,
             {
               email: changeText.toLowerCase(),
               password: password,

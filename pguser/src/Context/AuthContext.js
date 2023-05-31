@@ -54,11 +54,11 @@ const AuthContextProvider = ({children}) => {
     console.log('hello');
     // console.log(tokens);
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/${users}/pg?sort=ratings`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}/pg?sort=ratings`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
-    console.log('y');
-    console.log(response.data);
+    // console.log('y');
+    // console.log(response.data);
   };
   const getData = async () => {
     setLoginPending(true);

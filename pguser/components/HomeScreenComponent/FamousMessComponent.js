@@ -8,7 +8,7 @@ const FamousMessComponent = ({famous}) => {
   const onPress = () => {
     navigation.navigate('PgDetailScreen', {data: famous, mess: true});
   };
-  //   console.log(famous.pg);
+  // console.log(famous.pg);
   return (
     <Pressable style={{marginLeft: 20, marginTop: 10}} onPress={onPress}>
       <View>

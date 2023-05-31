@@ -45,8 +45,9 @@ const OtpScreen = () => {
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
+      // console.log('hey');
       const response = await axios.post(
-        `http://${AUTH_IP}/api/v1/user/verifymobileotp`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/verifymobileotp`,
         {
           otp: value,
         },

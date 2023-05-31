@@ -95,7 +95,7 @@ const HomeScreen = () => {
       try {
         setLoginPending(true);
         const response = await axios.patch(
-          `http://${USER_IP}/api/v1/user/${users}`,
+          `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}`,
           {
             lat: location.coords.latitude,
             lng: location.coords.longitude,
@@ -142,7 +142,7 @@ const HomeScreen = () => {
       if (res) {
         Geolocation.getCurrentPosition(
           position => {
-            // console.log(position);
+            console.log(position);
             setLocation(position);
           },
           error => {
@@ -197,7 +197,7 @@ const HomeScreen = () => {
   const getFamousPg = async () => {
     setLoading(true);
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/${jsonValue.userID}/pg?sort=ratings`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${jsonValue.userID}/pg?sort=ratings`,
       {headers: {Authorization: `Bearer ${jsonValue.token}`}},
     );
     setData(response.data.data);
@@ -205,16 +205,19 @@ const HomeScreen = () => {
   };
   const getFeaturedPg = async () => {
     setLoading(true);
-    const response = await axios.get(`http://${USER_IP}/api/v1/user/city`, {
-      headers: {Authorization: `Bearer ${tokens}`},
-    });
+    const response = await axios.get(
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/city`,
+      {
+        headers: {Authorization: `Bearer ${tokens}`},
+      },
+    );
     setFeaturedData(response.data.data[0].area);
     setLoading(false);
   };
   const getNearByPg = async () => {
     setLoading(true);
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/${users}/pg/nearby`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}/pg/nearby`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setNearByPgData(response.data.data);
@@ -229,12 +232,12 @@ const HomeScreen = () => {
     //   {headers: {Authorization: `Bearer ${tokens}`}},
     // );
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/${users}/pg/nearby?mess=true`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}/pg/nearby?mess=true`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     // console.log(response.data.data);
     setNearByMessData(response.data.data);
-    // console.log(response.data.data);
+    console.log(response.data.data);
     setLoading(false);
   };
   return (

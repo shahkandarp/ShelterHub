@@ -32,7 +32,7 @@ const ValidateEmailScreen = () => {
       setLoading(true);
       console.log(phoneno);
       const response = await axios.post(
-        `http://${AUTH_IP}/api/v1/user/sendmobileotp`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/sendmobileotp`,
         {
           phoneno: phoneno,
         },

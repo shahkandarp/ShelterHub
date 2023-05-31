@@ -49,7 +49,7 @@ const SignUpScreen = () => {
           try {
             setLoadingPending(true);
             const response = await axios.post(
-              `http://${AUTH_IP}/api/v1/user/register`,
+              `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/register`,
               {
                 name: name,
                 email: email.toLowerCase(),

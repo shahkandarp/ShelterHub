@@ -87,7 +87,7 @@ const FilterScreen = () => {
     setLoading(true);
     console.log(search);
     const response = await axios.post(
-      `http://${USER_IP}/api/v1/user/pg/filter`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/pg/filter`,
       {
         occupancy: mess ? null : occupancy,
         isAttached: mess ? null : isAttached,
@@ -114,10 +114,10 @@ const FilterScreen = () => {
   const onPress = async () => {
     if (search?.length >= 2) {
       const response = await axios.get(
-        `http://${USER_IP}/api/v1/user/area?search=${search}`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/area?search=${search}`,
         {headers: {Authorization: `Bearer ${tokens}`}},
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setSearchResult(response.data.data);
     } else {
       setSearchResult(null);

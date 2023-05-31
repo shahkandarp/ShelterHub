@@ -25,8 +25,9 @@ const ForgotPasswordScreen = () => {
     setCheck(false);
     try {
       setLoading(true);
+      console.log('hey');
       const response = await axios.patch(
-        `http://${AUTH_IP}/api/v1/user/forgotpassword`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/forgotpassword`,
         {email: email},
       );
       navigation.navigate('ConfirmEmail', {email: email});

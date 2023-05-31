@@ -20,7 +20,7 @@ const FilteredPgScreen = () => {
   const getNearByPg = async () => {
     setLoading(true);
     const response = await axios.post(
-      `http://${USER_IP}/api/v1/user/pg/filter`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/pg/filter`,
       {areaname: city},
       {headers: {Authorization: `Bearer ${tokens}`}},
     );

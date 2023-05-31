@@ -90,7 +90,7 @@ const HistoryComponent = ({data}) => {
     if (star >= 1) {
       // console.log(users);
       const response = await axios.post(
-        `http://${USER_IP}/api/v1/user/${users}/pg/${data.pg._id}/rating`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}/pg/${data.pg._id}/rating`,
         {rating: star, review: comment},
         {headers: {Authorization: `Bearer ${tokens}`}},
       );

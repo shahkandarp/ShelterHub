@@ -74,9 +74,9 @@ const PgDetailScreen = () => {
     }
   };
   const showInterest = async () => {
-    // console.log(data._id);
+    console.log(data._id);
     const response = await axios.post(
-      `http://${USER_IP}/api/v1/user/${users}/interest`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}/interest`,
       {room: data._id},
       {
         headers: {Authorization: `Bearer ${tokens}`},
@@ -108,7 +108,7 @@ const PgDetailScreen = () => {
   };
   const getPgDetail = async () => {
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/pg/${data._id}`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/pg/${data._id}`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     setPgDetails(response.data.data);
@@ -116,7 +116,7 @@ const PgDetailScreen = () => {
   const getReviews = async () => {
     console.log(data._id);
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/pg/${data._id}/reviews`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/pg/${data._id}/reviews`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     // console.log(response.data.data);

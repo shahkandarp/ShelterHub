@@ -43,7 +43,7 @@ const UpdateProfile = () => {
       try {
         setLoadingPending(true);
         const response = await axios.get(
-          `http://${USER_IP}/api/v1/user/${users}`,
+          `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}`,
           {
             headers: {
               Authorization: `Bearer ${tokens}`,

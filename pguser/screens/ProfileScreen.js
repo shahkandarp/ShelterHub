@@ -76,10 +76,13 @@ const ProfileScreen = () => {
     }
   };
   const getUser = async () => {
-    const response = await axios.get(`http://${USER_IP}/api/v1/user/${users}`, {
-      headers: {Authorization: `Bearer ${tokens}`},
-    });
-    // console.log(response.data.data);
+    const response = await axios.get(
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${users}`,
+      {
+        headers: {Authorization: `Bearer ${tokens}`},
+      },
+    );
+    console.log(response.data.data);
     setUserDetail(response.data.data);
   };
   const onRefresh = useCallback(() => {

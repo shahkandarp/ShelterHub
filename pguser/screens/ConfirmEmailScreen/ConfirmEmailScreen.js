@@ -41,9 +41,9 @@ const ConfirmEmailScreen = () => {
   const onConfirmPressed = async data => {
     try {
       setLoading(true);
-      console.log(value);
+      // console.log(value);
       const response = await axios.post(
-        `http://${USER_IP}/api/v1/user/${email}/validateOTP`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/${email}/validateOTP`,
         {otp: value},
       );
       // console.log(response.data);

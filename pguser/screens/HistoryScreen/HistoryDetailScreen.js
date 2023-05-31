@@ -48,7 +48,7 @@ const HistoryDetailScreen = () => {
   }, []);
   const getPgDetail = async () => {
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/pg/${data.pg._id}`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/pg/${data.pg._id}`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     // console.log(response.data.data.pg.messmenuphoto.uri);
@@ -56,7 +56,7 @@ const HistoryDetailScreen = () => {
   };
   const getReviews = async () => {
     const response = await axios.get(
-      `http://${USER_IP}/api/v1/user/pg/${data.pg._id}/reviews`,
+      `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/pg/${data.pg._id}/reviews`,
       {headers: {Authorization: `Bearer ${tokens}`}},
     );
     console.log(response.data.data);

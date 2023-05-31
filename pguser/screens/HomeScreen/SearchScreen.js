@@ -30,7 +30,7 @@ const SearchScreen = () => {
   const onPress = async () => {
     if (search?.length >= 2) {
       const response = await axios.get(
-        `http://${USER_IP}/api/v1/user/area?search=${search}`,
+        `http://testlb-921443916.ap-south-1.elb.amazonaws.com/api/v1/user/area?search=${search}`,
         {headers: {Authorization: `Bearer ${tokens}`}},
       );
       // console.log(response.data.data);
