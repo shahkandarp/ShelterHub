@@ -54,7 +54,7 @@ const ProfileScreen = () => {
   // };
   const onRate = () => {
     Linking.openURL(
-      'https://play.google.com/store/apps/details?id=com.ssip.governmentsachivalay',
+      'https://play.google.com/store/apps/details?id=com.het.shelterhub',
     );
   };
   const onShare = async () => {

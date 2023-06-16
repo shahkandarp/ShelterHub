@@ -788,22 +788,7 @@ const PgDetailScreen = () => {
       </Modal>
       <Modal transparent={true} visible={mapModal} animationType={'slide'}>
         <View style={{flex: 1, backgroundColor: '#000000aa'}}>
-          <View style={{height: 100, alignItems: 'center'}}>
-            {/* // onPress={() => setModal(false)}> */}
-            {/* <Pressable
-              onPress={() => setModal(false)}
-              style={{
-                backgroundColor: 'white',
-                height: 35,
-                width: 35,
-                padding: 7,
-                borderRadius: 17,
-                alignItems: 'center',
-                marginTop: 30,
-              }}>
-              <Entypo name="cross" size={21} color={'#000000'} />
-            </Pressable> */}
-          </View>
+          <View style={{height: 100, alignItems: 'center'}}></View>
           <View
             style={{
               backgroundColor: '#ffffff',
