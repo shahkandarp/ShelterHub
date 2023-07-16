@@ -478,6 +478,11 @@ const verifynewemail = async(req,res) => {
   res.status(StatusCodes.OK).json({res:'Success',data:user})
 }
 
+const getPGDetails = async(req,res)=>{
+  const owner = await Owner.find({typeofpg:'PG'});
+  res.status(StatusCodes.OK).json({res:'Success',data:owner})
+}
+
 module.exports = {
   registerOwner,
   forgotPasswordOwner,
@@ -499,5 +504,6 @@ module.exports = {
   deleteReview,
   deleteOwner,
   updateEmail,
-  verifynewemail
+  verifynewemail,
+  getPGDetails
 };

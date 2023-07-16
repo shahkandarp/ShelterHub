@@ -23,13 +23,13 @@ const { getStorage } = require("firebase/storage");
 // };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCoCOj9FZEAbYVRSQih-V5LS3I8OY2z5jQ",
-  authDomain: "finalpg-d703b.firebaseapp.com",
-  projectId: "finalpg-d703b",
-  storageBucket: "finalpg-d703b.appspot.com",
-  messagingSenderId: "657783689457",
-  appId: "1:657783689457:web:8f31ea763c8c00b74dd950",
-  measurementId: "G-EQ7QK2Y9PS"
+  apiKey: "AIzaSyDBazxRFAnOFo8nqrLEHNaKbwGL3DPtoPk",
+  authDomain: "pgrental-bb195.firebaseapp.com",
+  projectId: "pgrental-bb195",
+  storageBucket: "pgrental-bb195.appspot.com",
+  messagingSenderId: "140791300507",
+  appId: "1:140791300507:web:4aada7131de094a027e13e",
+  measurementId: "G-P825MZJHVH"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);

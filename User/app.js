@@ -1,5 +1,8 @@
 const express = require("express");
-const City = require("./models/City");
+const Interest = require("./models/Interest");
+const Rating = require("./models/Rating")
+const User = require("./models/User")
+
 const app = express();
 const { BadRequestError, UnauthenticatedError } = require("./errors/index");
 
@@ -453,6 +456,8 @@ const start = async () => {
     console.log(error);
   }
 };
+
+
 
 //connecting to database
 start();

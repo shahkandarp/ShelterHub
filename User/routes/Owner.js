@@ -33,7 +33,8 @@ const {
   deleteReview,
   deleteOwner,
   updateEmail,
-  verifynewemail
+  verifynewemail,
+  getPGDetails
 } = require("../controllers/Owner");
 
 router.route("/verifyotp").post(ownerVerifyOTP);
@@ -54,5 +55,6 @@ router.route('/deletereview/:rid').delete(OwnerMiddleware,deleteReview)
 router.route('/deleteowner').post(deleteOwner)
 router.route('/updateemail').post(OwnerMiddleware,updateEmail)
 router.route('/verifynewemail').post(OwnerMiddleware,verifynewemail)
+router.route('/getPGDetails').get(getPGDetails)
 
 module.exports = router;
